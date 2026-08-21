@@ -1,0 +1,19 @@
+/* Light Theme Overrides */
+:root {
+    --bg-primary: #FAFAFA;
+    --bg-secondary: #F0F2F5;
+    --bg-card: #FFFFFF;
+    --text-primary: #1C1E21;
+    --text-secondary: #606770;
+    --text-muted: #8D949E;
+    --border-color: #E4E6EB;
+    
+    --brand-terracotta: #B3395B;
+    --brand-saffron: #D97706;
+    --brand-warm-brown: #1F2937;
+    --brand-cream: #FAFAFA;
+    --brand-gold: #D97706;
+    
+    --gradient-header: linear-gradient(135deg, #1F2937 0%, #374151 100%);
+    --gradient-hero: linear-gradient(135deg, #1F2937 0%, #111827 100%);
+}

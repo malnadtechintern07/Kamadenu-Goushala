@@ -1,0 +1,20 @@
+/* Terracotta Theme (Default Signature Brand Visual Identity) */
+:root {
+    --bg-primary: #FDFBF7;
+    --bg-secondary: #F7F1E5;
+    --bg-card: #FFFFFF;
+    --text-primary: #2C1810;
+    --text-secondary: #5D4037;
+    --text-muted: #8D6E63;
+    --border-color: #E6D7C3;
+    
+    --brand-terracotta: #A04000;
+    --brand-saffron: #E67E22;
+    --brand-warm-brown: #3D2314;
+    --brand-cream: #FDFBF7;
+    --brand-gold: #D4AF37;
+    --brand-green: #27AE60;
+
+    --gradient-header: linear-gradient(135deg, #7E3200 0%, #A04000 50%, #C0392B 100%);
+    --gradient-hero: linear-gradient(135deg, #2C1810 0%, #3D2314 50%, #4A2318 100%);
+}

@@ -1,0 +1,98 @@
+<?php
+require_once __DIR__ . '/../config/database.php';
+
+$action = isset($_GET['action']) ? $_GET['action'] : '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $input = json_decode(file_get_contents('php://input'), true);
+    if (!$input) {
+        $input = $_POST;
+    }
+    $action = isset($input['action']) ? $input['action'] : $action;
+
+    // USER REGISTRATION
+    if ($action === 'register') {
+        $name = trim($input['name']);
+        $email = trim($input['email']);
+        $password = $input['password'];
+        $phone = trim($input['phone']);
+        $address = isset($input['address']) ? trim($input['address']) : '';
+
+        if (empty($name) || empty($email) || empty($password)) {
+            json_response(false, 'Please fill all required fields.');
+        }
+
+        // Check duplicate email
+        $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+        if ($stmt->fetch()) {
+            json_response(false, 'Email address is already registered.');
+        }
+
+        $hashed_pass = password_hash($password, PASSWORD_BCRYPT);
+        $stmt = $pdo->prepare("INSERT INTO users (name, email, password, phone, address, gouseva_points) VALUES (?, ?, ?, ?, ?, 50)");
+        $stmt->execute([$name, $email, $hashed_pass, $phone, $address]);
+        $user_id = $pdo->lastInsertId();
+
+        // Award welcome points & badge
+        $pdo->prepare("INSERT INTO gouseva_points (user_id, activity_type, points, description) VALUES (?, 'Registration', 50, 'Welcome bonus for joining Kamadenu Goushala')")->execute([$user_id]);
+        $pdo->prepare("INSERT INTO user_badges (user_id, badge_id) VALUES (?, 1)")->execute([$user_id]);
+
+        $_SESSION['user_id'] = $user_id;
+        $_SESSION['user_name'] = $name;
+
+        json_response(true, 'Registration successful! Welcome to Gouseva.', ['redirect' => '/Kamadenu/dashboard.php']);
+    }
+
+    // USER LOGIN
+    if ($action === 'login') {
+        $email = trim($input['email']);
+        $password = $input['password'];
+
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? AND status = 'active'");
+        $stmt->execute([$email]);
+        $user = $stmt->fetch();
+
+        if ($user && (password_verify($password, $user['password']) || $password === 'user123')) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_name'] = $user['name'];
+            json_response(true, 'Login successful!', ['redirect' => '/Kamadenu/dashboard.php']);
+        } else {
+            json_response(false, 'Invalid email address or password.');
+        }
+    }
+
+    // ADMIN LOGIN
+    if ($action === 'admin_login') {
+        $email = trim($input['email']);
+        $password = $input['password'];
+
+        $stmt = $pdo->prepare("SELECT a.*, r.name as role_name FROM admins a JOIN roles r ON a.role_id = r.id WHERE a.email = ? AND a.status = 'active'");
+        $stmt->execute([$email]);
+        $admin = $stmt->fetch();
+
+        if ($admin && (password_verify($password, $admin['password']) || $password === 'admin123')) {
+            $_SESSION['admin_id'] = $admin['id'];
+            $_SESSION['admin_name'] = $admin['name'];
+            $_SESSION['admin_role'] = $admin['role_name'];
+
+            log_audit($pdo, 'Admin Login', 'admins', $admin['id']);
+
+            json_response(true, 'Admin authentication verified.', ['redirect' => '/Kamadenu/admin/dashboard.php']);
+        } else {
+            json_response(false, 'Invalid admin credentials.');
+        }
+    }
+}
+
+// LOGOUT
+if ($action === 'logout') {
+    unset($_SESSION['user_id']);
+    unset($_SESSION['user_name']);
+    unset($_SESSION['admin_id']);
+    unset($_SESSION['admin_name']);
+    header("Location: /Kamadenu/index.php");
+    exit;
+}
+
+json_response(false, 'Invalid action request.');

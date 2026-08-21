@@ -1,0 +1,34 @@
+/* Dark Theme Overrides */
+:root {
+    --bg-primary: #121212;
+    --bg-secondary: #1E1E1E;
+    --bg-card: #242424;
+    --text-primary: #E0E0E0;
+    --text-secondary: #B0B0B0;
+    --text-muted: #757575;
+    --border-color: #333333;
+    
+    --brand-terracotta: #C0392B;
+    --brand-saffron: #F39C12;
+    --brand-warm-brown: #1A0C06;
+    --brand-cream: #121212;
+    --brand-gold: #F1C40F;
+    
+    --gradient-header: linear-gradient(135deg, #1A0C06 0%, #2A1208 100%);
+    --gradient-hero: linear-gradient(135deg, #0A0402 0%, #1A0C06 100%);
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.kamadenu-card {
+    background: #1E1E1E !important;
+    border-color: #333333 !important;
+    color: #E0E0E0 !important;
+}
+
+.kamadenu-card h1, .kamadenu-card h2, .kamadenu-card h3, .kamadenu-card h4, .kamadenu-card h5 {
+    color: #F39C12 !important;
+}
+
+.table {
+    color: #E0E0E0 !important;
+}

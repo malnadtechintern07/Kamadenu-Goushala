@@ -1,0 +1,203 @@
+/**
+ * KAMADENU GOUSHALA - MAIN APPLICATION JS
+ */
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Tooltips & Popovers
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
+    // Cart Count Update
+    updateCartBadge();
+});
+
+// Toast Helper
+function showToast(message, type = 'success') {
+    let container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        container.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+        container.style.zIndex = '9999';
+        document.body.appendChild(container);
+    }
+
+    const toastId = 'toast-' + Date.now();
+    const bgClass = type === 'success' ? 'bg-success text-white' : (type === 'danger' ? 'bg-danger text-white' : 'bg-warning text-dark');
+    
+    const toastHTML = `
+        <div id="${toastId}" class="toast align-items-center ${bgClass} border-0 shadow" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body font-ui">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle'} me-2"></i>
+                    ${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    `;
+
+    container.insertAdjacentHTML('beforeend', toastHTML);
+    const toastEl = document.getElementById(toastId);
+    const bsToast = new bootstrap.Toast(toastEl, { delay: 4000 });
+    bsToast.show();
+
+    toastEl.addEventListener('hidden.bs.toast', () => {
+        toastEl.remove();
+    });
+}
+
+// Cart Management (LocalStorage Sync)
+function getCart() {
+    return JSON.parse(localStorage.getItem('kamadenu_cart') || '[]');
+}
+
+function saveCart(cart) {
+    localStorage.setItem('kamadenu_cart', JSON.stringify(cart));
+    updateCartBadge();
+    renderCartDrawer();
+}
+
+function addToCart(productId, name, price, image, openDrawer = true) {
+    let cart = getCart();
+    let existing = cart.find(item => item.id === productId);
+    if (existing) {
+        existing.quantity += 1;
+    } else {
+        cart.push({ id: productId, name: name, price: price, image: image, quantity: 1 });
+    }
+    saveCart(cart);
+    showToast(`Added "${name}" to your cart!`, 'success');
+
+    if (openDrawer) {
+        openCartDrawer();
+    }
+}
+
+function buyNow(productId, name, price, image) {
+    let cart = getCart();
+    let existing = cart.find(item => item.id === productId);
+    if (existing) {
+        existing.quantity += 1;
+    } else {
+        cart.push({ id: productId, name: name, price: price, image: image, quantity: 1 });
+    }
+    saveCart(cart);
+    proceedCartCheckout();
+}
+
+function updateCartBadge() {
+    const cart = getCart();
+    const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const badges = document.querySelectorAll('.cart-badge');
+    badges.forEach(b => {
+        b.textContent = totalCount;
+        b.style.display = totalCount > 0 ? 'inline-block' : 'none';
+    });
+}
+
+function openCartDrawer() {
+    renderCartDrawer();
+    const offcanvasEl = document.getElementById('cartOffcanvas');
+    if (offcanvasEl) {
+        const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasEl) || new bootstrap.Offcanvas(offcanvasEl);
+        bsOffcanvas.show();
+    }
+}
+
+function toggleCartDrawer() {
+    renderCartDrawer();
+    const offcanvasEl = document.getElementById('cartOffcanvas');
+    if (offcanvasEl) {
+        const bsOffcanvas = bootstrap.Offcanvas.getInstance(offcanvasEl) || new bootstrap.Offcanvas(offcanvasEl);
+        bsOffcanvas.toggle();
+    }
+}
+
+function renderCartDrawer() {
+    const container = document.getElementById('drawer-cart-items-container');
+    const totalEl = document.getElementById('drawer-cart-total');
+    const checkoutBtn = document.getElementById('drawer-checkout-btn');
+    if (!container) return;
+
+    const cart = getCart();
+    if (cart.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-5 text-muted">
+                <i class="fas fa-shopping-basket fs-1 mb-2 d-block text-warning"></i>
+                <p class="font-ui fw-bold mb-1">Your cart is empty.</p>
+                <small>Add Goushala products to support Gouseva.</small>
+            </div>
+        `;
+        if (totalEl) totalEl.textContent = '₹0.00';
+        if (checkoutBtn) checkoutBtn.disabled = true;
+        return;
+    }
+
+    let html = '<div class="list-group list-group-flush">';
+    let total = 0;
+
+    cart.forEach(item => {
+        const sub = item.price * item.quantity;
+        total += sub;
+        html += `
+            <div class="list-group-item px-0 py-3 border-bottom">
+                <div class="d-flex align-items-center gap-3">
+                    <img src="${item.image}" width="50" height="50" class="rounded object-fit-cover shadow-sm" onerror="this.src='https://images.unsplash.com/photo-1589927986089-35812388d1f4?auto=format&fit=crop&w=100&q=80'">
+                    <div class="flex-grow-1">
+                        <h6 class="font-ui fw-bold mb-1 text-dark fs-6">${item.name}</h6>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span class="font-mono text-muted small">₹${item.price.toLocaleString('en-IN')} × ${item.quantity}</span>
+                            <span class="font-mono fw-bold text-dark">₹${sub.toLocaleString('en-IN')}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top border-light">
+                    <div class="input-group input-group-sm" style="width: 90px;">
+                        <button class="btn btn-outline-secondary btn-sm" onclick="changeDrawerQty(${item.id}, -1)">-</button>
+                        <input type="text" class="form-control text-center font-mono p-0" value="${item.quantity}" readonly>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="changeDrawerQty(${item.id}, 1)">+</button>
+                    </div>
+                    <button class="btn btn-sm btn-link text-danger p-0" onclick="removeDrawerItem(${item.id})"><i class="fas fa-trash-alt me-1"></i> Remove</button>
+                </div>
+            </div>
+        `;
+    });
+
+    html += '</div>';
+    container.innerHTML = html;
+
+    if (totalEl) totalEl.textContent = '₹' + total.toLocaleString('en-IN');
+    if (checkoutBtn) checkoutBtn.disabled = false;
+}
+
+function changeDrawerQty(id, delta) {
+    let cart = getCart();
+    let item = cart.find(i => i.id === id);
+    if (item) {
+        item.quantity += delta;
+        if (item.quantity <= 0) {
+            cart = cart.filter(i => i.id !== id);
+        }
+        saveCart(cart);
+        if (typeof renderCartPage === 'function') renderCartPage();
+    }
+}
+
+function removeDrawerItem(id) {
+    let cart = getCart();
+    cart = cart.filter(i => i.id !== id);
+    saveCart(cart);
+    if (typeof renderCartPage === 'function') renderCartPage();
+}
+
+function proceedCartCheckout() {
+    const cart = getCart();
+    if (cart.length === 0) {
+        showToast('Your cart is empty!', 'warning');
+        return;
+    }
+    const total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+    window.location.href = `/Kamadenu/checkout.php?type=cart&amount=${total}`;
+}
+

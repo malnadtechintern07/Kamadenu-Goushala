@@ -1,0 +1,463 @@
+/* ==========================================================================
+   KAMADENU GOUSHALA - BRAND DESIGN SYSTEM & MASTER STYLESHEET (ENHANCED)
+   Primary Colors: Terracotta (#A04000), Saffron (#E67E22), Warm Brown (#3D2314),
+                   Cream (#FDFBF7), Gold (#D4AF37), Natural Green (#27AE60)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+Kannada:wght@400;600;700&family=Sora:wght@400;600;700&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+:root {
+    --font-heading: 'Fraunces', 'Noto Serif Kannada', serif;
+    --font-body: 'Work Sans', sans-serif;
+    --font-kannada: 'Noto Serif Kannada', serif;
+    --font-ui: 'Sora', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Default Terracotta Theme Tokens */
+    --bg-primary: #FDFBF7;
+    --bg-secondary: #F7F1E5;
+    --bg-card: #FFFFFF;
+    --text-primary: #2C1810;
+    --text-secondary: #5D4037;
+    --text-muted: #8D6E63;
+    --border-color: #E6D7C3;
+    
+    --brand-terracotta: #A04000;
+    --brand-terracotta-dark: #7E3200;
+    --brand-saffron: #E67E22;
+    --brand-warm-brown: #3D2314;
+    --brand-cream: #FDFBF7;
+    --brand-gold: #D4AF37;
+    --brand-green: #27AE60;
+
+    --gradient-header: linear-gradient(135deg, #7E3200 0%, #A04000 50%, #C0392B 100%);
+    --gradient-hero: linear-gradient(135deg, #2C1810 0%, #3D2314 50%, #4A2318 100%);
+    --gradient-gold: linear-gradient(135deg, #F39C12 0%, #D4AF37 50%, #F1C40F 100%);
+    --gradient-saffron: linear-gradient(135deg, #E67E22 0%, #D35400 100%);
+    --shadow-soft: 0 10px 30px rgba(61, 35, 20, 0.08);
+    --shadow-hover: 0 20px 40px rgba(160, 64, 0, 0.18);
+    --radius-card: 20px;
+    --radius-btn: 50px;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--brand-warm-brown);
+}
+
+.kn-text {
+    font-family: var(--font-kannada) !important;
+}
+
+.font-ui {
+    font-family: var(--font-ui);
+}
+
+.font-mono {
+    font-family: var(--font-mono);
+}
+
+/* Sacred Shimmer Phrase */
+.devotional-phrase {
+    font-family: var(--font-kannada);
+    color: var(--brand-gold);
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+    animation: goldShimmer 4s ease-in-out infinite alternate;
+}
+
+@keyframes goldShimmer {
+    0% { filter: drop-shadow(0 0 2px rgba(212, 175, 55, 0.3)); }
+    100% { filter: drop-shadow(0 0 10px rgba(241, 196, 15, 0.8)); }
+}
+
+/* Modern Navbar */
+.navbar-kamadenu {
+    background: var(--gradient-header);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+    padding: 0.45rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.navbar-kamadenu .navbar-brand {
+    font-family: var(--font-heading);
+    color: var(--brand-cream) !important;
+    font-size: 1.4rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.navbar-kamadenu .nav-link {
+    color: rgba(255, 255, 255, 0.92) !important;
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 0.83rem;
+    padding: 0.35rem 0.65rem !important;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.navbar-kamadenu .nav-link:hover {
+    color: #FFFFFF !important;
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateY(-1px);
+}
+
+/* Glowing Active Navigation Link */
+.navbar-kamadenu .nav-link.active,
+.navbar-kamadenu .nav-link.glow-nav-item,
+.navbar-kamadenu .btn.glow-nav-item {
+    color: #FFD700 !important;
+    background: rgba(255, 215, 0, 0.25) !important;
+    border: 1px solid rgba(255, 215, 0, 0.6) !important;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.6), inset 0 0 8px rgba(255, 215, 0, 0.3) !important;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.8) !important;
+    font-weight: 700 !important;
+    transform: translateY(-1px);
+    animation: pulseNavGlow 2.5s infinite alternate;
+}
+
+@keyframes pulseNavGlow {
+    0% { box-shadow: 0 0 8px rgba(255, 215, 0, 0.5), inset 0 0 5px rgba(255, 215, 0, 0.2); }
+    100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 0 0 28px rgba(230, 126, 34, 0.6), inset 0 0 10px rgba(255, 215, 0, 0.4); }
+}
+
+
+/* Floating Controls (Language, Theme, 3D Cow) */
+.floating-control-panel {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.floating-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--brand-terracotta);
+    color: #FFFFFF;
+    border: 2px solid var(--brand-gold);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.floating-btn:hover {
+    transform: scale(1.14) rotate(6deg);
+    background: var(--brand-saffron);
+    color: #FFFFFF;
+    box-shadow: 0 12px 30px rgba(230, 126, 34, 0.5);
+}
+
+.floating-dropdown-menu {
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    padding: 10px;
+    background: var(--bg-card);
+}
+
+.floating-dropdown-menu .dropdown-item {
+    border-radius: 10px;
+    padding: 9px 18px;
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: background 0.2s ease;
+}
+
+.floating-dropdown-menu .dropdown-item:hover {
+    background: var(--bg-secondary);
+    color: var(--brand-terracotta);
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, rgba(20, 10, 5, 0.85) 0%, rgba(44, 24, 16, 0.82) 50%, rgba(60, 28, 15, 0.88) 100%), url('/Kamadenu/assets/images/hero-bg.jpg') center/cover no-repeat;
+    color: #FFFFFF;
+    position: relative;
+    padding: 95px 0 115px 0;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(230, 126, 34, 0.28) 0%, transparent 70%);
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+.hero-title {
+    font-size: 3.2rem;
+    color: #FFFFFF;
+    line-height: 1.18;
+    margin-bottom: 1.25rem;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.92);
+    margin-bottom: 2.2rem;
+    max-width: 620px;
+    line-height: 1.6;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* Rescued Cow Kamala Floating Hero Card */
+.hero-cow-kamala-card {
+    background: rgba(255, 255, 255, 0.96);
+    border: 2px solid var(--brand-gold);
+    border-radius: 22px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    padding: 16px;
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(10px);
+}
+
+.hero-cow-kamala-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 0 35px rgba(230, 126, 34, 0.7), 0 0 20px rgba(212, 175, 55, 0.8) !important;
+}
+
+/* Golden & Saffron Cursor Hover Glow System */
+.hover-glow {
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hover-glow:hover {
+    transform: scale(1.03) translateY(-4px);
+    box-shadow: 0 0 30px rgba(230, 126, 34, 0.65), 0 0 18px rgba(212, 175, 55, 0.85) !important;
+    border-color: var(--brand-gold) !important;
+}
+
+/* Image Hover Glow */
+img.hover-glow:hover,
+.kamadenu-card:hover img {
+    filter: brightness(1.05) contrast(1.02);
+}
+
+.hero-cow-kamala-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+}
+
+/* 3D Cow Container & Canvas */
+.cow3d-wrapper {
+    position: relative;
+    width: 100%;
+    height: 440px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    overflow: hidden;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.4), 0 20px 40px rgba(0,0,0,0.3);
+}
+
+#cow3d-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.cow3d-actions-overlay {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+    width: 90%;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cow3d-action-chip {
+    background: rgba(30, 15, 10, 0.88);
+    border: 1.5px solid var(--brand-gold);
+    color: var(--brand-cream);
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.cow3d-action-chip:hover {
+    background: var(--brand-terracotta);
+    color: #FFFFFF;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(160, 64, 0, 0.5);
+}
+
+/* Custom Buttons */
+.btn-kamadenu-primary {
+    background: linear-gradient(135deg, var(--brand-terracotta) 0%, var(--brand-saffron) 100%);
+    color: #FFFFFF !important;
+    border: none;
+    padding: 13px 32px;
+    border-radius: var(--radius-btn);
+    font-family: var(--font-ui);
+    font-weight: 600;
+    box-shadow: 0 8px 22px rgba(160, 64, 0, 0.3);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-kamadenu-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(160, 64, 0, 0.45);
+    color: #FFFFFF !important;
+}
+
+.btn-kamadenu-outline {
+    background: transparent;
+    color: var(--brand-cream) !important;
+    border: 2px solid var(--brand-gold);
+    padding: 11px 30px;
+    border-radius: var(--radius-btn);
+    font-family: var(--font-ui);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-kamadenu-outline:hover {
+    background: var(--brand-gold);
+    color: var(--brand-warm-brown) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+}
+
+/* Cards & Glassmorphism */
+.kamadenu-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-soft);
+    transition: all 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+    overflow: hidden;
+}
+
+.kamadenu-card:hover {
+    transform: translateY(-7px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--brand-saffron);
+}
+
+.cow-card-img {
+    height: 230px;
+    object-fit: cover;
+    width: 100%;
+    transition: transform 0.5s ease;
+}
+
+.kamadenu-card:hover .cow-card-img {
+    transform: scale(1.04);
+}
+
+.badge-cow-code {
+    background: var(--brand-warm-brown);
+    color: var(--brand-gold);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    padding: 5px 12px;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+/* Timeline Components for Cow Journey */
+.timeline-stepper {
+    position: relative;
+    padding-left: 32px;
+    border-left: 3px solid var(--border-color);
+    margin: 20px 0;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 28px;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -39px;
+    top: 4px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--brand-terracotta);
+    border: 3px solid #FFFFFF;
+    box-shadow: 0 0 0 3px var(--brand-saffron);
+}
+
+/* Admin Specific */
+.admin-sidebar {
+    background: var(--brand-warm-brown);
+    color: #FFFFFF;
+    min-height: 100vh;
+}
+
+.admin-sidebar .nav-link {
+    color: rgba(255,255,255,0.78);
+    padding: 12px 20px;
+    border-radius: 10px;
+    margin-bottom: 4px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.admin-sidebar .nav-link:hover,
+.admin-sidebar .nav-link.active {
+    color: #FFFFFF;
+    background: var(--brand-terracotta);
+    transform: translateX(3px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    .hero-title {
+        font-size: 2.3rem;
+    }
+    .cow3d-wrapper {
+        height: 340px;
+        margin-top: 30px;
+    }
+}
