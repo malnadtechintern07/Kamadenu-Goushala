@@ -5,13 +5,19 @@
     <div class="container">
         <div class="row g-4">
             <div class="col-lg-4 col-md-6">
-                <h4 class="font-heading text-warning mb-3">
-                    <i class="fas fa-cow me-2"></i> <?php echo __t('site_title'); ?>
-                </h4>
+                <div class="d-flex align-items-center mb-3">
+                    <img src="/Kamadenu/assets/images/logo.png" alt="Kamadenu Goushala Trust Logo" class="me-3 rounded-3 shadow-sm" style="height: 64px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));">
+
+                    <div>
+                        <h4 class="font-heading text-warning mb-0"><?php echo __t('site_title'); ?></h4>
+                        <small class="text-warning-50 font-ui fs-7">SACRED GOUSHALA TRUST</small>
+                    </div>
+                </div>
                 <p class="text-secondary-50 small"><?php echo __t('footer_about'); ?></p>
                 <div class="devotional-phrase text-warning fs-5 my-2">ಗೋ ಮಾತಾ ಕಿ ಜೈ</div>
                 <p class="small text-muted mb-0"><i class="fas fa-ribbon text-warning me-1"></i> <?php echo __t('footer_gov_reg'); ?></p>
             </div>
+
 
             <div class="col-lg-2 col-md-6">
                 <h5 class="font-ui text-white fw-bold mb-3">Quick Links</h5>
@@ -97,17 +103,24 @@
 </div>
 
 
-<!-- External Libraries: Bootstrap JS, Three.js, Chart.js, Razorpay Checkout -->
+<?php
+$page_file = basename($_SERVER['SCRIPT_NAME']);
+?>
+
+<!-- External Libraries: Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+
+<?php if ($page_file === 'checkout.php'): ?>
+    <!-- Razorpay Checkout loaded only on checkout page -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<?php endif; ?>
 
 <!-- Application Scripts -->
 <script src="/Kamadenu/js/main.js"></script>
 <script src="/Kamadenu/js/language.js"></script>
 <script src="/Kamadenu/js/theme.js"></script>
-<script src="/Kamadenu/js/cow3d.js"></script>
 <script src="/Kamadenu/js/api.js"></script>
 <script src="/Kamadenu/js/realtime.js"></script>
 

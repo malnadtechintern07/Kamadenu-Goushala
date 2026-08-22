@@ -43,6 +43,7 @@ $cows = $pdo->query("SELECT * FROM cows ORDER BY id ASC")->fetchAll();
                         <td>
                             <a href="/Kamadenu/admin/cow-view.php?id=<?php echo $c['id']; ?>" class="btn btn-sm btn-outline-dark font-ui me-1"><i class="fas fa-eye"></i> View</a>
                             <a href="/Kamadenu/admin/cow-edit.php?id=<?php echo $c['id']; ?>" class="btn btn-sm btn-outline-warning font-ui fw-bold"><i class="fas fa-edit me-1"></i> Edit & Photo</a>
+                            <button onclick="deleteAdminItem('cows', <?php echo $c['id']; ?>)" class="btn btn-sm btn-outline-danger font-ui fw-bold ms-1"><i class="fas fa-trash me-1"></i> Delete</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>

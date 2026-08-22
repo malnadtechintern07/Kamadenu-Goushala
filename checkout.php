@@ -69,9 +69,32 @@ $donor_phone = isset($_GET['phone']) ? trim($_GET['phone']) : ($user ? $user['ph
                         <input type="hidden" name="type" value="<?php echo e($type); ?>">
                         <input type="hidden" name="amount" value="<?php echo $amount; ?>">
                         <input type="hidden" name="entity_id" value="<?php echo $entity_id; ?>">
-                        <input type="hidden" name="donor_name" value="<?php echo e($donor_name); ?>">
-                        <input type="hidden" name="donor_email" value="<?php echo e($donor_email); ?>">
-                        <input type="hidden" name="donor_phone" value="<?php echo e($donor_phone); ?>">
+                        <?php if ($type === 'cart'): ?>
+                            <h4 class="font-heading fs-5 mb-3"><i class="fas fa-truck me-2 text-primary"></i> Shipping Details</h4>
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label font-ui small fw-bold">Full Name</label>
+                                    <input type="text" name="donor_name" class="form-control" value="<?php echo e($donor_name !== 'Devotee' ? $donor_name : ''); ?>" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label font-ui small fw-bold">Phone Number</label>
+                                    <input type="text" name="donor_phone" class="form-control" value="<?php echo e($donor_phone !== '+91 99000 00000' ? $donor_phone : ''); ?>" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label font-ui small fw-bold">Email Address</label>
+                                    <input type="email" name="donor_email" class="form-control" value="<?php echo e($donor_email !== 'devotee@kamadenugoushala.org' ? $donor_email : ''); ?>" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label font-ui small fw-bold">Complete Shipping Address (with PIN Code)</label>
+                                    <textarea name="shipping_address" class="form-control" rows="3" required></textarea>
+                                </div>
+                            </div>
+                        <?php else: ?>
+                            <input type="hidden" name="donor_name" value="<?php echo e($donor_name); ?>">
+                            <input type="hidden" name="donor_email" value="<?php echo e($donor_email); ?>">
+                            <input type="hidden" name="donor_phone" value="<?php echo e($donor_phone); ?>">
+                            <input type="hidden" name="shipping_address" value="">
+                        <?php endif; ?>
 
                         <div class="accordion mb-4" id="paymentOptionsAccordion">
                             <!-- Option 1: UPI Payment (Google Pay / PhonePe / Paytm) -->
@@ -150,7 +173,16 @@ function handlePaymentSubmit(e) {
     const form = document.getElementById('paymentForm');
     const formData = new FormData(form);
 
+    let method = 'UPI';
+    if (document.getElementById('optCard').classList.contains('show')) {
+        method = 'Card';
+    } else if (document.getElementById('optBank').classList.contains('show')) {
+        method = 'Bank Transfer';
+    }
+
     const payload = {
+        action: 'verify_payment',
+        payment_method: method,
         razorpay_payment_id: 'pay_' + Math.random().toString(36).substring(2, 12),
         razorpay_order_id: 'order_' + Math.random().toString(36).substring(2, 12),
         razorpay_signature: 'simulated_sig_' + Date.now(),
@@ -160,6 +192,11 @@ function handlePaymentSubmit(e) {
         donor_name: formData.get('donor_name'),
         donor_email: formData.get('donor_email'),
         donor_phone: formData.get('donor_phone'),
+        customer_name: formData.get('donor_name'),
+        customer_email: formData.get('donor_email'),
+        customer_phone: formData.get('donor_phone'),
+        shipping_address: formData.get('shipping_address') || 'Provided during checkout',
+        items: formData.get('type') === 'cart' ? JSON.parse(localStorage.getItem('kamadenu_cart') || '[]') : [],
         purpose: '<?php echo addslashes($description); ?>'
     };
 

@@ -28,7 +28,7 @@ function showToast(message, type = 'success') {
 
     const toastId = 'toast-' + Date.now();
     const bgClass = type === 'success' ? 'bg-success text-white' : (type === 'danger' ? 'bg-danger text-white' : 'bg-warning text-dark');
-    
+
     const toastHTML = `
         <div id="${toastId}" class="toast align-items-center ${bgClass} border-0 shadow" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
@@ -77,7 +77,7 @@ function addToCart(productId, name, price, image) {
 
 function buyNow(productId, name, price, image) {
     let cart = getCart();
-    let existing = cart.find(item => item.id == productId);
+    let existing = cart.find(item => item.id === productId);
     if (existing) {
         existing.quantity += 1;
     } else {
@@ -174,11 +174,11 @@ function renderCartDrawer() {
 
 function changeDrawerQty(id, delta) {
     let cart = getCart();
-    let item = cart.find(i => i.id == id);
+    let item = cart.find(i => i.id === id);
     if (item) {
         item.quantity += delta;
         if (item.quantity <= 0) {
-            cart = cart.filter(i => i.id != id);
+            cart = cart.filter(i => i.id !== id);
         }
         saveCart(cart);
         if (typeof renderCartPage === 'function') renderCartPage();
@@ -187,7 +187,7 @@ function changeDrawerQty(id, delta) {
 
 function removeDrawerItem(id) {
     let cart = getCart();
-    cart = cart.filter(i => i.id != id);
+    cart = cart.filter(i => i.id !== id);
     saveCart(cart);
     if (typeof renderCartPage === 'function') renderCartPage();
 }
@@ -232,99 +232,8 @@ function initScrollGlowAnimation() {
         threshold: 0.05
     });
 
-    targets.forEach(target => observer.observe(target));
+    targets.forEach(el => observer.observe(el));
 }
-
-// Floating Golden Sparks Background Particle Animation
-function initHeroParticles() {
-    const canvas = document.getElementById('hero-particle-canvas');
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    let width = canvas.width = canvas.offsetWidth;
-    let height = canvas.height = canvas.offsetHeight;
-
-    window.addEventListener('resize', () => {
-        if (!canvas) return;
-        width = canvas.width = canvas.offsetWidth;
-        height = canvas.height = canvas.offsetHeight;
-    });
-
-    const particles = [];
-    const count = 35; // Lightweight 60fps performance count
-
-    for (let i = 0; i < count; i++) {
-        particles.push({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            radius: Math.random() * 2.2 + 0.8,
-            speedY: Math.random() * 0.4 + 0.15,
-            speedX: (Math.random() - 0.5) * 0.2,
-            opacity: Math.random() * 0.7 + 0.2,
-            pulseSpeed: Math.random() * 0.03 + 0.01
-        });
-    }
-
-    function render() {
-        ctx.clearRect(0, 0, width, height);
-
-        particles.forEach(p => {
-            p.y -= p.speedY;
-            p.x += p.speedX;
-            p.opacity += Math.sin(Date.now() * p.pulseSpeed) * 0.005;
-
-            if (p.y < -10) {
-                p.y = height + 10;
-                p.x = Math.random() * width;
-            }
-
-            ctx.fillStyle = `rgba(245, 158, 11, ${Math.max(0.1, Math.min(0.8, p.opacity))})`;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-            ctx.fill();
-        });
-
-        requestAnimationFrame(render);
-    }
-
-    render();
-}
-
-// Interactive 3D Cursor Tilt Parallax Effect for Cards
-function init3DTiltEffect() {
-    const tiltCards = document.querySelectorAll('.kamadenu-card, .hero-cow-kamala-card, .admin-stat-box, .admin-card');
-    if (!tiltCards.length) return;
-
-    tiltCards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-
-            const rotateX = ((y - centerY) / centerY) * -7; // Max 7 deg tilt
-            const rotateY = ((x - centerX) / centerX) * 7;   // Max 7 deg tilt
-
-            card.style.transform = `perspective(1000px) translate3d(0, -6px, 15px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg)';
-        });
-    });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.body.classList.add('page-3d-entrance');
-    initHeroParticles();
-    init3DTiltEffect();
-    initScrollGlowAnimation();
-});
-
-
-
 
 
 

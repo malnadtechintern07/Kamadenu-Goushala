@@ -1,5 +1,5 @@
 /* Terracotta Theme (Default Signature Brand Visual Identity) */
-:root {
+:root, html[data-theme="terracotta"], body[data-theme="terracotta"] {
     --bg-primary: #FDFBF7;
     --bg-secondary: #F7F1E5;
     --bg-card: #FFFFFF;
@@ -9,6 +9,7 @@
     --border-color: #E6D7C3;
     
     --brand-terracotta: #A04000;
+    --brand-terracotta-dark: #7E3200;
     --brand-saffron: #E67E22;
     --brand-warm-brown: #3D2314;
     --brand-cream: #FDFBF7;
@@ -17,4 +18,11 @@
 
     --gradient-header: linear-gradient(135deg, #7E3200 0%, #A04000 50%, #C0392B 100%);
     --gradient-hero: linear-gradient(135deg, #2C1810 0%, #3D2314 50%, #4A2318 100%);
+    --shadow-soft: 0 10px 30px rgba(61, 35, 20, 0.08);
 }
+
+html[data-theme="terracotta"] body {
+    background-color: #FDFBF7 !important;
+    color: #2C1810 !important;
+}
+

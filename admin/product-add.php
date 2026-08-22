@@ -14,8 +14,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $unit = trim($_POST['unit']);
     $description = trim($_POST['description']);
 
-    $stmt = $pdo->prepare("INSERT INTO products (category_id, name, name_kn, name_hi, slug, description, price, stock_quantity, unit, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)");
-    $stmt->execute([$category_id, $name, $name_kn, $name_hi, $slug, $description, $price, $stock, $unit]);
+    // Handle Photo Upload / URL Input
+    $uploaded_photo = handle_file_upload('photo_file');
+    $url_photo = trim($_POST['photo_url']);
+
+    if (!empty($uploaded_photo)) {
+        $image_path = $uploaded_photo;
+    } elseif (!empty($url_photo)) {
+        $image_path = $url_photo;
+    } else {
+        $image_path = 'assets/images/product-default.jpg';
+    }
+
+    $stmt = $pdo->prepare("INSERT INTO products (category_id, name, name_kn, name_hi, slug, description, price, stock_quantity, unit, is_active, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?)");
+    $stmt->execute([$category_id, $name, $name_kn, $name_hi, $slug, $description, $price, $stock, $unit, $image_path]);
     $product_id = $pdo->lastInsertId();
 
     // Create Inventory record
@@ -30,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <h3 class="font-heading mb-4"><i class="fas fa-plus-circle text-warning me-2"></i> Add New Product to Store</h3>
 
 <div class="kamadenu-card p-4">
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         <div class="row g-3 mb-3">
             <div class="col-md-6">
                 <label class="form-label font-ui small fw-bold">Category</label>
@@ -69,6 +81,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <option value="ltr">ltr</option>
                 </select>
             </div>
+
+            <!-- Product Photo Inputs -->
+            <div class="col-md-6">
+                <label class="form-label font-ui small fw-bold text-dark"><i class="fas fa-upload text-warning me-1"></i> Option 1: Upload Product Image File</label>
+                <input type="file" name="photo_file" class="form-control" accept="image/*">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label font-ui small fw-bold text-dark"><i class="fas fa-link text-warning me-1"></i> Option 2: Enter / Paste Image URL</label>
+                <input type="text" name="photo_url" class="form-control font-mono" placeholder="assets/images/product-default.jpg">
+            </div>
+
             <div class="col-12">
                 <label class="form-label font-ui small fw-bold">Product Description</label>
                 <textarea name="description" rows="4" class="form-control" placeholder="Describe product benefits, preparation method..." required></textarea>

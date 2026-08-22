@@ -27,17 +27,11 @@ if (is_admin_logged_in()) {
                     <p class="text-muted small">Authorized Management Personnel Only</p>
                 </div>
 
-                <div class="alert bg-warning-subtle text-dark border border-warning small mb-4">
-                    <i class="fas fa-info-circle me-1"></i> <strong>Default Credentials:</strong><br>
-                    Email: <code>admin@kamadenugoushala.org</code><br>
-                    Password: <code>admin123</code>
-                </div>
-
                 <form id="admin-login-form">
                     <input type="hidden" name="csrf_token" value="<?php echo generate_csrf_token(); ?>">
                     <div class="mb-3">
                         <label class="form-label font-ui small fw-bold">Admin Email</label>
-                        <input type="email" name="email" class="form-control form-control-lg" placeholder="admin@kamadenugoushala.org" required>
+                        <input type="text" name="email" class="form-control form-control-lg" placeholder="abc@123" required>
                     </div>
                     <div class="mb-4">
                         <label class="form-label font-ui small fw-bold">Password</label>
@@ -74,7 +68,7 @@ document.getElementById('admin-login-form').addEventListener('submit', function(
     .then(res => {
         if (res.success) {
             showToast(res.message, 'success');
-            setTimeout(() => window.location.href = res.data.redirect, 800);
+            window.location.href = res.data.redirect;
         } else {
             showToast(res.message, 'danger');
             btn.disabled = false;

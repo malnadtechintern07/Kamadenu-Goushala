@@ -1,10 +1,12 @@
 <?php
-require_once __DIR__ . '/includes/header.php';
+require_once __DIR__ . '/config/database.php';
 
 if (is_user_logged_in()) {
     header("Location: /Kamadenu/dashboard.php");
     exit;
 }
+
+require_once __DIR__ . '/includes/header.php';
 ?>
 
 <section class="py-5 bg-card">

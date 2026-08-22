@@ -40,6 +40,7 @@ $products = $pdo->query("SELECT p.*, c.name as category_name FROM products p JOI
                         <td><span class="badge <?php echo $p['is_active'] ? 'bg-success' : 'bg-secondary'; ?>"><?php echo $p['is_active'] ? 'Active' : 'Inactive'; ?></span></td>
                         <td>
                             <a href="/Kamadenu/admin/product-edit.php?id=<?php echo $p['id']; ?>" class="btn btn-sm btn-outline-warning font-ui fw-bold"><i class="fas fa-edit me-1"></i> Edit</a>
+                            <button onclick="deleteAdminItem('products', <?php echo $p['id']; ?>)" class="btn btn-sm btn-outline-danger font-ui fw-bold ms-1"><i class="fas fa-trash me-1"></i> Delete</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>

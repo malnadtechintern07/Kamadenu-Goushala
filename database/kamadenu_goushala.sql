@@ -541,10 +541,10 @@ INSERT INTO `roles` (`id`, `name`, `display_name`, `description`) VALUES
 (4, 'store_manager', 'Store Manager', 'Manages products, inventory, and order fulfillment'),
 (5, 'veterinarian', 'Veterinarian', 'Access to medical records and cow health logs');
 
--- 2. Default Admins (Password: admin123 -> $2y$10$w09u7uR3W4FwY.8m3o0u7u1N9GqZ5p5s6i8r9t0v1w2x3y4z5)
--- We will store password hash for admin123
+-- 2. Default Admins (Password: 1234 -> $2y$10$2PUrOWurJV/W4LJWfuf1z.2Cf9ki9vkR4ELFgpKOVtujiuRuo9bAC)
+-- We will store password hash for 1234
 INSERT INTO `admins` (`id`, `name`, `email`, `password`, `role_id`, `phone`) VALUES
-(1, 'Sri Kamadenu Sevak', 'admin@kamadenugoushala.org', '$2y$10$r94V8E1Gq8p5u12345678uF1N9GqZ5p5s6i8r9t0v1w2x3y4z5', 1, '+91 98800 12345'),
+(1, 'Sri Kamadenu Sevak', 'abc@123@gmail.com', '$2y$10$2PUrOWurJV/W4LJWfuf1z.2Cf9ki9vkR4ELFgpKOVtujiuRuo9bAC', 1, '+91 98800 12345'),
 (2, 'Dr. Ramesh Kumar', 'vet@kamadenugoushala.org', '$2y$10$r94V8E1Gq8p5u12345678uF1N9GqZ5p5s6i8r9t0v1w2x3y4z5', 5, '+91 98450 67890');
 
 -- 3. Default Demo User (Password: user123)

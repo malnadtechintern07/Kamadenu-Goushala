@@ -43,6 +43,7 @@ $campaigns = $pdo->query("SELECT * FROM emergency_campaigns ORDER BY id DESC")->
                         <td><span class="badge bg-dark"><?php echo e($c['status']); ?></span></td>
                         <td>
                             <a href="/Kamadenu/admin/emergency-edit.php?id=<?php echo $c['id']; ?>" class="btn btn-sm btn-outline-warning font-ui fw-bold"><i class="fas fa-edit me-1"></i> Edit</a>
+                            <button onclick="deleteAdminItem('emergency_campaigns', <?php echo $c['id']; ?>)" class="btn btn-sm btn-outline-danger font-ui fw-bold ms-1"><i class="fas fa-trash me-1"></i> Delete</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>

@@ -20,6 +20,7 @@ $users = $pdo->query("SELECT * FROM users ORDER BY id DESC")->fetchAll();
                     <th>Gouseva Points</th>
                     <th>Status</th>
                     <th>Joined</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,6 +33,9 @@ $users = $pdo->query("SELECT * FROM users ORDER BY id DESC")->fetchAll();
                         <td><span class="badge bg-warning text-dark font-mono"><?php echo $u['gouseva_points']; ?> pts</span></td>
                         <td><span class="badge bg-success"><?php echo e($u['status']); ?></span></td>
                         <td class="font-mono small"><?php echo date('Y-m-d', strtotime($u['created_at'])); ?></td>
+                        <td>
+                            <button onclick="deleteAdminItem('users', <?php echo $u['id']; ?>)" class="btn btn-sm btn-outline-danger font-ui fw-bold"><i class="fas fa-trash me-1"></i> Delete</button>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

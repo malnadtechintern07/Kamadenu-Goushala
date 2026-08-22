@@ -15,6 +15,10 @@ $campaigns = $pdo->query("SELECT * FROM emergency_campaigns ORDER BY id DESC")->
     <div class="container">
         <div class="row g-4">
             <?php foreach ($campaigns as $c): ?>
+                <?php 
+                    $ctitle = __td($c, 'title');
+                    $cstory = __td($c, 'story');
+                ?>
                 <div class="col-lg-6">
                     <div class="kamadenu-card h-100 p-4">
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -22,13 +26,13 @@ $campaigns = $pdo->query("SELECT * FROM emergency_campaigns ORDER BY id DESC")->
                             <span class="badge bg-secondary font-mono"><?php echo e($c['status']); ?></span>
                         </div>
 
-                        <h3 class="font-heading text-danger mb-2"><?php echo e($c['title']); ?></h3>
-                        <p class="text-muted mb-4"><?php echo e($c['story']); ?></p>
+                        <h3 class="font-heading text-danger mb-2"><?php echo e($ctitle); ?></h3>
+                        <p class="text-muted mb-4"><?php echo e($cstory); ?></p>
 
                         <div class="mb-4">
                             <div class="d-flex justify-content-between font-ui fw-bold mb-1">
-                                <span>Target: ₹<?php echo number_format($c['target_amount']); ?></span>
-                                <span class="text-success">Raised: ₹<?php echo number_format($c['raised_amount']); ?></span>
+                                <span><?php echo __t('funding_target'); ?>: ₹<?php echo number_format($c['target_amount']); ?></span>
+                                <span class="text-success"><?php echo __t('amount_raised'); ?>: ₹<?php echo number_format($c['raised_amount']); ?></span>
                             </div>
                             <?php $pct = min(100, round(($c['raised_amount'] / $c['target_amount']) * 100)); ?>
                             <div class="progress" style="height: 18px;">
@@ -36,9 +40,10 @@ $campaigns = $pdo->query("SELECT * FROM emergency_campaigns ORDER BY id DESC")->
                             </div>
                         </div>
 
-                        <a href="/Kamadenu/donate.php?campaign=<?php echo $c['id']; ?>" class="btn btn-danger w-100 py-3 font-ui fw-bold shadow"><i class="fas fa-hand-holding-heart me-2"></i> Donate to this Rescue Campaign</a>
+                        <a href="/Kamadenu/donate.php?campaign=<?php echo $c['id']; ?>" class="btn btn-danger w-100 py-3 font-ui fw-bold shadow"><i class="fas fa-hand-holding-heart me-2"></i> <?php echo __t('emergency_donate_now'); ?></a>
                     </div>
                 </div>
+
             <?php endforeach; ?>
         </div>
     </div>

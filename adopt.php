@@ -35,10 +35,12 @@ $cows = $pdo->query("SELECT * FROM cows ORDER BY id ASC")->fetchAll();
                             <select name="cow_id" class="form-select form-select-lg" required>
                                 <option value="">-- Select Cow --</option>
                                 <?php foreach ($cows as $c): ?>
+                                    <?php $cname = __td($c, 'name'); ?>
                                     <option value="<?php echo $c['id']; ?>" <?php echo $selected_cow_id === $c['id'] ? 'selected' : ''; ?>>
-                                        <?php echo e($c['cow_code']); ?> - <?php echo e($c['name']); ?> (<?php echo e($c['breed']); ?>) - ₹<?php echo number_format($c['monthly_sponsorship_amount']); ?>/month [<?php echo e($c['adoption_status']); ?>]
+                                        <?php echo e($c['cow_code']); ?> - <?php echo e($cname); ?> (<?php echo e($c['breed']); ?>) - ₹<?php echo number_format($c['monthly_sponsorship_amount']); ?>/month [<?php echo $c['adoption_status'] === 'Sponsored' ? __t('status_sponsored') : __t('status_available'); ?>]
                                     </option>
                                 <?php endforeach; ?>
+
                             </select>
                         </div>
 

@@ -1,0 +1,275 @@
+/* ==========================================================================
+   KAMADENU GOUSHALA - PREMIUM MODERN ADMIN DASHBOARD SYSTEM
+   ========================================================================== */
+
+:root {
+    --admin-bg: #0B0F17;
+    --admin-card-bg: #151C2C;
+    --admin-card-border: rgba(255, 255, 255, 0.08);
+    --admin-sidebar-bg: #090D16;
+    --admin-header-bg: rgba(21, 28, 44, 0.85);
+    --admin-text-main: #F8FAFC;
+    --admin-text-sub: #94A3B8;
+    --admin-text-muted: #64748B;
+
+    --admin-gold: #F59E0B;
+    --admin-gold-glow: rgba(245, 158, 11, 0.35);
+    --admin-accent-amber: #D97706;
+    --admin-accent-emerald: #10B981;
+    --admin-accent-blue: #0EA5E9;
+    --admin-accent-purple: #8B5CF6;
+    --admin-accent-rose: #F43F5E;
+}
+
+body.admin-body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--admin-bg);
+    color: var(--admin-text-main);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* Glassmorphic Admin Header */
+.admin-header-nav {
+    background: var(--admin-header-bg);
+    border: 1px solid var(--admin-card-border);
+    border-radius: 20px;
+    padding: 14px 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+@supports (backdrop-filter: blur(16px)) or (-webkit-backdrop-filter: blur(16px)) {
+    .admin-header-nav {
+        background: rgba(21, 28, 44, 0.7);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+    }
+}
+
+/* Glassmorphic Sidebar */
+.admin-sidebar-nav {
+    background: var(--admin-sidebar-bg);
+    border-right: 1px solid var(--admin-card-border);
+    min-height: 100vh;
+    width: 270px;
+    flex-shrink: 0;
+    box-shadow: 4px 0 25px rgba(0, 0, 0, 0.4);
+}
+
+.admin-sidebar-nav .nav-section-title {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--admin-text-muted);
+    margin: 18px 12px 8px 12px;
+}
+
+.admin-sidebar-nav .nav-link {
+    color: var(--admin-text-sub) !important;
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 10px 16px;
+    border-radius: 12px;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.admin-sidebar-nav .nav-link i {
+    font-size: 1.1rem;
+    width: 22px;
+    text-align: center;
+    transition: transform 0.25s ease;
+}
+
+.admin-sidebar-nav .nav-link:hover {
+    color: var(--admin-gold) !important;
+    background: rgba(245, 158, 11, 0.1) !important;
+    transform: translateX(4px);
+}
+
+.admin-sidebar-nav .nav-link:hover i {
+    transform: scale(1.15);
+}
+
+.admin-sidebar-nav .nav-link.active {
+    color: #0F172A !important;
+    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%) !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 20px var(--admin-gold-glow) !important;
+    transform: translateX(4px);
+}
+
+.admin-sidebar-nav .nav-link.active i {
+    color: #0F172A !important;
+}
+
+/* Premium Admin Cards */
+.admin-card {
+    background: var(--admin-card-bg) !important;
+    border: 1px solid var(--admin-card-border) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    color: var(--admin-text-main) !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.admin-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+    border-color: rgba(245, 158, 11, 0.3) !important;
+}
+
+/* Admin Stat Icon Badges */
+.admin-stat-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.icon-amber {
+    background: rgba(245, 158, 11, 0.15);
+    color: #F59E0B;
+}
+
+.icon-emerald {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10B981;
+}
+
+.icon-blue {
+    background: rgba(14, 165, 233, 0.15);
+    color: #0EA5E9;
+}
+
+.icon-rose {
+    background: rgba(244, 63, 94, 0.15);
+    color: #F43F5E;
+}
+
+.icon-purple {
+    background: rgba(139, 92, 246, 0.15);
+    color: #8B5CF6;
+}
+
+/* Admin Tables */
+.admin-table {
+    color: var(--admin-text-main) !important;
+    background: transparent !important;
+}
+
+.admin-table thead th {
+    background: rgba(11, 15, 23, 0.6) !important;
+    color: var(--admin-text-sub) !important;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--admin-card-border) !important;
+    padding: 14px 16px;
+}
+
+.admin-table tbody td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--admin-card-border) !important;
+    color: var(--admin-text-main) !important;
+    vertical-align: middle;
+}
+
+.admin-table tbody tr:hover td {
+    background: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* Form Controls in Admin */
+.admin-form-control,
+.admin-card .form-control,
+.admin-card .form-select {
+    background-color: #0B0F17 !important;
+    color: var(--admin-text-main) !important;
+    border: 1px solid var(--admin-card-border) !important;
+    border-radius: 12px;
+    padding: 10px 14px;
+}
+
+.admin-form-control:focus,
+.admin-card .form-control:focus,
+.admin-card .form-select:focus {
+    border-color: var(--admin-gold) !important;
+    box-shadow: 0 0 15px var(--admin-gold-glow) !important;
+}
+
+/* Badges */
+.badge-admin-gold {
+    background: rgba(245, 158, 11, 0.15);
+    color: #F59E0B;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-admin-emerald {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10B981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+/* Sidebar Responsive Styling & Mobile Drawer */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 1040;
+    display: none;
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+@media (max-width: 991.98px) {
+    .admin-sidebar-nav {
+        position: fixed !important;
+        left: -280px !important;
+        top: 0 !important;
+        height: 100vh !important;
+        width: 280px !important;
+        z-index: 1050 !important;
+        transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        overflow-y: auto !important;
+    }
+
+    .admin-sidebar-nav.show-sidebar {
+        left: 0 !important;
+    }
+
+    .flex-grow-1.p-4 {
+        padding: 1rem !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .admin-header-nav {
+        padding: 12px 16px !important;
+        border-radius: 12px !important;
+    }
+
+    .admin-header-nav h4 {
+        font-size: 1.1rem !important;
+    }
+
+    .admin-header-nav .badge-admin-gold {
+        padding: 4px 10px !important;
+        font-size: 0.75rem !important;
+    }
+}

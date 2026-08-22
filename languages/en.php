@@ -5,23 +5,23 @@ return [
     'tagline' => 'Sacred Sanctuary for Indigenous Indian Cows',
     'tagline_kn' => 'ಗೋ ಮಾತಾ ಕಿ ಜೈ',
     'nav_home' => 'Home',
-    'nav_about' => 'About Us',
-    'nav_cows' => 'Indigenous Cows',
-    'nav_adopt' => 'Adopt a Cow',
-    'nav_seva' => 'Gouseva',
-    'nav_activity' => 'Live Activity',
+    'nav_about' => 'About',
+    'nav_cows' => 'Cows',
+    'nav_adopt' => 'Adopt',
+    'nav_seva' => 'Seva',
+    'nav_activity' => 'Live',
     'nav_donate' => 'Donate',
-    'nav_products' => 'Goushala Products',
-    'nav_stories' => 'Stories & News',
-    'nav_events' => 'Trust Events',
+    'nav_products' => 'Products',
+    'nav_stories' => 'Stories',
+    'nav_events' => 'Events',
     'nav_gallery' => 'Gallery',
-    'nav_emergency' => 'Emergency Rescue',
+    'nav_emergency' => 'Rescue',
     'nav_volunteer' => 'Volunteer',
-    'nav_contact' => 'Contact Us',
+    'nav_contact' => 'Contact',
     'nav_login' => 'Login',
     'nav_register' => 'Register',
-    'nav_dashboard' => 'My Dashboard',
-    'nav_admin' => 'Admin Panel',
+    'nav_dashboard' => 'Dashboard',
+    'nav_admin' => 'Admin',
     'nav_logout' => 'Logout',
     'nav_cart' => 'Cart',
 
@@ -47,7 +47,25 @@ return [
     'stat_donations' => 'Total Donations',
     'stat_volunteers' => 'Selfless Volunteers',
 
-    // Cow System
+    // About Us Page
+    'about_title' => 'About Kamadenu Goushala Trust',
+    'about_subtitle' => 'Our sacred mission to protect indigenous Indian cows, restore traditional Gouseva, and foster organic bio-farming.',
+    'about_heritage_title' => 'Goushala Heritage & Spiritual Legacy',
+    'about_heritage_text1' => 'Kamadenu Goushala Trust was founded under the shelter of ancient banyan trees with a single divine objective: to provide lifetime sanctuary, compassionate medical care, and reverent daily Gouseva to stray, elderly, and rescued indigenous Indian cows.',
+    'about_heritage_text2' => 'In ancient Vedic tradition, the cow is revered as Kamadenu — the mother of all beings who embodies prosperity, purity, and spiritual grace.',
+    'about_vows_title' => 'Our 5 Sacred Vows (ಪಂಚ ವ್ರತಗಳು)',
+    'vow1_title' => '1. Abhaya Vrata (Lifetime Sanctuary)',
+    'vow1_desc' => 'Guaranteeing non-killing, peaceful lifetime care for rescued, aged, and non-lactating indigenous cows.',
+    'vow2_title' => '2. Chikitsa Vrata (Veterinary Care)',
+    'vow2_desc' => 'Providing round-the-clock medical care, surgeries, vaccination drives, and rescue ambulances.',
+    'vow3_title' => '3. Jaivika Vrata (Bio-Farming)',
+    'vow3_desc' => 'Promoting Zero-Budget Natural Farming (ZBNF) using organic Jeevamrutha and vermicompost.',
+    'vow4_title' => '4. Vansha Vrata (Breed Protection)',
+    'vow4_desc' => 'Preserving pure indigenous Indian cattle breeds (Gir, Sahiwal, Kankrej, Tharparkar, Vechur, Hallikar) from extinction.',
+    'vow5_title' => '5. Seva Vrata (Devotional Awakening)',
+    'vow5_desc' => 'Inspiring families and youth to engage in daily Gouseva, cow adoption, and Gopashtami celebrations.',
+
+    // Cow System & Passport
     'cow_passport' => 'Cow Passport',
     'cow_id' => 'Cow Code',
     'cow_breed' => 'Breed',
@@ -62,12 +80,12 @@ return [
     'cow_btn_sponsor' => 'Sponsor This Cow',
     'filter_all_breeds' => 'All Breeds',
     'search_cow_placeholder' => 'Search by cow name or code (e.g. Gauri or KG-001)...',
-
-    // 3D Cow Actions
-    'cow3d_feed' => 'FEED ME',
-    'cow3d_donate' => 'DONATE',
-    'cow3d_seva' => 'DO SEVA',
-    'cow3d_adopt' => 'ADOPT ME',
+    'filter_search' => 'Search Cow',
+    'filter_breed_label' => 'Filter Breed',
+    'filter_status_label' => 'Adoption Status',
+    'all_statuses' => 'All Statuses',
+    'status_available' => 'Available for Adoption',
+    'status_sponsored' => 'Sponsored',
 
     // Seva
     'seva_heading' => 'Sacred Daily Gouseva Activities',
@@ -80,7 +98,7 @@ return [
     'emergency_raised' => 'Raised',
     'emergency_donate_now' => 'Donate to Rescue Campaign',
 
-    // Products & E-Commerce & Cart
+    // Products & Cart
     'products_title' => 'Pure Sacred Goushala Products',
     'products_subtitle' => 'Pure A2 Vedic Gir Bilona Ghee, Panchagavya soaps, and bio-agriculture products from Kamadenu Goushala.',
     'btn_add_to_cart' => 'Add to Cart',
@@ -105,9 +123,36 @@ return [
     'filter' => 'Filter',
     'search_product_placeholder' => 'Search product name...',
 
+    // Home Page Extras
+    'home_cows_title' => 'Meet Our Resident Indigenous Cows',
+    'home_cows_subtitle' => 'Rescued & Cherished Cattle',
+    'browse_cows_btn' => 'Browse All Cow Passports',
+    'monthly_care' => 'Monthly Care',
+    'sponsor_kamala' => 'Sponsor Kamala',
+    'kamala_desc' => 'Safe & flourishing in our sacred sanctuary since 2023. Kamala was lovingly nursed back to health through continuous Gouseva.',
+    'emergency_badge' => 'Critical Emergency Relief',
+    'funding_target' => 'Funding Target',
+    'amount_raised' => 'Amount Raised',
+    'explore_store' => 'Explore Full Store',
+    'devotee_voices' => 'What Our Gouseva Family Says',
+    'devotee_sub' => 'Devotee & Sponsor Voices',
+    'faq_sub' => 'Common Inquiries',
+    'faq_title' => 'Frequently Asked Questions',
+    'faq1_q' => 'Are donations eligible for 80G tax exemptions?',
+    'faq1_a' => 'Yes! Kamadenu Goushala is a registered Charitable Trust under Section 80G of the Income Tax Act. Digital tax receipts with your PAN card details are generated instantly upon payment verification.',
+    'faq2_q' => 'How can I monitor my adopted or sponsored cow?',
+    'faq2_a' => 'Each sponsored cow has a unique Cow Passport (e.g., KG-001). As a sponsor, you can log into your dashboard to view monthly health updates, veterinary medical checkups, and photo updates.',
+    'faq3_q' => 'How is pure A2 Bilona Ghee prepared at Kamadenu?',
+    'faq3_a' => 'Our A2 Ghee is prepared using the traditional 5-step Bilona method: free-grazing indigenous Gir cow milk is boiled, curdled, hand-churned using wooden bilona to yield makkhan, and slowly heated over low fire in earthen pots.',
+    'volunteer_cta_title' => 'Offer Your Hands for Sacred Gouseva',
+    'volunteer_cta_desc' => 'Join our selfless volunteer family in daily cattle feeding, organic bio-farming, photography, and event management.',
+    'apply_volunteer_btn' => 'Apply as a Volunteer',
+
     // Footer
     'footer_about' => 'Kamadenu Goushala is a non-profit sanctuary dedicated to the lifelong shelter, medical treatment, and reverence of indigenous Indian cattle.',
     'footer_rights' => 'All Rights Reserved. Kamadenu Goushala Trust.',
     'footer_gov_reg' => 'Registered 80G Tax Exempt Charitable Trust.'
 ];
+
+
 

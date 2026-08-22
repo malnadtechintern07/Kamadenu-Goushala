@@ -74,14 +74,21 @@ function img_url($path) {
  * Language Helper
  */
 function get_current_lang() {
+    static $lang_cache = null;
+    if ($lang_cache !== null) {
+        return $lang_cache;
+    }
     if (isset($_GET['lang']) && in_array($_GET['lang'], ['en', 'kn', 'hi'])) {
         $_SESSION['lang'] = $_GET['lang'];
-        setcookie('kamadenu_lang', $_GET['lang'], time() + (86400 * 30), "/");
+        if (!headers_sent()) {
+            setcookie('kamadenu_lang', $_GET['lang'], time() + (86400 * 30), "/");
+        }
     }
-    if (!isset($_SESSION['lang'])) {
+    if (empty($_SESSION['lang'])) {
         $_SESSION['lang'] = isset($_COOKIE['kamadenu_lang']) ? $_COOKIE['kamadenu_lang'] : 'en';
     }
-    return $_SESSION['lang'];
+    $lang_cache = $_SESSION['lang'];
+    return $lang_cache;
 }
 
 $current_lang = get_current_lang();
@@ -94,21 +101,46 @@ if (file_exists($lang_file)) {
 
 function __t($key, $default = '') {
     global $translations;
-    return isset($translations[$key]) ? $translations[$key] : ($default ?: $key);
+    if (isset($translations[$key]) && $translations[$key] !== '') {
+        return $translations[$key];
+    }
+    return $default !== '' ? $default : $key;
 }
+
+/**
+ * Dynamic Database Row Field Translation Helper
+ */
+function __td($row, $field, $default = '') {
+    $lang = get_current_lang();
+    if ($lang !== 'en' && is_array($row) && isset($row[$field . '_' . $lang]) && !empty($row[$field . '_' . $lang])) {
+        return $row[$field . '_' . $lang];
+    }
+    if (is_array($row) && isset($row[$field]) && !empty($row[$field])) {
+        return $row[$field];
+    }
+    return $default;
+}
+
 
 /**
  * Theme Helper
  */
 function get_current_theme() {
+    static $theme_cache = null;
+    if ($theme_cache !== null) {
+        return $theme_cache;
+    }
     if (isset($_GET['theme']) && in_array($_GET['theme'], ['light', 'dark', 'terracotta'])) {
         $_SESSION['theme'] = $_GET['theme'];
-        setcookie('kamadenu_theme', $_GET['theme'], time() + (86400 * 30), "/");
+        if (!headers_sent()) {
+            setcookie('kamadenu_theme', $_GET['theme'], time() + (86400 * 30), "/");
+        }
     }
     if (!isset($_SESSION['theme'])) {
         $_SESSION['theme'] = isset($_COOKIE['kamadenu_theme']) ? $_COOKIE['kamadenu_theme'] : 'terracotta';
     }
-    return $_SESSION['theme'];
+    $theme_cache = $_SESSION['theme'];
+    return $theme_cache;
 }
 
 /**

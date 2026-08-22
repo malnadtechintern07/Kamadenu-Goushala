@@ -23,14 +23,18 @@ $recent_logs = $pdo->query("SELECT sl.*, s.title as seva_title, c.name as cow_na
     <div class="container">
         <div class="row g-4">
             <?php foreach ($seva_items as $s): ?>
+                <?php 
+                    $stitle = __td($s, 'title');
+                    $sdesc = __td($s, 'description');
+                ?>
                 <div class="col-md-6 col-lg-3">
                     <div class="kamadenu-card p-4 text-center h-100 d-flex flex-column justify-content-between">
                         <div>
                             <div class="fs-1 text-warning mb-3"><i class="fas <?php echo e($s['icon']); ?>"></i></div>
-                            <h3 class="font-heading fs-5 mb-2"><?php echo e($s['title']); ?></h3>
-                            <?php if ($s['title_kn']) echo "<p class='kn-text text-warning small fw-bold mb-2'>{$s['title_kn']}</p>"; ?>
-                            <p class="small text-muted mb-3"><?php echo e($s['description']); ?></p>
+                            <h3 class="font-heading fs-5 mb-2"><?php echo e($stitle); ?></h3>
+                            <p class="small text-muted mb-3"><?php echo e($sdesc); ?></p>
                         </div>
+
 
                         <div>
                             <div class="fs-3 fw-bold text-dark font-mono mb-3">₹<?php echo number_format($s['suggested_amount']); ?></div>

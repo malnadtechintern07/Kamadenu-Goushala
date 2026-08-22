@@ -56,6 +56,7 @@ $stories = $pdo->query("SELECT * FROM stories ORDER BY id DESC")->fetchAll();
                             <th>Title</th>
                             <th>Author</th>
                             <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,6 +66,9 @@ $stories = $pdo->query("SELECT * FROM stories ORDER BY id DESC")->fetchAll();
                                 <td><strong><?php echo e($s['title']); ?></strong></td>
                                 <td><?php echo e($s['author']); ?></td>
                                 <td><span class="badge bg-success"><?php echo e($s['status']); ?></span></td>
+                                <td>
+                                    <button onclick="deleteAdminItem('stories', <?php echo $s['id']; ?>)" class="btn btn-sm btn-outline-danger font-ui fw-bold"><i class="fas fa-trash me-1"></i> Delete</button>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

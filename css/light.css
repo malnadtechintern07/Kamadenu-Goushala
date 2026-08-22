@@ -1,19 +1,81 @@
 /* Light Theme Overrides */
-:root {
-    --bg-primary: #FAFAFA;
-    --bg-secondary: #F0F2F5;
+:root, html[data-theme="light"], body[data-theme="light"] {
+    --bg-primary: #F4F6F9;
+    --bg-secondary: #E9ECEF;
     --bg-card: #FFFFFF;
-    --text-primary: #1C1E21;
-    --text-secondary: #606770;
-    --text-muted: #8D949E;
-    --border-color: #E4E6EB;
+    --text-primary: #1E293B;
+    --text-secondary: #475569;
+    --text-muted: #64748B;
+    --border-color: #CBD5E1;
     
-    --brand-terracotta: #B3395B;
+    --brand-terracotta: #0284C7;
     --brand-saffron: #D97706;
-    --brand-warm-brown: #1F2937;
-    --brand-cream: #FAFAFA;
+    --brand-warm-brown: #0F172A;
+    --brand-cream: #FFFFFF;
     --brand-gold: #D97706;
+    --brand-green: #16A34A;
     
-    --gradient-header: linear-gradient(135deg, #1F2937 0%, #374151 100%);
-    --gradient-hero: linear-gradient(135deg, #1F2937 0%, #111827 100%);
+    --gradient-header: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+    --gradient-hero: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+    --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.06);
 }
+
+/* Light Theme Component Overrides */
+html[data-theme="light"] body {
+    background-color: #F4F6F9 !important;
+    color: #1E293B !important;
+}
+
+html[data-theme="light"] .kamadenu-card,
+html[data-theme="light"] .bg-card,
+html[data-theme="light"] .offcanvas,
+html[data-theme="light"] .modal-content {
+    background: #FFFFFF !important;
+    color: #1E293B !important;
+    border-color: #CBD5E1 !important;
+}
+
+html[data-theme="light"] .bg-secondary-subtle,
+html[data-theme="light"] .bg-light {
+    background-color: #E2E8F0 !important;
+}
+
+html[data-theme="light"] h1, 
+html[data-theme="light"] h2, 
+html[data-theme="light"] h3, 
+html[data-theme="light"] h4, 
+html[data-theme="light"] h5, 
+html[data-theme="light"] h6,
+html[data-theme="light"] .font-heading {
+    color: #0F172A !important;
+}
+
+html[data-theme="light"] .text-muted {
+    color: #64748B !important;
+}
+
+html[data-theme="light"] .text-secondary {
+    color: #475569 !important;
+}
+
+html[data-theme="light"] .form-control,
+html[data-theme="light"] .form-select {
+    background-color: #FFFFFF !important;
+    color: #1E293B !important;
+    border-color: #CBD5E1 !important;
+}
+
+html[data-theme="light"] .accordion-item {
+    background-color: #FFFFFF !important;
+    border-color: #CBD5E1 !important;
+}
+
+html[data-theme="light"] .accordion-button {
+    background-color: #F8FAFC !important;
+    color: #0F172A !important;
+}
+
+html[data-theme="light"] .table {
+    color: #1E293B !important;
+}
+

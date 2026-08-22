@@ -2,10 +2,12 @@
 <div class="floating-control-panel">
     <!-- Quick Cart Button -->
     <div class="dropup">
-        <button type="button" class="floating-btn bg-warning text-dark position-relative shadow" onclick="toggleCartDrawer()" title="<?php echo __t('nav_cart'); ?>">
+        <a href="/Kamadenu/cart.php" class="floating-btn bg-warning text-dark position-relative shadow d-flex align-items-center justify-content-center text-decoration-none" title="<?php echo __t('nav_cart'); ?>">
             <i class="fas fa-shopping-basket"></i>
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge" style="display:none;">0</span>
-        </button>
+        </a>
+
+
     </div>
 
     <!-- Language Switcher Button & Dropdown -->

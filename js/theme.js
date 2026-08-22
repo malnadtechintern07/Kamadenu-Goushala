@@ -8,6 +8,9 @@ function setTheme(theme) {
         themeLink.href = `/Kamadenu/css/${theme}.css`;
     }
     
+    document.documentElement.setAttribute('data-theme', theme);
+    document.body.setAttribute('data-theme', theme);
+
     fetch('/Kamadenu/api/theme.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -15,10 +18,12 @@ function setTheme(theme) {
     })
     .then(res => res.json())
     .then(data => {
-        document.body.setAttribute('data-theme', theme);
-        showToast(`Theme updated to ${theme.toUpperCase()}`, 'info');
+        if (typeof showToast === 'function') {
+            showToast(`Theme updated to ${theme.toUpperCase()}`, 'info');
+        }
     })
     .catch(err => {
         console.error("Theme update error:", err);
     });
 }
+

@@ -108,11 +108,11 @@ function renderCartPage() {
 
 function changeQty(id, delta) {
     let cart = getCart();
-    let item = cart.find(i => i.id === id);
+    let item = cart.find(i => i.id == id);
     if (item) {
         item.quantity += delta;
         if (item.quantity <= 0) {
-            cart = cart.filter(i => i.id !== id);
+            cart = cart.filter(i => i.id != id);
         }
         saveCart(cart);
         renderCartPage();
@@ -121,7 +121,7 @@ function changeQty(id, delta) {
 
 function removeItem(id) {
     let cart = getCart();
-    cart = cart.filter(i => i.id !== id);
+    cart = cart.filter(i => i.id != id);
     saveCart(cart);
     renderCartPage();
 }

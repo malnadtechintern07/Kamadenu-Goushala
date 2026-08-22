@@ -22,24 +22,27 @@ $events = $pdo->query("SELECT * FROM events ORDER BY event_date ASC")->fetchAll(
     <div class="container">
         <div class="row g-4">
             <?php foreach ($events as $ev): ?>
+                <?php 
+                    $etitle = __td($ev, 'title');
+                    $edesc = __td($ev, 'description');
+                ?>
                 <div class="col-md-6 col-lg-4">
                     <div class="kamadenu-card h-100 d-flex flex-column justify-content-between">
                         <div>
                             <div class="position-relative">
-                                <img src="<?php echo img_url($ev['photo']); ?>" class="cow-card-img" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=600&q=80'" alt="<?php echo e($ev['title']); ?>">
+                                <img src="<?php echo img_url($ev['photo']); ?>" class="cow-card-img" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=600&q=80'" alt="<?php echo e($etitle); ?>">
                                 <span class="position-absolute top-0 end-0 m-3 badge <?php echo $ev['status'] === 'Upcoming' ? 'bg-warning text-dark' : 'bg-success'; ?> font-ui fw-bold shadow">
                                     <?php echo e($ev['status']); ?>
-
                                 </span>
                             </div>
                             <div class="p-4">
                                 <span class="badge bg-dark font-mono mb-2"><i class="fas fa-calendar-day me-1 text-warning"></i> <?php echo date('M d, Y', strtotime($ev['event_date'])); ?></span>
-                                <h3 class="font-heading fs-4 mb-2"><?php echo e($ev['title']); ?></h3>
-                                <?php if ($ev['title_kn']) echo "<p class='kn-text text-warning small fw-bold mb-2'>{$ev['title_kn']}</p>"; ?>
+                                <h3 class="font-heading fs-4 mb-2"><?php echo e($etitle); ?></h3>
                                 <p class="small text-muted mb-3"><i class="fas fa-map-marker-alt text-danger me-1"></i> <?php echo e($ev['venue']); ?></p>
-                                <p class="text-secondary small mb-0"><?php echo e(mb_strimwidth($ev['description'], 0, 110, '...')); ?></p>
+                                <p class="text-secondary small mb-0"><?php echo e(mb_strimwidth($edesc, 0, 110, '...')); ?></p>
                             </div>
                         </div>
+
 
                         <div class="p-4 pt-0 border-top mt-3">
                             <a href="/Kamadenu/event-detail.php?id=<?php echo $ev['id']; ?>" class="btn btn-kamadenu-primary w-100 font-ui fw-bold py-2 mt-3">

@@ -42,6 +42,7 @@ $events = $pdo->query("SELECT * FROM events ORDER BY event_date DESC")->fetchAll
                         <td><span class="badge <?php echo $ev['status'] === 'Upcoming' ? 'bg-warning text-dark' : 'bg-success'; ?>"><?php echo e($ev['status']); ?></span></td>
                         <td>
                             <a href="/Kamadenu/admin/event-edit.php?id=<?php echo $ev['id']; ?>" class="btn btn-sm btn-outline-warning font-ui fw-bold"><i class="fas fa-edit me-1"></i> Edit & Update Photo</a>
+                            <button onclick="deleteAdminItem('events', <?php echo $ev['id']; ?>)" class="btn btn-sm btn-outline-danger font-ui fw-bold ms-1"><i class="fas fa-trash me-1"></i> Delete</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>

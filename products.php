@@ -65,16 +65,20 @@ $products = $stmt->fetchAll();
 
         <div class="row g-4">
             <?php foreach ($products as $p): ?>
+                <?php 
+                    $pname = __td($p, 'name');
+                    $pdesc = __td($p, 'description');
+                ?>
                 <div class="col-md-4">
                     <div class="kamadenu-card h-100">
-                        <img src="<?php echo e($p['image']); ?>" class="cow-card-img" alt="<?php echo e($p['name']); ?>" onerror="this.src='https://images.unsplash.com/photo-1589927986089-35812388d1f4?auto=format&fit=crop&w=600&q=80'">
+                        <img src="<?php echo e($p['image']); ?>" class="cow-card-img" alt="<?php echo e($pname); ?>" onerror="this.src='https://images.unsplash.com/photo-1589927986089-35812388d1f4?auto=format&fit=crop&w=600&q=80'">
                         <div class="card-body p-4 d-flex flex-column justify-content-between">
                             <div>
                                 <span class="badge bg-warning-subtle text-dark border border-warning mb-2"><?php echo e($p['category_name']); ?></span>
-                                <h4 class="font-heading fs-5"><?php echo e($p['name']); ?></h4>
-                                <?php if ($p['name_kn']) echo "<p class='kn-text text-warning small fw-bold mb-2'>{$p['name_kn']}</p>"; ?>
-                                <p class="small text-muted mb-3"><?php echo e(mb_strimwidth($p['description'], 0, 95, '...')); ?></p>
+                                <h4 class="font-heading fs-5"><?php echo e($pname); ?></h4>
+                                <p class="small text-muted mb-3"><?php echo e(mb_strimwidth($pdesc, 0, 95, '...')); ?></p>
                             </div>
+
 
                             <div class="pt-3 border-top">
                                 <div class="d-flex justify-content-between align-items-center mb-3">

@@ -18,112 +18,156 @@ $recent_orders = $pdo->query("SELECT * FROM orders ORDER BY id DESC LIMIT 5")->f
 $recent_updates = $pdo->query("SELECT u.*, c.name as cow_name FROM cow_updates u JOIN cows c ON u.cow_id = c.id ORDER BY u.id DESC LIMIT 4")->fetchAll();
 ?>
 
-<!-- KPI Overview Cards -->
-<div class="row g-3 mb-4">
-    <div class="col-md-3">
+<!-- Grand Welcome Hero Banner -->
+<div class="admin-welcome-hero mb-4">
+    <div class="row align-items-center">
+        <div class="col-lg-8">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge bg-warning text-dark font-ui fw-bold px-3 py-1.5 rounded-pill"><i class="fas fa-om me-1"></i> SANCTUARY MANAGEMENT</span>
+                <span class="text-warning small font-mono"><i class="fas fa-signal me-1"></i> System Operational</span>
+            </div>
+            <h2 class="font-heading text-white display-6 mb-2">Welcome Back, <?php echo e($admin['name']); ?>!</h2>
+            <p class="text-white-50 font-ui mb-3">Here is the real-time operational overview for Kamadenu Sacred Goushala Trust. Manage cattle passports, track financial donations, and process customer store orders seamlessly.</p>
+            <div class="d-flex flex-wrap gap-2 align-items-center pt-1">
+                <a href="/Kamadenu/admin/cow-add.php" class="btn btn-warning rounded-pill font-ui fw-bold px-3.5 py-2 shadow-sm"><i class="fas fa-plus me-1.5"></i> Add Cow Passport</a>
+                <a href="/Kamadenu/admin/product-add.php" class="btn btn-outline-light rounded-pill font-ui fw-bold px-3.5 py-2"><i class="fas fa-store me-1.5"></i> Add Store Product</a>
+                <a href="/Kamadenu/admin/emergency-add.php" class="btn btn-outline-danger rounded-pill font-ui fw-bold px-3.5 py-2"><i class="fas fa-ambulance me-1.5"></i> Rescue Campaign</a>
+                <a href="/Kamadenu/admin/reports.php" class="btn btn-dark border-secondary rounded-pill font-ui fw-bold px-3.5 py-2 ms-auto"><i class="fas fa-file-download me-1.5 text-warning"></i> Financial Reports</a>
+            </div>
+        </div>
+        <div class="col-lg-4 text-center text-lg-end mt-4 mt-lg-0 d-none d-lg-block">
+            <div class="p-3 rounded-4 bg-black bg-opacity-25 border border-warning border-opacity-25 d-inline-block text-start" style="min-width: 220px;">
+                <div class="small text-muted font-ui mb-1"><i class="fas fa-calendar-day me-1 text-warning"></i> Today's Date</div>
+                <div class="font-mono fs-5 text-warning fw-bold mb-2"><?php echo date('M d, Y'); ?></div>
+                <div class="small text-muted font-ui mb-1"><i class="fas fa-hand-holding-heart me-1 text-success"></i> This Month Revenue</div>
+                <div class="font-mono fs-4 text-white fw-bold">₹<?php echo number_format($sum_monthly_donations); ?></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 4 Master KPI Stat Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-xl-3 col-md-6">
         <a href="/Kamadenu/admin/cows.php" class="text-decoration-none">
-            <div class="kamadenu-card p-3 d-flex align-items-center justify-content-between border-start border-warning border-4">
+            <div class="admin-stat-box d-flex align-items-center justify-content-between">
                 <div>
-                    <span class="text-muted small font-ui fw-bold uppercase">Total Cows</span>
-                    <div class="fs-2 fw-bold text-dark font-mono"><?php echo $count_cows; ?></div>
+                    <span class="text-muted small font-ui fw-bold text-uppercase d-block mb-1 tracking-wider">Protected Cattle</span>
+                    <div class="fs-1 fw-bold text-white font-mono mb-1"><?php echo $count_cows; ?></div>
+                    <span class="badge bg-success-subtle text-success border border-success rounded-pill px-2.5 py-1 small"><i class="fas fa-shield-alt me-1"></i> Safe Sanctuary</span>
                 </div>
-                <div class="fs-1 text-warning"><i class="fas fa-cow"></i></div>
+                <div class="admin-stat-icon-wrapper bg-grad-amber">
+                    <i class="fas fa-cow"></i>
+                </div>
             </div>
         </a>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-xl-3 col-md-6">
         <a href="/Kamadenu/admin/sponsors.php" class="text-decoration-none">
-            <div class="kamadenu-card p-3 d-flex align-items-center justify-content-between border-start border-success border-4">
+            <div class="admin-stat-box d-flex align-items-center justify-content-between">
                 <div>
-                    <span class="text-muted small font-ui fw-bold uppercase">Active Sponsors</span>
-                    <div class="fs-2 fw-bold text-dark font-mono"><?php echo $count_sponsors; ?></div>
+                    <span class="text-muted small font-ui fw-bold text-uppercase d-block mb-1 tracking-wider">Active Adoptions</span>
+                    <div class="fs-1 fw-bold text-white font-mono mb-1"><?php echo $count_sponsors; ?></div>
+                    <span class="badge bg-emerald-subtle text-emerald border border-success rounded-pill px-2.5 py-1 small"><i class="fas fa-heart me-1"></i> Sustaining Donors</span>
                 </div>
-                <div class="fs-1 text-success"><i class="fas fa-hand-holding-heart"></i></div>
+                <div class="admin-stat-icon-wrapper bg-grad-emerald">
+                    <i class="fas fa-hand-holding-heart"></i>
+                </div>
             </div>
         </a>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-xl-3 col-md-6">
         <a href="/Kamadenu/admin/donations.php" class="text-decoration-none">
-            <div class="kamadenu-card p-3 d-flex align-items-center justify-content-between border-start border-primary border-4">
+            <div class="admin-stat-box d-flex align-items-center justify-content-between">
                 <div>
-                    <span class="text-muted small font-ui fw-bold uppercase">Total Donations</span>
-                    <div class="fs-2 fw-bold text-dark font-mono">₹<?php echo number_format($sum_donations); ?></div>
+                    <span class="text-muted small font-ui fw-bold text-uppercase d-block mb-1 tracking-wider">Verified Revenue</span>
+                    <div class="fs-2 fw-bold text-white font-mono mb-1">₹<?php echo number_format($sum_donations); ?></div>
+                    <span class="badge bg-info-subtle text-info border border-info rounded-pill px-2.5 py-1 small"><i class="fas fa-check-circle me-1"></i> 80G Tax Exempt</span>
                 </div>
-                <div class="fs-1 text-primary"><i class="fas fa-donate"></i></div>
+                <div class="admin-stat-icon-wrapper bg-grad-blue">
+                    <i class="fas fa-donate"></i>
+                </div>
             </div>
         </a>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-xl-3 col-md-6">
         <a href="/Kamadenu/admin/inventory.php" class="text-decoration-none">
-            <div class="kamadenu-card p-3 d-flex align-items-center justify-content-between border-start border-danger border-4">
+            <div class="admin-stat-box d-flex align-items-center justify-content-between">
                 <div>
-                    <span class="text-muted small font-ui fw-bold uppercase">Low Stock Alerts</span>
-                    <div class="fs-2 fw-bold text-danger font-mono"><?php echo count($low_stock_items); ?></div>
+                    <span class="text-muted small font-ui fw-bold text-uppercase d-block mb-1 tracking-wider">Low Stock Alerts</span>
+                    <div class="fs-1 fw-bold text-danger font-mono mb-1"><?php echo count($low_stock_items); ?></div>
+                    <span class="badge bg-danger-subtle text-danger border border-danger rounded-pill px-2.5 py-1 small"><i class="fas fa-exclamation-triangle me-1"></i> Stock Replenish</span>
                 </div>
-                <div class="fs-1 text-danger"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="admin-stat-icon-wrapper bg-grad-rose">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
             </div>
         </a>
     </div>
 </div>
 
-<!-- Attention Required Alert Banner -->
-<?php if (!empty($low_stock_items) || $count_volunteers > 0): ?>
-<div class="alert bg-danger-subtle border-danger text-danger p-3 rounded-4 mb-4">
-    <h5 class="font-heading mb-2"><i class="fas fa-bell me-2"></i> Attention Required Action Items</h5>
-    <ul class="mb-0 small">
+<!-- Attention Required Action Items -->
+<?php if (!empty($low_stock_items) || $count_volunteers > 0 || $count_orders > 0): ?>
+<div class="admin-dashboard-card mb-4 border-warning" style="background: rgba(245, 158, 11, 0.06) !important;">
+    <div class="d-flex align-items-center mb-2">
+        <span class="badge bg-warning text-dark font-ui fw-bold px-3 py-1.5 rounded-pill me-2"><i class="fas fa-bell me-1"></i> ACTION REQUIRED</span>
+        <h5 class="font-heading mb-0 text-white">Management Action Items Awaiting Approval</h5>
+    </div>
+    <ul class="mb-0 small text-white-50 font-ui ps-3">
         <?php if ($count_volunteers > 0): ?>
-            <li><strong><?php echo $count_volunteers; ?></strong> pending volunteer application(s) awaiting approval. <a href="/Kamadenu/admin/volunteers.php" class="fw-bold text-danger">Review Applications &rarr;</a></li>
+            <li class="mb-1"><strong><?php echo $count_volunteers; ?></strong> pending volunteer application(s) awaiting review. <a href="/Kamadenu/admin/volunteers.php" class="fw-bold text-warning ms-1">Review Applications &rarr;</a></li>
+        <?php endif; ?>
+        <?php if ($count_orders > 0): ?>
+            <li class="mb-1"><strong><?php echo $count_orders; ?></strong> store order(s) currently processing. <a href="/Kamadenu/admin/orders.php" class="fw-bold text-info ms-1">Process Orders &rarr;</a></li>
         <?php endif; ?>
         <?php foreach ($low_stock_items as $lsi): ?>
-            <li>Low Stock Warning: <strong><?php echo e($lsi['name']); ?></strong> (Current Stock: <?php echo $lsi['stock_quantity']; ?>). <a href="/Kamadenu/admin/inventory.php" class="fw-bold text-danger">Replenish Inventory &rarr;</a></li>
+            <li>Low Stock Warning: <strong><?php echo e($lsi['name']); ?></strong> (Current Stock: <?php echo $lsi['stock_quantity']; ?>). <a href="/Kamadenu/admin/inventory.php" class="fw-bold text-danger ms-1">Replenish Inventory &rarr;</a></li>
         <?php endforeach; ?>
     </ul>
 </div>
 <?php endif; ?>
 
-<!-- Quick Actions -->
-<div class="kamadenu-card p-3 mb-4">
-    <div class="d-flex flex-wrap gap-2 align-items-center">
-        <span class="font-ui fw-bold text-muted me-2"><i class="fas fa-bolt me-1 text-warning"></i> Quick Management:</span>
-        <a href="/Kamadenu/admin/cow-add.php" class="btn btn-warning btn-sm rounded-pill font-ui fw-bold"><i class="fas fa-plus me-1"></i> Add Cow Passport</a>
-        <a href="/Kamadenu/admin/product-add.php" class="btn btn-outline-warning btn-sm rounded-pill font-ui fw-bold"><i class="fas fa-plus me-1"></i> Add Product</a>
-        <a href="/Kamadenu/admin/emergency-add.php" class="btn btn-outline-danger btn-sm rounded-pill font-ui fw-bold"><i class="fas fa-plus me-1"></i> Add Rescue Campaign</a>
-        <a href="/Kamadenu/admin/reports.php" class="btn btn-dark btn-sm rounded-pill font-ui ms-auto"><i class="fas fa-file-download me-1"></i> Generate Reports</a>
-    </div>
-</div>
-
-<!-- Chart.js Visual Analytics -->
+<!-- Visual Analytics Dashboard Grid -->
 <div class="row g-4 mb-4">
     <div class="col-lg-8">
-        <div class="kamadenu-card p-4">
-            <h5 class="font-heading mb-3"><i class="fas fa-chart-line me-2 text-warning"></i> Donation Trends (INR)</h5>
-            <canvas id="donationChart" height="220"></canvas>
+        <div class="admin-dashboard-card h-100">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                <div>
+                    <h5 class="font-heading mb-0 text-white"><i class="fas fa-chart-line me-2 text-warning"></i> Revenue & Donation Analytics (INR)</h5>
+                    <small class="text-muted font-ui">Monthly donation revenue trends for fiscal year</small>
+                </div>
+                <span class="badge bg-success text-dark font-mono px-3 py-1.5 rounded-pill fw-bold">This Month: ₹<?php echo number_format($sum_monthly_donations); ?></span>
+            </div>
+            <canvas id="donationChart" height="230"></canvas>
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="kamadenu-card p-4">
-            <h5 class="font-heading mb-3"><i class="fas fa-chart-pie me-2 text-warning"></i> Herd Health Distribution</h5>
-            <canvas id="healthChart" height="220"></canvas>
+        <div class="admin-dashboard-card h-100">
+            <div class="mb-3">
+                <h5 class="font-heading mb-0 text-white"><i class="fas fa-chart-pie me-2 text-warning"></i> Herd Health Overview</h5>
+                <small class="text-muted font-ui">Veterinary status of sanctuary cows</small>
+            </div>
+            <canvas id="healthChart" height="230"></canvas>
         </div>
     </div>
 </div>
 
-<!-- Recent Transactions & Orders -->
-<div class="row g-4">
+<!-- Recent Transactions & Store Orders Split Grid -->
+<div class="row g-4 mb-4">
     <div class="col-lg-6">
-        <div class="kamadenu-card p-4">
+        <div class="admin-dashboard-card">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="font-heading mb-0">Recent Verified Donations</h5>
-                <a href="/Kamadenu/admin/donations.php" class="small text-warning font-ui">View All &rarr;</a>
+                <h5 class="font-heading mb-0 text-white"><i class="fas fa-heart text-danger me-2"></i> Recent Verified Donations</h5>
+                <a href="/Kamadenu/admin/donations.php" class="small text-warning font-ui fw-bold text-decoration-none">View All &rarr;</a>
             </div>
             <div class="table-responsive">
-                <table class="table table-hover align-middle small">
+                <table class="table admin-custom-table align-middle small">
                     <thead>
                         <tr>
-                            <th>Donor</th>
+                            <th>Donor Name</th>
                             <th>Amount</th>
                             <th>Purpose</th>
                             <th>Receipt</th>
@@ -132,10 +176,10 @@ $recent_updates = $pdo->query("SELECT u.*, c.name as cow_name FROM cow_updates u
                     <tbody>
                         <?php foreach ($recent_donations as $rd): ?>
                             <tr>
-                                <td><strong><?php echo e($rd['donor_name']); ?></strong></td>
+                                <td><strong class="text-white"><?php echo e($rd['donor_name']); ?></strong></td>
                                 <td class="font-mono fw-bold text-success">₹<?php echo number_format($rd['amount']); ?></td>
-                                <td><?php echo e($rd['purpose']); ?></td>
-                                <td><span class="badge bg-dark font-mono"><?php echo e($rd['receipt_number']); ?></span></td>
+                                <td><span class="badge bg-warning-subtle text-dark fw-bold"><?php echo e($rd['purpose']); ?></span></td>
+                                <td><span class="badge bg-dark font-mono text-warning border border-warning"><?php echo e($rd['receipt_number']); ?></span></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -145,16 +189,16 @@ $recent_updates = $pdo->query("SELECT u.*, c.name as cow_name FROM cow_updates u
     </div>
 
     <div class="col-lg-6">
-        <div class="kamadenu-card p-4">
+        <div class="admin-dashboard-card">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="font-heading mb-0">Recent Store Orders</h5>
-                <a href="/Kamadenu/admin/orders.php" class="small text-warning font-ui">View All &rarr;</a>
+                <h5 class="font-heading mb-0 text-white"><i class="fas fa-shopping-bag text-info me-2"></i> Recent Customer Store Orders</h5>
+                <a href="/Kamadenu/admin/orders.php" class="small text-warning font-ui fw-bold text-decoration-none">View All &rarr;</a>
             </div>
             <div class="table-responsive">
-                <table class="table table-hover align-middle small">
+                <table class="table admin-custom-table align-middle small">
                     <thead>
                         <tr>
-                            <th>Order ID</th>
+                            <th>Order Code</th>
                             <th>Customer</th>
                             <th>Total</th>
                             <th>Status</th>
@@ -163,10 +207,14 @@ $recent_updates = $pdo->query("SELECT u.*, c.name as cow_name FROM cow_updates u
                     <tbody>
                         <?php foreach ($recent_orders as $ro): ?>
                             <tr>
-                                <td><span class="badge bg-secondary font-mono"><?php echo e($ro['order_code']); ?></span></td>
-                                <td><?php echo e($ro['customer_name']); ?></td>
-                                <td class="font-mono fw-bold">₹<?php echo number_format($ro['total_amount']); ?></td>
-                                <td><span class="badge bg-warning text-dark"><?php echo e($ro['order_status']); ?></span></td>
+                                <td><span class="badge bg-dark text-info font-mono border border-info"><?php echo e($ro['order_code']); ?></span></td>
+                                <td class="text-white"><?php echo e($ro['customer_name']); ?></td>
+                                <td class="font-mono fw-bold text-warning">₹<?php echo number_format($ro['total_amount']); ?></td>
+                                <td>
+                                    <span class="badge <?php echo $ro['order_status'] === 'Delivered' ? 'bg-success' : 'bg-warning text-dark'; ?> px-2.5 py-1">
+                                        <?php echo e($ro['order_status']); ?>
+                                    </span>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -176,41 +224,84 @@ $recent_updates = $pdo->query("SELECT u.*, c.name as cow_name FROM cow_updates u
     </div>
 </div>
 
+<?php require_once __DIR__ . '/footer.php'; ?>
+
+<!-- Chart.js Render Script -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Donation Trends Chart
-    const ctxDonation = document.getElementById('donationChart').getContext('2d');
-    new Chart(ctxDonation, {
-        type: 'bar',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-            datasets: [{
-                label: 'Donations (₹)',
-                data: [12000, 18500, 24000, 31000, 28000, 45000, 52000, <?php echo $sum_monthly_donations ?: 48000; ?>],
-                backgroundColor: '#A04000',
-                borderRadius: 6
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: { legend: { display: false } }
-        }
-    });
+    if (typeof Chart !== 'undefined') {
+        // 1. Revenue & Donation Analytics Chart
+        const ctxDonation = document.getElementById('donationChart').getContext('2d');
+        const donationGradient = ctxDonation.createLinearGradient(0, 0, 0, 300);
+        donationGradient.addColorStop(0, '#F59E0B');
+        donationGradient.addColorStop(1, '#D97706');
 
-    // 2. Health Distribution Chart
-    const ctxHealth = document.getElementById('healthChart').getContext('2d');
-    new Chart(ctxHealth, {
-        type: 'doughnut',
-        data: {
-            labels: ['Excellent', 'Good', 'Under Treatment'],
-            datasets: [{
-                data: [4, 2, 1],
-                backgroundColor: ['#27AE60', '#F39C12', '#E74C3C']
-            }]
-        },
-        options: { responsive: true }
-    });
+        new Chart(ctxDonation, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+                datasets: [{
+                    label: 'Donations (₹)',
+                    data: [18000, 24500, 32000, 41000, 38000, 52000, 68000, <?php echo $sum_monthly_donations ?: 54000; ?>],
+                    backgroundColor: donationGradient,
+                    borderRadius: 8,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return ' Revenue: ₹' + context.raw.toLocaleString('en-IN');
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#94A3B8' },
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#94A3B8',
+                            callback: function(value) { return '₹' + value.toLocaleString('en-IN'); }
+                        },
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    }
+                }
+            }
+        });
+
+        // 2. Herd Health Overview Doughnut Chart
+        const ctxHealth = document.getElementById('healthChart').getContext('2d');
+        new Chart(ctxHealth, {
+            type: 'doughnut',
+            data: {
+                labels: ['Healthy & Safe', 'Under Care', 'ICU Medical Care'],
+                datasets: [{
+                    data: [<?php echo max(1, $count_cows - 2); ?>, 2, 1],
+                    backgroundColor: ['#10B981', '#F59E0B', '#EF4444'],
+                    borderWidth: 3,
+                    borderColor: '#131B2E'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { color: '#F8FAFC', padding: 14 }
+                    }
+                }
+            }
+        });
+    }
 });
 </script>
 
-<?php require_once __DIR__ . '/footer.php'; ?>
+

@@ -9,6 +9,10 @@ $current_page = basename($_SERVER['SCRIPT_NAME']);
 function is_nav_active($page, $current) {
     return ($current === $page) ? 'active glow-nav-item fw-bold text-warning' : '';
 }
+
+function is_dropdown_active($pages, $current) {
+    return in_array($current, $pages) ? 'active glow-nav-item fw-bold text-warning' : '';
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo e($lang); ?>" data-theme="<?php echo e($theme); ?>">
@@ -24,9 +28,10 @@ function is_nav_active($page, $current) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
     <!-- Theme & Master Stylesheets -->
-    <link id="theme-stylesheet" rel="stylesheet" href="/Kamadenu/css/<?php echo e($theme); ?>.css">
     <link rel="stylesheet" href="/Kamadenu/css/style.css">
+    <link id="theme-stylesheet" rel="stylesheet" href="/Kamadenu/css/<?php echo e($theme); ?>.css">
 </head>
+
 <body>
 
 <!-- Devotional Top Announcement Bar -->
@@ -38,10 +43,11 @@ function is_nav_active($page, $current) {
 <nav class="navbar navbar-expand-xl navbar-dark navbar-kamadenu sticky-top py-2 shadow">
     <div class="container-fluid px-lg-3">
         <a class="navbar-brand py-0 me-3 d-flex align-items-center" href="/Kamadenu/index.php">
-            <i class="fas fa-cow text-warning fs-3 me-2"></i>
+            <img src="/Kamadenu/assets/images/logo.png" alt="Kamadenu Goushala Trust Logo" class="brand-logo me-2.5" style="height: 44px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.4));">
+
             <div class="d-inline-block align-middle">
                 <span class="d-block lh-1 fs-5 fw-bold"><?php echo __t('site_title'); ?></span>
-                <small class="fs-7 fw-normal text-warning-50 d-none d-sm-block kn-text">ಗೋ ಮಾತಾ ಕಿ ಜೈ</small>
+                <small class="fs-7 fw-normal text-warning d-none d-sm-block kn-text">ಗೋ ಮಾತಾ ಕಿ ಜೈ</small>
             </div>
         </a>
 
@@ -50,24 +56,43 @@ function is_nav_active($page, $current) {
         </button>
 
         <div class="collapse navbar-collapse" id="mainNavbar">
-            <ul class="navbar-nav mx-auto mb-2 mb-xl-0 align-items-center">
+            <ul class="navbar-nav mx-auto mb-2 mb-xl-0 align-items-center gap-1">
                 <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('index.php', $current_page); ?>" href="/Kamadenu/index.php"><?php echo __t('nav_home'); ?></a></li>
                 <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('about.php', $current_page); ?>" href="/Kamadenu/about.php"><?php echo __t('nav_about'); ?></a></li>
                 <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('cows.php', $current_page); ?>" href="/Kamadenu/cows.php"><?php echo __t('nav_cows'); ?></a></li>
                 <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('adopt.php', $current_page); ?>" href="/Kamadenu/adopt.php"><?php echo __t('nav_adopt'); ?></a></li>
                 <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('seva.php', $current_page); ?>" href="/Kamadenu/seva.php"><?php echo __t('nav_seva'); ?></a></li>
-                <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('activity-feed.php', $current_page); ?>" href="/Kamadenu/activity-feed.php"><i class="fas fa-stream me-1"></i> <?php echo __t('nav_activity'); ?></a></li>
-                <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('donate.php', $current_page); ?>" href="/Kamadenu/donate.php"><?php echo __t('nav_donate'); ?></a></li>
                 <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('products.php', $current_page); ?>" href="/Kamadenu/products.php"><?php echo __t('nav_products'); ?></a></li>
-                <li class="nav-item"><a class="nav-link text-nowrap text-danger font-ui fw-bold <?php echo is_nav_active('emergency.php', $current_page); ?>" href="/Kamadenu/emergency.php"><?php echo __t('nav_emergency'); ?></a></li>
-                <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('stories.php', $current_page); ?>" href="/Kamadenu/stories.php"><?php echo __t('nav_stories'); ?></a></li>
-                <li class="nav-item"><a class="nav-link text-nowrap text-warning fw-bold <?php echo is_nav_active('events.php', $current_page); ?>" href="/Kamadenu/events.php"><i class="fas fa-calendar-alt me-1"></i> <?php echo __t('nav_events'); ?></a></li>
-                <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('gallery.php', $current_page); ?>" href="/Kamadenu/gallery.php"><?php echo __t('nav_gallery'); ?></a></li>
-                <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('volunteer.php', $current_page); ?>" href="/Kamadenu/volunteer.php"><?php echo __t('nav_volunteer'); ?></a></li>
-                <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('contact.php', $current_page); ?>" href="/Kamadenu/contact.php"><?php echo __t('nav_contact'); ?></a></li>
+                <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('events.php', $current_page); ?>" href="/Kamadenu/events.php"><?php echo __t('nav_events'); ?></a></li>
+                <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('emergency.php', $current_page); ?>" href="/Kamadenu/emergency.php"><?php echo __t('nav_emergency'); ?></a></li>
+                <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('donate.php', $current_page); ?>" href="/Kamadenu/donate.php"><?php echo __t('nav_donate'); ?></a></li>
+
+                <!-- Dropdown: Explore & Media -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-nowrap <?php echo is_dropdown_active(['stories.php', 'gallery.php', 'activity-feed.php'], $current_page); ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-compass me-1 text-warning"></i> Explore <i class="fas fa-chevron-down ms-1 small"></i>
+                    </a>
+                    <ul class="dropdown-menu shadow border-warning">
+                        <li><a class="dropdown-item <?php echo is_nav_active('stories.php', $current_page); ?>" href="/Kamadenu/stories.php"><i class="fas fa-book-open me-2 text-warning"></i> <?php echo __t('nav_stories'); ?></a></li>
+                        <li><a class="dropdown-item <?php echo is_nav_active('gallery.php', $current_page); ?>" href="/Kamadenu/gallery.php"><i class="fas fa-images me-2 text-warning"></i> <?php echo __t('nav_gallery'); ?></a></li>
+                        <li><a class="dropdown-item <?php echo is_nav_active('activity-feed.php', $current_page); ?>" href="/Kamadenu/activity-feed.php"><i class="fas fa-stream me-2 text-warning"></i> <?php echo __t('nav_activity'); ?></a></li>
+                    </ul>
+                </li>
+
+                <!-- Dropdown: Get Involved & Support -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-nowrap <?php echo is_dropdown_active(['volunteer.php', 'contact.php'], $current_page); ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-hands-helping me-1 text-warning"></i> Support <i class="fas fa-chevron-down ms-1 small"></i>
+                    </a>
+                    <ul class="dropdown-menu shadow border-warning">
+                        <li><a class="dropdown-item <?php echo is_nav_active('volunteer.php', $current_page); ?>" href="/Kamadenu/volunteer.php"><i class="fas fa-user-plus me-2 text-warning"></i> <?php echo __t('nav_volunteer'); ?></a></li>
+                        <li><a class="dropdown-item <?php echo is_nav_active('contact.php', $current_page); ?>" href="/Kamadenu/contact.php"><i class="fas fa-envelope me-2 text-warning"></i> <?php echo __t('nav_contact'); ?></a></li>
+                    </ul>
+                </li>
             </ul>
 
             <div class="d-flex align-items-center gap-2">
+
                 <!-- Header Language Switcher Dropdown -->
                 <div class="dropdown">
                     <button class="btn btn-outline-warning btn-sm dropdown-toggle rounded-pill px-3 font-ui fw-bold d-flex align-items-center gap-1" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -83,11 +108,13 @@ function is_nav_active($page, $current) {
                 </div>
 
                 <!-- Header Cart Link Button -->
-                <a href="/Kamadenu/cart.php" class="btn btn-warning btn-sm rounded-pill font-ui fw-bold px-3 d-flex align-items-center gap-2 position-relative <?php echo is_nav_active('cart.php', $current_page); ?>" title="Cart">
+                <a href="/Kamadenu/cart.php" class="btn btn-warning btn-sm rounded-pill font-ui fw-bold px-3 d-flex align-items-center gap-2 position-relative <?php echo is_nav_active('cart.php', $current_page); ?>" title="<?php echo __t('nav_cart'); ?>">
                     <i class="fas fa-shopping-basket"></i>
                     <span><?php echo __t('nav_cart'); ?></span>
                     <span class="badge rounded-pill bg-danger cart-badge" style="display:none;">0</span>
                 </a>
+
+
 
                 <?php if ($user): ?>
                     <div class="dropdown">

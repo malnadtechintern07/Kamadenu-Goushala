@@ -29,17 +29,21 @@ $stmt->execute([$cow['id']]);
 $updates = $stmt->fetchAll();
 ?>
 
+<?php 
+    $cow_name = __td($cow, 'name');
+    $cow_story = __td($cow, 'rescue_story');
+?>
 <section class="py-4 bg-dark text-white border-bottom border-warning">
     <div class="container">
         <div class="d-flex flex-wrap justify-content-between align-items-center">
             <div>
                 <span class="badge-cow-code me-2"><?php echo e($cow['cow_code']); ?></span>
                 <span class="badge bg-warning text-dark font-ui font-semibold ms-1"><?php echo e($cow['breed']); ?> Breed</span>
-                <h1 class="font-heading text-warning mt-2 mb-0"><?php echo e($cow['name']); ?> <?php if ($cow['name_kn']) echo "({$cow['name_kn']})"; ?> Passport</h1>
+                <h1 class="font-heading text-warning mt-2 mb-0"><?php echo e($cow_name); ?> Passport</h1>
             </div>
             <div class="mt-3 mt-md-0">
                 <a href="/Kamadenu/adopt.php?cow_id=<?php echo $cow['id']; ?>" class="btn btn-kamadenu-primary btn-lg shadow">
-                    <i class="fas fa-heart me-2"></i> Sponsor <?php echo e($cow['name']); ?> (₹<?php echo number_format($cow['monthly_sponsorship_amount']); ?>/mo)
+                    <i class="fas fa-heart me-2"></i> Sponsor <?php echo e($cow_name); ?> (₹<?php echo number_format($cow['monthly_sponsorship_amount']); ?>/mo)
                 </a>
             </div>
         </div>
@@ -52,10 +56,11 @@ $updates = $stmt->fetchAll();
             <!-- Left Column: Passport Identity Card -->
             <div class="col-lg-5">
                 <div class="kamadenu-card p-4 text-center sticky-top" style="top: 100px;">
-                    <img src="<?php echo img_url($cow['photo']); ?>" alt="<?php echo e($cow['name']); ?>" class="img-fluid rounded-4 shadow mb-4 hover-glow" style="max-height: 320px; object-fit: cover; width: 100%;" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=600&q=80'">
+                    <img src="<?php echo img_url($cow['photo']); ?>" alt="<?php echo e($cow_name); ?>" class="img-fluid rounded-4 shadow mb-4 hover-glow" style="max-height: 320px; object-fit: cover; width: 100%;" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=600&q=80'">
                     
-                    <h3 class="font-heading mb-1"><?php echo e($cow['name']); ?></h3>
+                    <h3 class="font-heading mb-1"><?php echo e($cow_name); ?></h3>
                     <p class="text-warning font-ui fw-bold mb-3">Official Passport ID: <?php echo e($cow['cow_code']); ?></p>
+
 
                     <div class="row g-2 text-start small border-top pt-3">
                         <div class="col-6 mb-2">
@@ -96,8 +101,9 @@ $updates = $stmt->fetchAll();
                 <!-- Rescue Story -->
                 <div class="kamadenu-card p-4 mb-4">
                     <h4 class="font-heading text-warning mb-3"><i class="fas fa-book-open me-2"></i> Rescue & Sanctuary Chronicle</h4>
-                    <p class="lead text-secondary"><?php echo e($cow['rescue_story']); ?></p>
+                    <p class="lead text-secondary"><?php echo e($cow_story); ?></p>
                 </div>
+
 
                 <!-- Cow Journey Visual Timeline -->
                 <div class="kamadenu-card p-4 mb-4">

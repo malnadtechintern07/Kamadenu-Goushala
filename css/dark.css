@@ -1,34 +1,121 @@
 /* Dark Theme Overrides */
-:root {
-    --bg-primary: #121212;
-    --bg-secondary: #1E1E1E;
-    --bg-card: #242424;
-    --text-primary: #E0E0E0;
-    --text-secondary: #B0B0B0;
-    --text-muted: #757575;
-    --border-color: #333333;
+:root, html[data-theme="dark"], body[data-theme="dark"] {
+    --bg-primary: #0F172A;
+    --bg-secondary: #1E293B;
+    --bg-card: #1E293B;
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+    --border-color: #334155;
     
-    --brand-terracotta: #C0392B;
-    --brand-saffron: #F39C12;
-    --brand-warm-brown: #1A0C06;
-    --brand-cream: #121212;
-    --brand-gold: #F1C40F;
+    --brand-terracotta: #F59E0B;
+    --brand-terracotta-dark: #D97706;
+    --brand-saffron: #F59E0B;
+    --brand-warm-brown: #F8FAFC;
+    --brand-cream: #0F172A;
+    --brand-gold: #F59E0B;
+    --brand-green: #22C55E;
     
-    --gradient-header: linear-gradient(135deg, #1A0C06 0%, #2A1208 100%);
-    --gradient-hero: linear-gradient(135deg, #0A0402 0%, #1A0C06 100%);
+    --gradient-header: linear-gradient(135deg, #090D16 0%, #0F172A 100%);
+    --gradient-hero: linear-gradient(135deg, #090D16 0%, #1E293B 100%);
     --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-.kamadenu-card {
-    background: #1E1E1E !important;
-    border-color: #333333 !important;
-    color: #E0E0E0 !important;
+/* Dark Theme Comprehensive Overrides */
+html[data-theme="dark"] body {
+    background-color: #0F172A !important;
+    color: #F8FAFC !important;
 }
 
-.kamadenu-card h1, .kamadenu-card h2, .kamadenu-card h3, .kamadenu-card h4, .kamadenu-card h5 {
-    color: #F39C12 !important;
+html[data-theme="dark"] .kamadenu-card,
+html[data-theme="dark"] .bg-card,
+html[data-theme="dark"] .offcanvas,
+html[data-theme="dark"] .modal-content {
+    background-color: #1E293B !important;
+    color: #F8FAFC !important;
+    border-color: #334155 !important;
 }
 
-.table {
-    color: #E0E0E0 !important;
+html[data-theme="dark"] .hero-cow-kamala-card {
+    background-color: #1E293B !important;
+    color: #F8FAFC !important;
+    border-color: #F59E0B !important;
 }
+
+html[data-theme="dark"] .hero-cow-kamala-card h4,
+html[data-theme="dark"] .hero-cow-kamala-card span {
+    color: #F8FAFC !important;
+}
+
+html[data-theme="dark"] .bg-secondary-subtle,
+html[data-theme="dark"] .bg-light {
+    background-color: #0F172A !important;
+    color: #F8FAFC !important;
+}
+
+html[data-theme="dark"] h1, 
+html[data-theme="dark"] h2, 
+html[data-theme="dark"] h3, 
+html[data-theme="dark"] h4, 
+html[data-theme="dark"] h5, 
+html[data-theme="dark"] h6,
+html[data-theme="dark"] .font-heading {
+    color: #F8FAFC !important;
+}
+
+html[data-theme="dark"] .text-dark {
+    color: #F8FAFC !important;
+}
+
+html[data-theme="dark"] .text-muted {
+    color: #94A3B8 !important;
+}
+
+html[data-theme="dark"] .text-secondary {
+    color: #CBD5E1 !important;
+}
+
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select,
+html[data-theme="dark"] .input-group-text {
+    background-color: #0F172A !important;
+    color: #F8FAFC !important;
+    border-color: #334155 !important;
+}
+
+html[data-theme="dark"] .accordion-item {
+    background-color: #1E293B !important;
+    border-color: #334155 !important;
+    color: #F8FAFC !important;
+}
+
+html[data-theme="dark"] .accordion-button {
+    background-color: #0F172A !important;
+    color: #F59E0B !important;
+}
+
+html[data-theme="dark"] .accordion-body {
+    background-color: #1E293B !important;
+    color: #CBD5E1 !important;
+}
+
+html[data-theme="dark"] .table {
+    color: #F8FAFC !important;
+    --bs-table-bg: #1E293B;
+    --bs-table-striped-bg: #0F172A;
+}
+
+html[data-theme="dark"] .dropdown-menu {
+    background-color: #1E293B !important;
+    border-color: #334155 !important;
+    color: #F8FAFC !important;
+}
+
+html[data-theme="dark"] .dropdown-item {
+    color: #F8FAFC !important;
+}
+
+html[data-theme="dark"] .dropdown-item:hover {
+    background-color: #334155 !important;
+}
+

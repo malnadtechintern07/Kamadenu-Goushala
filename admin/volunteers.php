@@ -53,8 +53,9 @@ $volunteers = $pdo->query("SELECT * FROM volunteers ORDER BY id DESC")->fetchAll
                                     <button type="submit" name="action" value="reject" class="btn btn-sm btn-outline-danger font-ui">Reject</button>
                                 </form>
                             <?php else: ?>
-                                <span class="small text-muted">Reviewed</span>
+                                <span class="small text-muted me-2">Reviewed</span>
                             <?php endif; ?>
+                            <button onclick="deleteAdminItem('volunteers', <?php echo $v['id']; ?>)" class="btn btn-sm btn-outline-danger font-ui fw-bold ms-1"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
