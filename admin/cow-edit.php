@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/header.php';
+require_once __DIR__ . '/../config/database.php';
+require_admin_login($pdo);
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $stmt = $pdo->prepare("SELECT * FROM cows WHERE id = ?");
@@ -7,7 +8,8 @@ $stmt->execute([$id]);
 $cow = $stmt->fetch();
 
 if (!$cow) {
-    echo "Cow not found.";
+    require_once __DIR__ . '/header.php';
+    echo "<div class='container mt-5'><div class='alert alert-danger'>Cow not found.</div></div>";
     require_once __DIR__ . '/footer.php';
     exit;
 }
@@ -22,6 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $health_status = $_POST['health_status'];
     $adoption_status = $_POST['adoption_status'];
     $rescue_story = trim($_POST['rescue_story']);
+    $whatsapp_message = isset($_POST['whatsapp_message']) && trim($_POST['whatsapp_message']) !== '' ? trim($_POST['whatsapp_message']) : NULL;
+    $whatsapp_number_id = isset($_POST['whatsapp_number_id']) && trim($_POST['whatsapp_number_id']) !== '' ? intval($_POST['whatsapp_number_id']) : NULL;
+    $contact_method = isset($_POST['contact_method']) ? trim($_POST['contact_method']) : 'website';
 
     $uploaded_photo = handle_file_upload('photo_file');
     $url_photo = trim($_POST['photo_url']);
@@ -34,17 +39,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $photo_path = $cow['photo'];
     }
 
-    $stmt = $pdo->prepare("UPDATE cows SET name = ?, name_kn = ?, breed = ?, age_years = ?, weight_kg = ?, monthly_sponsorship_amount = ?, health_status = ?, adoption_status = ?, rescue_story = ?, photo = ? WHERE id = ?");
-    $stmt->execute([$name, $name_kn, $breed, $age_years, $weight_kg, $monthly_amount, $health_status, $adoption_status, $rescue_story, $photo_path, $id]);
+    $stmt = $pdo->prepare("UPDATE cows SET name = ?, name_kn = ?, breed = ?, age_years = ?, weight_kg = ?, monthly_sponsorship_amount = ?, health_status = ?, adoption_status = ?, rescue_story = ?, photo = ?, whatsapp_number_id = ?, contact_method = ?, whatsapp_message = ? WHERE id = ?");
+    $stmt->execute([$name, $name_kn, $breed, $age_years, $weight_kg, $monthly_amount, $health_status, $adoption_status, $rescue_story, $photo_path, $whatsapp_number_id, $contact_method, $whatsapp_message, $id]);
 
     log_audit($pdo, 'Edit Cow', 'cows', $id);
     header("Location: /Kamadenu/admin/cows.php?updated=1");
     exit;
 }
+
+require_once __DIR__ . '/header.php';
+$wa_numbers = $pdo->query("SELECT * FROM whatsapp_numbers ORDER BY id ASC")->fetchAll();
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="font-heading mb-0"><i class="fas fa-edit text-warning me-2"></i> Edit Cow Passport (<?php echo e($cow['cow_code']); ?>)</h3>
+    <h3 class="font-heading mb-0"><i class="fas fa-edit text-warning me-2"></i> Edit Cattle Profile (<?php echo e($cow['cow_code']); ?>)</h3>
     <a href="/Kamadenu/admin/cows.php" class="btn btn-outline-secondary font-ui">&larr; Back to Cows</a>
 </div>
 
@@ -89,6 +97,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <option value="Available" <?php echo $cow['adoption_status'] === 'Available' ? 'selected' : ''; ?>>Available</option>
                     <option value="Sponsored" <?php echo $cow['adoption_status'] === 'Sponsored' ? 'selected' : ''; ?>>Sponsored</option>
                 </select>
+            </div>
+            <div class="col-12">
+                <div class="p-3 bg-light border border-warning border-opacity-25 rounded-3 mb-2">
+                    <h5 class="text-warning font-heading small fw-bold mb-3"><i class="fab fa-whatsapp me-1"></i> WhatsApp & Checkout Action Integration</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label font-ui small fw-bold">Checkout Action Mode</label>
+                            <select name="contact_method" class="form-select">
+                                <option value="website" <?php echo $cow['contact_method'] === 'website' ? 'selected' : ''; ?>>Website Checkout (Standard Gateway)</option>
+                                <option value="whatsapp" <?php echo $cow['contact_method'] === 'whatsapp' ? 'selected' : ''; ?>>WhatsApp Contact (Direct Message)</option>
+                                <option value="both" <?php echo $cow['contact_method'] === 'both' ? 'selected' : ''; ?>>Both (Show Website & WhatsApp Options to User)</option>
+                            </select>
+                            <small class="text-muted">Choose how user adoptions are processed for this cow.</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label font-ui small fw-bold">WhatsApp Contact Phone (Optional)</label>
+                            <select name="whatsapp_number_id" class="form-select font-mono">
+                                <option value="">-- Use Default Adoption Number --</option>
+                                <?php foreach ($wa_numbers as $wn): ?>
+                                    <option value="<?php echo $wn['id']; ?>" <?php echo intval($cow['whatsapp_number_id']) === intval($wn['id']) ? 'selected' : ''; ?>>
+                                        <?php echo e($wn['label']); ?> (<?php echo e($wn['phone_number']); ?>)
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <small class="text-muted">Defaults to global Gouseva WhatsApp number if none selected.</small>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label font-ui small fw-bold">WhatsApp Pre-filled Customer Message (Optional)</label>
+                            <input type="text" name="whatsapp_message" class="form-control" value="<?php echo e($cow['whatsapp_message']); ?>" placeholder="e.g. Hare Krishna! I want to adopt this cow. Please guide me.">
+                            <small class="text-muted">Pre-populated text inside the user's WhatsApp message box when initiating chat.</small>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Current Cow Photo Preview -->

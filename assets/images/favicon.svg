@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <radialGradient id="flame-glow" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#FFDD00" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#FF6600" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#FF0000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="flame-grad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#FF3300"/>
+      <stop offset="60%" stop-color="#FF9900"/>
+      <stop offset="100%" stop-color="#FFFFCC"/>
+    </linearGradient>
+    <linearGradient id="diya-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D35400"/>
+      <stop offset="100%" stop-color="#8E2700"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Ambient Glow -->
+  <circle cx="50" cy="40" r="30" fill="url(#flame-glow)"/>
+
+  <!-- Diya Clay Pot Base -->
+  <path d="M15 55 C15 75, 85 75, 85 55 C85 52, 75 52, 70 55 C60 58, 40 58, 30 55 C25 52, 15 52, 15 55 Z" fill="url(#diya-grad)"/>
+  
+  <!-- Diya Inner Rim -->
+  <path d="M20 54 C30 57, 70 57, 80 54 C75 50, 25 50, 20 54 Z" fill="#E67E22"/>
+
+  <!-- Flame (Jyoti) -->
+  <path d="M50 15 C55 30, 62 42, 50 54 C38 42, 45 30, 50 15 Z" fill="url(#flame-grad)"/>
+  
+  <!-- Inner Flame Core -->
+  <path d="M50 25 C52 32, 56 38, 50 46 C44 38, 48 32, 50 25 Z" fill="#FFFFCC"/>
+</svg>

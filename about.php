@@ -1,5 +1,16 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
+
+$lang = get_current_lang();
+$about_title = get_setting($pdo, "about_title_" . $lang, __t('about_title'));
+$about_subtitle = get_setting($pdo, "about_subtitle_" . $lang, __t('about_subtitle'));
+$about_heritage_title = get_setting($pdo, "about_heritage_title_" . $lang, __t('about_heritage_title'));
+$about_heritage_text1 = get_setting($pdo, "about_heritage_text1_" . $lang, __t('about_heritage_text1'));
+$about_heritage_text2 = get_setting($pdo, "about_heritage_text2_" . $lang, __t('about_heritage_text2'));
+$about_vows_title = get_setting($pdo, "about_vows_title_" . $lang, __t('about_vows_title'));
+
+$about_heritage_image = get_setting($pdo, 'about_heritage_image', '');
+$heritage_img_url = img_url(empty($about_heritage_image) ? 'assets/images/goushala-heritage.jpg' : $about_heritage_image);
 ?>
 
 <!-- Header Banner -->
@@ -8,8 +19,8 @@ require_once __DIR__ . '/includes/header.php';
         <div class="row align-items-center">
             <div class="col-md-8">
                 <span class="badge bg-warning text-dark font-ui px-3 py-2 rounded-pill mb-2 fw-bold"><i class="fas fa-om me-1"></i> <?php echo __t('hero_badge'); ?></span>
-                <h1 class="font-heading text-warning mb-1 display-5"><?php echo __t('about_title'); ?></h1>
-                <p class="lead text-white-50 mb-0"><?php echo __t('about_subtitle'); ?></p>
+                <h1 class="font-heading text-warning mb-1 display-5"><?php echo htmlspecialchars($about_title); ?></h1>
+                <p class="lead text-white-50 mb-0"><?php echo htmlspecialchars($about_subtitle); ?></p>
             </div>
             <div class="col-md-4 text-md-end">
                 <div class="devotional-phrase fs-2">ಗೋ ಮಾತಾ ಕಿ ಜೈ</div>
@@ -24,9 +35,9 @@ require_once __DIR__ . '/includes/header.php';
         <div class="row align-items-center g-5">
             <div class="col-lg-6">
                 <h6 class="text-warning text-uppercase font-ui fw-bold tracking-wider mb-2"><i class="fas fa-history me-1"></i> <?php echo __t('nav_about'); ?></h6>
-                <h2 class="font-heading mb-4 display-6"><?php echo __t('about_heritage_title'); ?></h2>
-                <p class="lead text-secondary mb-3"><?php echo __t('about_heritage_text1'); ?></p>
-                <p class="text-muted mb-4"><?php echo __t('about_heritage_text2'); ?></p>
+                <h2 class="font-heading mb-4 display-6"><?php echo htmlspecialchars($about_heritage_title); ?></h2>
+                <p class="lead text-secondary mb-3"><?php echo nl2br(htmlspecialchars($about_heritage_text1)); ?></p>
+                <p class="text-muted mb-4"><?php echo nl2br(htmlspecialchars($about_heritage_text2)); ?></p>
                 
                 <div class="row g-3 text-center font-ui fw-bold">
                     <div class="col-4">
@@ -53,7 +64,7 @@ require_once __DIR__ . '/includes/header.php';
             <!-- Heritage Photo with Glowing Cursor Hover Effect -->
             <div class="col-lg-6">
                 <div class="position-relative">
-                    <img src="<?php echo img_url('assets/images/goushala-heritage.jpg'); ?>" alt="Kamadenu Goushala Heritage" class="img-fluid rounded-4 shadow-lg border border-warning hover-glow w-100" style="max-height: 440px; object-fit: cover;">
+                    <img src="<?php echo htmlspecialchars($heritage_img_url); ?>" alt="Kamadenu Goushala Heritage" class="img-fluid rounded-4 shadow-lg border border-warning hover-glow w-100" style="max-height: 440px; object-fit: cover;">
                     <div class="position-absolute bottom-0 start-0 m-3 p-3 bg-dark text-white rounded-3 bg-opacity-75 backdrop-blur font-ui border border-warning">
                         <small class="text-warning font-mono d-block">ESTABLISHED 2012</small>
                         <strong class="font-heading">Kamadenu Heritage Sanctuary, Bengaluru</strong>
@@ -69,7 +80,7 @@ require_once __DIR__ . '/includes/header.php';
     <div class="container">
         <div class="text-center mb-5">
             <h6 class="text-warning text-uppercase font-ui fw-bold"><i class="fas fa-hand-holding-heart me-1"></i> Core Principles</h6>
-            <h2 class="font-heading display-6"><?php echo __t('about_vows_title'); ?></h2>
+            <h2 class="font-heading display-6"><?php echo htmlspecialchars($about_vows_title); ?></h2>
             <p class="text-muted max-w-600 mx-auto">Guided by scriptural wisdom and practical action to protect Gomatha.</p>
         </div>
 

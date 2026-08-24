@@ -97,7 +97,7 @@ $badges = $stmt->fetchAll();
                                         <div>
                                             <strong class="font-heading d-block"><?php echo e($sc['cow_name']); ?> (<?php echo e($sc['cow_code']); ?>)</strong>
                                             <small class="text-muted d-block"><?php echo e($sc['breed']); ?> Breed</small>
-                                            <a href="/Kamadenu/cow-detail.php?id=<?php echo $sc['cow_id']; ?>" class="small text-warning font-ui fw-bold">View Passport & Updates &rarr;</a>
+                                            <a href="/Kamadenu/cow-detail.php?id=<?php echo $sc['cow_id']; ?>" class="small text-warning font-ui fw-bold">View Details &amp; Updates &rarr;</a>
                                         </div>
                                     </div>
                                 </div>

@@ -2,7 +2,7 @@
 require_once __DIR__ . '/includes/header.php';
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-$stmt = $pdo->prepare("SELECT * FROM seva WHERE id = ?");
+$stmt = $pdo->prepare("SELECT s.*, wn.phone_number as wa_phone_dir FROM seva s LEFT JOIN whatsapp_numbers wn ON s.whatsapp_number_id = wn.id WHERE s.id = ?");
 $stmt->execute([$id]);
 $seva = $stmt->fetch();
 
@@ -34,9 +34,23 @@ if (!$seva) {
                         <div class="fs-1 fw-bold text-dark font-mono">₹<?php echo number_format($seva['suggested_amount']); ?></div>
                     </div>
 
-                    <a href="/Kamadenu/checkout.php?type=seva&seva_id=<?php echo $seva['id']; ?>&amount=<?php echo $seva['suggested_amount']; ?>" class="btn btn-kamadenu-primary btn-lg w-100 py-3 font-ui fw-bold shadow">
-                        <i class="fas fa-hand-holding-heart me-2"></i> Sponsor This Seva Now
-                    </a>
+                    <div class="d-flex flex-column gap-3 w-100">
+                        <?php if ($seva['contact_method'] === 'both' || $seva['contact_method'] === 'website' || empty($seva['contact_method'])): ?>
+                            <a href="/Kamadenu/checkout.php?type=seva&seva_id=<?php echo $seva['id']; ?>&amount=<?php echo $seva['suggested_amount']; ?>" class="btn btn-kamadenu-primary btn-lg w-100 py-3 font-ui fw-bold shadow text-center">
+                                <i class="fas fa-hand-holding-heart me-2"></i> Sponsor This Seva Now
+                            </a>
+                        <?php endif; ?>
+                        <?php if ($seva['contact_method'] === 'whatsapp' || $seva['contact_method'] === 'both'): ?>
+                            <?php 
+                                $wa_phone = !empty($seva['wa_phone_dir']) ? $seva['wa_phone_dir'] : get_setting($pdo, 'whatsapp_order_default', '+91 98800 12345');
+                                $wa_msg = !empty($seva['whatsapp_message']) ? $seva['whatsapp_message'] : "Hare Krishna! I would like to sponsor this seva:\n- Seva: " . $seva['title'] . "\n- Amount: ₹" . number_format($seva['suggested_amount']) . "\n\nPlease let me know how to proceed.";
+                                $whatsapp_url = "https://api.whatsapp.com/send?phone=" . preg_replace('/[^0-9]/', '', $wa_phone) . "&text=" . urlencode($wa_msg);
+                            ?>
+                            <a href="<?php echo $whatsapp_url; ?>" target="_blank" class="btn btn-success btn-lg w-100 py-3 font-ui fw-bold shadow text-center">
+                                <i class="fab fa-whatsapp me-2"></i> Sponsor via WhatsApp
+                            </a>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>

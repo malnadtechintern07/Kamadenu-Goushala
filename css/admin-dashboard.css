@@ -249,3 +249,57 @@ body.admin-body {
         font-size: 0.75rem !important;
     }
 }
+
+/* Vertical Timeline on Dashboard */
+.timeline-wrapper {
+    position: relative;
+    padding-left: 20px;
+}
+.timeline-wrapper::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 5px;
+    bottom: 5px;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.08);
+}
+.timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+}
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+.timeline-badge {
+    position: absolute;
+    left: -20px;
+    top: 6px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--admin-gold-primary);
+    border: 3px solid var(--admin-card-bg);
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.25);
+    z-index: 2;
+}
+.timeline-badge.critical {
+    background: #EF4444;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.25);
+}
+.timeline-badge.health {
+    background: #10B981;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+}
+.timeline-content {
+    background: rgba(9, 13, 22, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 12px;
+    padding: 12px 14px;
+    transition: all 0.25s ease;
+}
+.timeline-content:hover {
+    background: rgba(245, 158, 11, 0.03);
+    border-color: rgba(245, 158, 11, 0.15);
+    transform: translateX(3px);
+}

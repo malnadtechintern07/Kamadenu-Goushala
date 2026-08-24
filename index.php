@@ -22,6 +22,7 @@ $seva_list = $stmt->fetchAll();
 // Fetch Featured A2 Products
 $stmt = $pdo->query("SELECT p.*, c.name as category_name FROM products p JOIN product_categories c ON p.category_id = c.id WHERE p.is_active = 1 ORDER BY p.id ASC LIMIT 3");
 $featured_products = $stmt->fetchAll();
+$product_checkout_method = get_setting($pdo, 'product_checkout_method', 'both');
 
 // Fetch Testimonials
 $testimonials = $pdo->query("SELECT * FROM testimonials WHERE is_featured = 1 ORDER BY id DESC")->fetchAll();
@@ -29,66 +30,424 @@ $testimonials = $pdo->query("SELECT * FROM testimonials WHERE is_featured = 1 OR
 // Fetch Scripture Quote
 $stmt = $pdo->query("SELECT * FROM quotes ORDER BY id DESC LIMIT 1");
 $quote = $stmt->fetch();
+
+// Retrieve active program videos from the database
+$stmt_v = $pdo->query("SELECT * FROM videos ORDER BY id DESC LIMIT 3");
+$db_videos = $stmt_v->fetchAll();
+
+// Extract YouTube ID helper function
+if (!function_exists('get_youtube_id')) {
+    function get_youtube_id($url) {
+        if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match)) {
+            return $match[1];
+        }
+        return '';
+    }
+}
+
+// Fallback default videos if none are configured in database yet
+if (empty($db_videos)) {
+    $db_videos = [
+        [
+            'title' => 'Daily Gouseva & Feeding Rituals',
+            'description' => 'Experience the serene atmosphere during our morning grass feeding programs and daily Gouseva rituals performed with devotion.',
+            'youtube_url' => 'https://www.youtube.com/watch?v=XmueYxEL6dg'
+        ],
+        [
+            'title' => 'Cattle Rescue & Medical Rehabilitation',
+            'description' => 'A glimpse into our rescue operations for stray, injured, and orphaned cows, and their medical recovery journey at our sanctuary hospital.',
+            'youtube_url' => 'https://www.youtube.com/watch?v=a6n9Y69VPl0'
+        ],
+        [
+            'title' => 'Devotees Cow Adoption Highlights',
+            'description' => 'See the joy of families visiting their sponsored cows, participating in special sanctuary celebrations, and performing direct Gouseva.',
+            'youtube_url' => 'https://www.youtube.com/watch?v=e_Kgr2Z5Grc'
+        ]
+    ];
+}
+
+// ── Self-heal homepage DB settings with defaults ─────────────────────────────
+$hp_defaults_idx = [
+    'hp_s1_bg'         => '/Kamadenu/assets/images/hero-bg.jpg',
+    'hp_s1_overlay'    => 'rgba(20,10,5,0.82)',
+    'hp_s1_badge'      => 'SACRED INDIGENOUS GOUSEVA SANCTUARY',
+    'hp_s1_badge_color'=> 'warning',
+    'hp_s1_badge_icon' => 'fas fa-om',
+    'hp_s1_title'      => 'Kamadenu Goushala — Sacred Shelter for Gou Mata',
+    'hp_s1_subtitle'   => 'A Vedic sanctuary dedicated to the care, rescue, and spiritual wellbeing of indigenous Indian cattle. Your Gouseva brings merit, peace, and blessings to your family.',
+    'hp_s1_phrase'     => '"ಗೋ ಮಾತಾ ಕಿ ಜೈ"',
+    'hp_s1_btn1_text'  => 'Donate Now',
+    'hp_s1_btn1_link'  => '/Kamadenu/donate.php',
+    'hp_s1_btn1_class' => 'btn-kamadenu-primary',
+    'hp_s1_btn2_text'  => 'Sponsor a Cow',
+    'hp_s1_btn2_link'  => '/Kamadenu/adopt.php',
+    'hp_s1_btn2_class' => 'btn-kamadenu-outline',
+    'hp_s1_indicator'  => 'Sanctuary',
+    'hp_s2_bg'         => 'https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?auto=format&fit=crop&w=1600&q=80',
+    'hp_s2_overlay'    => 'rgba(10,20,15,0.82)',
+    'hp_s2_badge'      => 'SPONSOR & ADOPT A COW',
+    'hp_s2_badge_color'=> 'success',
+    'hp_s2_badge_icon' => 'fas fa-hand-holding-heart',
+    'hp_s2_title'      => 'Adopt a Sacred Mother Cow Today',
+    'hp_s2_subtitle'   => 'Experience the joy of cow adoption. Sponsor the monthly feeds and medical care costs for a resident cow and get regular updates from the sanctuary.',
+    'hp_s2_phrase'     => '"ಲೋಕಾಃ ಸಮಸ್ತಾಃ ಸುಖಿನೋ ಭವಂತು"',
+    'hp_s2_btn1_text'  => 'Sponsor a Cow',
+    'hp_s2_btn1_link'  => '/Kamadenu/adopt.php',
+    'hp_s2_btn1_class' => 'btn-kamadenu-primary',
+    'hp_s2_btn2_text'  => 'View Cow Passports',
+    'hp_s2_btn2_link'  => '/Kamadenu/cows.php',
+    'hp_s2_btn2_class' => 'btn-kamadenu-outline',
+    'hp_s2_indicator'  => 'Adopt a Cow',
+    'hp_s3_bg'         => 'https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=1600&q=80',
+    'hp_s3_overlay'    => 'rgba(40,10,10,0.82)',
+    'hp_s3_badge'      => 'EMERGENCY MEDICAL RELIEF',
+    'hp_s3_badge_color'=> 'danger',
+    'hp_s3_badge_icon' => 'fas fa-ambulance',
+    'hp_s3_title'      => 'Rescue & Rehabilitate Street Cattle',
+    'hp_s3_subtitle'   => 'Support our active emergency rescue campaigns. Your contributions provide shelter, critical surgery, and daily medication for injured and abandoned cows.',
+    'hp_s3_phrase'     => '"ದಯವೇ ಧರ್ಮದ ಮೂಲವಯ್ಯಾ"',
+    'hp_s3_btn1_text'  => 'Support Rescue Campaign',
+    'hp_s3_btn1_link'  => '/Kamadenu/donate.php',
+    'hp_s3_btn1_class' => 'btn btn-danger rounded-pill px-4 py-3 font-ui fw-bold shadow',
+    'hp_s3_btn2_text'  => '',
+    'hp_s3_btn2_link'  => '',
+    'hp_s3_btn2_class' => '',
+    'hp_s3_indicator'  => 'Rescue Relief',
+    'hp_s4_bg'         => 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1600&q=80',
+    'hp_s4_overlay'    => 'rgba(25,20,10,0.82)',
+    'hp_s4_badge'      => 'SACRED DAILY GOUSEVA',
+    'hp_s4_badge_color'=> 'warning',
+    'hp_s4_badge_icon' => 'fas fa-pray',
+    'hp_s4_title'      => 'Perform Sacred Gouseva Offerings',
+    'hp_s4_subtitle'   => 'Sponsor nutritional green feeds, morning prayers (Grasa Seva), and Vedic Gou Pooja rituals at the sanctuary. Bring blessings, peace, and spiritual prosperity to your home.',
+    'hp_s4_phrase'     => '"ಗೌ ಪೂಜಾ ಮಹತ್ತ್ವಂ"',
+    'hp_s4_btn1_text'  => 'Sponsor a Seva',
+    'hp_s4_btn1_link'  => '/Kamadenu/seva.php',
+    'hp_s4_btn1_class' => 'btn btn-warning rounded-pill px-4 py-3 font-ui fw-bold text-dark shadow',
+    'hp_s4_btn2_text'  => '',
+    'hp_s4_btn2_link'  => '',
+    'hp_s4_btn2_class' => '',
+    'hp_s4_indicator'  => 'Gouseva Rituals',
+    'hp_cta_title'     => 'Join Our Sacred Gouseva Movement',
+    'hp_cta_subtitle'  => 'Become a Gousevak — volunteer your time, skills, or resources to protect and nurture our indigenous cow heritage.',
+    'hp_cta_btn_text'  => 'Apply as Volunteer',
+    'hp_cta_btn_link'  => '/Kamadenu/volunteer.php',
+    'hp_stats_title'   => 'Our Living Impact — Powered by Your Gouseva',
+    'hp_stats_sub'     => 'REAL-TIME SANCTUARY METRICS',
+];
+ensure_hp_settings($pdo, $hp_defaults_idx);
 ?>
 
-<!-- Hero Section with Background Image & 3D Sacred Aarti Lamp Overlay -->
+<!-- Hero Section with Background Slider & Touch Zones -->
 <section class="hero-section" id="hero-section">
+    <!-- Slide Background Layers Track -->
+    <div class="hero-bg-slider-track">
+        <?php for ($__s = 1; $__s <= 4; $__s++): ?>
+        <div class="hero-slide-bg <?php echo $__s === 1 ? 'active' : ''; ?>" style="background-image: linear-gradient(135deg, <?php echo get_hp($pdo, "hp_s{$__s}_overlay", 'rgba(20,10,5,0.82)'); ?> 0%, <?php echo get_hp($pdo, "hp_s{$__s}_overlay", 'rgba(20,10,5,0.82)'); ?> 100%), url('<?php echo htmlspecialchars(img_url(get_hp($pdo, "hp_s{$__s}_bg", '')), ENT_QUOTES); ?>');"></div>
+        <?php endfor; ?>
+    </div>
+
+    <!-- Touch Navigation Side Zones -->
+    <div class="hero-nav-zone hero-nav-zone-left" onclick="prevHeroSlide()">
+        <span class="hero-nav-arrow">&larr;</span>
+    </div>
+    <div class="hero-nav-zone hero-nav-zone-right" onclick="nextHeroSlide()">
+        <span class="hero-nav-arrow">&rarr;</span>
+    </div>
+
     <!-- Animated Golden Ambient Background Layers -->
-    <div class="hero-background-aurora"></div>
-    <canvas id="hero-particle-canvas"></canvas>
+    <div class="hero-background-aurora" style="z-index: 1;"></div>
+    <canvas id="hero-particle-canvas" style="z-index: 1;"></canvas>
 
-
-
-
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-7 mb-4 mb-lg-0">
-                <div class="badge bg-warning text-dark font-ui px-3 py-2 rounded-pill mb-3 fw-bold shadow-sm">
-                    <i class="fas fa-om me-1"></i> SACRED INDIGENOUS GOUSEVA SANCTUARY
-                </div>
-                <h1 class="hero-title font-heading">
-                    <?php echo __t('hero_title'); ?>
-                </h1>
-                <p class="hero-subtitle">
-                    <?php echo __t('hero_subtitle'); ?>
-                </p>
-
-                <div class="devotional-phrase mb-4 fs-2">
-                    “ಗೋ ಮಾತಾ ಕಿ ಜೈ”
-                </div>
-
-                <div class="d-flex flex-wrap gap-3">
-                    <a href="/Kamadenu/donate.php" class="btn btn-kamadenu-primary btn-lg">
-                        <i class="fas fa-heart me-2"></i> <?php echo __t('hero_btn_donate'); ?>
-                    </a>
-                    <a href="/Kamadenu/adopt.php" class="btn btn-kamadenu-outline btn-lg">
-                        <i class="fas fa-hand-holding-heart me-2"></i> <?php echo __t('hero_btn_adopt'); ?>
-                    </a>
-                    <a href="/Kamadenu/seva.php" class="btn btn-warning rounded-pill px-4 py-3 font-ui fw-bold text-dark shadow">
-                        <i class="fas fa-pray me-2"></i> <?php echo __t('hero_btn_seva'); ?>
-                    </a>
+    <div class="container" style="z-index: 2;">
+        <div class="hero-content-slider-wrapper">
+            <div class="hero-content-slider-track">
+                <!-- Dynamic Hero Slides (DB Controlled) -->
+            <?php for ($__sl = 1; $__sl <= 4; $__sl++): ?>
+            <?php
+                $__s = "s{$__sl}";
+                $__b1t = get_hp($pdo, "hp_{$__s}_btn1_text");
+                $__b1l = get_hp($pdo, "hp_{$__s}_btn1_link");
+                $__b1c = get_hp($pdo, "hp_{$__s}_btn1_class");
+                $__b2t = get_hp($pdo, "hp_{$__s}_btn2_text");
+                $__b2l = get_hp($pdo, "hp_{$__s}_btn2_link");
+                $__b2c = get_hp($pdo, "hp_{$__s}_btn2_class");
+                $__badge_color = get_hp($pdo, "hp_{$__s}_badge_color", 'warning');
+                $__badge_icon  = get_hp($pdo, "hp_{$__s}_badge_icon",  'fas fa-om');
+                $__is_warning  = in_array($__badge_color, ['warning']);
+            ?>
+            <div class="hero-slide-content <?php echo $__sl === 1 ? 'active' : ''; ?>">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 mb-4 mb-lg-0">
+                        <div class="badge bg-<?php echo htmlspecialchars($__badge_color); ?> <?php echo $__is_warning ? 'text-dark' : 'text-white'; ?> font-ui px-3 py-2 rounded-pill mb-3 fw-bold shadow-sm">
+                            <i class="<?php echo htmlspecialchars($__badge_icon); ?> me-1"></i>
+                            <?php echo htmlspecialchars(get_hp($pdo, "hp_{$__s}_badge")); ?>
+                        </div>
+                        <?php if ($__sl === 1): ?>
+                        <h1 class="hero-title font-heading"><?php echo htmlspecialchars(get_hp($pdo, "hp_{$__s}_title")); ?></h1>
+                        <?php else: ?>
+                        <h2 class="hero-title font-heading"><?php echo htmlspecialchars(get_hp($pdo, "hp_{$__s}_title")); ?></h2>
+                        <?php endif; ?>
+                        <p class="hero-subtitle"><?php echo htmlspecialchars(get_hp($pdo, "hp_{$__s}_subtitle")); ?></p>
+                        <div class="devotional-phrase mb-4 fs-2"><?php echo get_hp($pdo, "hp_{$__s}_phrase"); ?></div>
+                        <div class="d-flex flex-wrap gap-3">
+                            <?php if ($__b1t && $__b1l): ?>
+                            <a href="<?php echo htmlspecialchars($__b1l); ?>" class="btn <?php echo htmlspecialchars($__b1c); ?> btn-lg">
+                                <?php echo htmlspecialchars($__b1t); ?>
+                            </a>
+                            <?php endif; ?>
+                            <?php if ($__b2t && $__b2l): ?>
+                            <a href="<?php echo htmlspecialchars($__b2l); ?>" class="btn <?php echo htmlspecialchars($__b2c); ?> btn-lg">
+                                <?php echo htmlspecialchars($__b2t); ?>
+                            </a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <?php if ($__sl === 1): ?>
+                    <div class="col-lg-5">
+                        <div class="hero-cow-kamala-card text-dark position-relative shadow-lg">
+                            <span class="position-absolute top-0 end-0 m-3 badge bg-danger font-ui px-3 py-2 shadow"><i class="fas fa-heart me-1"></i> <?php echo __t('sponsor_kamala'); ?></span>
+                            <img src="/Kamadenu/assets/images/cow-kamala.jpg" alt="Rescued Cow Kamala" class="hero-cow-kamala-img mb-3 shadow-sm">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h4 class="font-heading mb-0 text-dark">Rescued Cow "Kamala" <small class="text-warning font-ui">(KG-001)</small></h4>
+                                <span class="badge bg-warning-subtle text-dark border border-warning">Gir Breed</span>
+                            </div>
+                            <p class="small text-muted mb-3"><i class="fas fa-shield-alt text-success me-1"></i> <?php echo __t('kamala_desc'); ?></p>
+                            <div class="d-flex justify-content-between align-items-center border-top pt-2">
+                                <span class="font-mono fw-bold text-dark fs-5">₹2,500 <small class="fs-6 text-muted font-ui">/ <?php echo __t('monthly_care'); ?></small></span>
+                                <a href="/Kamadenu/adopt.php?cow_id=1" class="btn btn-kamadenu-primary btn-sm px-4 font-ui fw-bold"><i class="fas fa-hand-holding-heart me-1"></i> <?php echo __t('sponsor_kamala'); ?></a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php elseif ($__sl === 2): ?>
+                    <div class="col-lg-5">
+                        <div class="kamadenu-card p-4 text-dark position-relative shadow-lg bg-white border-success">
+                            <div class="text-center mb-3">
+                                <i class="fas fa-award text-success display-5 mb-2"></i>
+                                <h4 class="font-heading text-dark">Sponsorship Perks</h4>
+                                <p class="small text-muted">What you receive as a registered Gousevak</p>
+                            </div>
+                            <ul class="list-unstyled small mb-4">
+                                <li class="mb-2"><i class="fas fa-certificate text-success me-2"></i> <strong>Official Adoption Certificate</strong></li>
+                                <li class="mb-2"><i class="fas fa-camera text-success me-2"></i> <strong>Monthly Health &amp; Photo Updates</strong></li>
+                                <li class="mb-2"><i class="fas fa-coins text-success me-2"></i> <strong>Gouseva Loyalty Points Awarded</strong></li>
+                                <li class="mb-2"><i class="fas fa-pray text-success me-2"></i> <strong>Prayers Performed in Your Name</strong></li>
+                            </ul>
+                            <a href="/Kamadenu/cows.php" class="btn btn-success w-100 py-2 font-ui fw-bold"><i class="fas fa-cow me-2"></i> Find Cow to Adopt</a>
+                        </div>
+                    </div>
+                    <?php elseif ($__sl === 3): ?>
+                    <div class="col-lg-5">
+                        <div class="kamadenu-card p-4 text-dark position-relative shadow-lg bg-white border-danger">
+                            <span class="position-absolute top-0 end-0 m-3 badge bg-danger font-ui px-3 py-1 text-white shadow"><i class="fas fa-exclamation-circle me-1"></i> Critical Appeal</span>
+                            <h4 class="font-heading mb-2 text-dark mt-2">Flood Rescue Campaign</h4>
+                            <p class="small text-muted mb-3">Rescuing severely stranded and dehydrated cows from low-lying flooded areas near the riverbanks.</p>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between small fw-bold mb-1"><span>Funding Progress</span><span class="text-danger">75% Raised</span></div>
+                                <div class="progress" style="height: 10px;"><div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" style="width: 75%;"></div></div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3 border-top pt-2">
+                                <div class="small"><div class="text-muted">Target Amount</div><strong class="font-mono">₹1,50,000</strong></div>
+                                <div class="small text-end"><div class="text-muted">Raised</div><strong class="font-mono text-success">₹1,12,500</strong></div>
+                            </div>
+                            <a href="/Kamadenu/donate.php" class="btn btn-danger w-100 py-2 font-ui fw-bold"><i class="fas fa-heart me-2"></i> Donate to Relief</a>
+                        </div>
+                    </div>
+                    <?php elseif ($__sl === 4): ?>
+                    <div class="col-lg-5">
+                        <div class="kamadenu-card p-4 text-dark position-relative shadow-lg bg-white border-warning">
+                            <span class="position-absolute top-0 end-0 m-3 badge bg-warning text-dark font-ui px-3 py-1 shadow"><i class="fas fa-om me-1"></i> Sacred Seva</span>
+                            <h4 class="font-heading mb-2 text-dark mt-2">Gou Pooja &amp; Aarti Seva</h4>
+                            <p class="small text-muted mb-3">Sponsor a traditional Vedic worship ceremony with flower garlands, Aaradhana, and special prayers performed in your name.</p>
+                            <div class="d-flex justify-content-between align-items-center mb-3 border-top pt-3">
+                                <div class="small"><div class="text-muted">Suggested Contribution</div><strong class="font-mono text-dark fs-5">₹1,500</strong></div>
+                                <div class="small text-end text-warning"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                            </div>
+                            <a href="/Kamadenu/seva-detail.php?id=2" class="btn btn-warning w-100 py-2 font-ui fw-bold text-dark"><i class="fas fa-pray me-2"></i> Book Seva Offering</a>
+                        </div>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
+            <?php endfor; ?>
+            </div>
+        </div>
+    </div>
 
-            <!-- Rescued Cow Kamala Featured Card -->
-            <div class="col-lg-5">
-                <div class="hero-cow-kamala-card text-dark position-relative shadow-lg">
-                    <span class="position-absolute top-0 end-0 m-3 badge bg-danger font-ui px-3 py-2 shadow"><i class="fas fa-heart me-1"></i> <?php echo __t('sponsor_kamala'); ?></span>
-                    <img src="/Kamadenu/assets/images/cow-kamala.jpg" alt="Rescued Cow Kamala" class="hero-cow-kamala-img mb-3 shadow-sm">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h4 class="font-heading mb-0 text-dark">Rescued Cow "Kamala" <small class="text-warning font-ui">(KG-001)</small></h4>
-                        <span class="badge bg-warning-subtle text-dark border border-warning">Gir Breed</span>
+    <!-- Slide Progress Indicators (Tabs — DB Controlled) -->
+    <div class="hero-indicators-wrapper">
+        <div class="container">
+            <div class="hero-indicators-grid">
+                <?php for ($__ind = 1; $__ind <= 4; $__ind++): ?>
+                <div class="hero-indicator <?php echo $__ind === 1 ? 'active' : ''; ?>" onclick="showHeroSlide(<?php echo $__ind - 1; ?>)">
+                    <div class="indicator-meta">
+                        <span class="indicator-num"><?php echo str_pad($__ind, 2, '0', STR_PAD_LEFT); ?></span>
+                        <span class="indicator-title"><?php echo htmlspecialchars(get_hp($pdo, "hp_s{$__ind}_indicator", "Slide {$__ind}")); ?></span>
                     </div>
-                    <p class="small text-muted mb-3"><i class="fas fa-shield-alt text-success me-1"></i> <?php echo __t('kamala_desc'); ?></p>
-                    <div class="d-flex justify-content-between align-items-center border-top pt-2">
-                        <span class="font-mono fw-bold text-dark fs-5">₹2,500 <small class="fs-6 text-muted font-ui">/ <?php echo __t('monthly_care'); ?></small></span>
-                        <a href="/Kamadenu/adopt.php?cow_id=1" class="btn btn-kamadenu-primary btn-sm px-4 font-ui fw-bold"><i class="fas fa-hand-holding-heart me-1"></i> <?php echo __t('sponsor_kamala'); ?></a>
+                    <div class="indicator-progress-bg">
+                        <div class="indicator-progress-fill"></div>
                     </div>
                 </div>
+                <?php endfor; ?>
             </div>
         </div>
     </div>
 </section>
+
+<!-- Recent Goushala Program Videos Section -->
+<section class="py-5 text-white" id="recent-videos-section" style="background: linear-gradient(180deg, #0B0F19 0%, #111827 100%); position: relative; overflow: hidden;">
+    <!-- Ambient decorative light glow -->
+    <div style="position: absolute; width: 300px; height: 300px; background: rgba(245, 158, 11, 0.08); filter: blur(100px); top: -50px; left: -50px; pointer-events: none; border-radius: 50%;"></div>
+    <div style="position: absolute; width: 350px; height: 350px; background: rgba(239, 68, 68, 0.06); filter: blur(120px); bottom: -50px; right: -50px; pointer-events: none; border-radius: 50%;"></div>
+
+    <div class="container py-2">
+        <div class="text-center mb-5">
+            <span class="badge bg-danger text-white font-ui px-3.5 py-2 rounded-pill mb-2 fw-bold shadow" style="font-size: 0.75rem; letter-spacing: 0.08em; background: linear-gradient(135deg, #EF4444 0%, #B91C1C 100%) !important;">
+                <i class="fab fa-youtube me-1.5 animate-pulse"></i> SACRED VIDEO GALLERY
+            </span>
+            <h2 class="font-heading display-6 mb-1 text-white fw-bold">Recent Goushala Programs &amp; Activities</h2>
+            <div class="devotional-phrase text-warning my-2 font-heading fs-3" style="text-shadow: 0 0 15px rgba(245, 158, 11, 0.6); font-weight: bold; letter-spacing: 0.02em;">“ಗೋ ಮಾತಾ ಕಿ ಜೈ”</div>
+            <p class="text-secondary max-w-600 mx-auto text-white-50 small font-ui">Watch videos of our recent daily Gouseva rituals, cow adoption updates, and emergency rescue campaigns at the sanctuary.</p>
+        </div>
+
+        <style>
+        .premium-video-card {
+            background: rgba(17, 24, 39, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(12px);
+            height: 100%;
+        }
+        .premium-video-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(245, 158, 11, 0.45);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(245, 158, 11, 0.2);
+        }
+        .video-thumbnail-wrapper {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #000;
+            margin: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            cursor: pointer;
+        }
+        .video-thumbnail-wrapper img {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .premium-video-card:hover .video-thumbnail-wrapper img {
+            transform: scale(1.08);
+            opacity: 0.75;
+        }
+        .video-play-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+        .premium-video-card:hover .video-play-overlay {
+            background: rgba(15, 23, 42, 0.25);
+        }
+        .glowing-play-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .premium-video-card:hover .glowing-play-icon {
+            transform: scale(1.15);
+            box-shadow: 0 0 30px rgba(245, 158, 11, 0.8);
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            color: #000;
+        }
+        .premium-video-card .card-body {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .premium-video-card .video-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+            transition: color 0.3s ease;
+            line-height: 1.4;
+        }
+        .premium-video-card:hover .video-title {
+            color: #F59E0B;
+        }
+        .premium-video-card .video-desc {
+            font-size: 0.88rem;
+            color: #94A3B8;
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+            flex-grow: 1;
+        }
+        .premium-video-card .video-meta {
+            font-size: 0.75rem;
+            color: #64748B;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        </style>
+
+        <div class="row g-4">
+            <?php foreach ($db_videos as $vid): ?>
+                <?php 
+                    $video_id = get_youtube_id($vid['youtube_url']);
+                ?>
+                <div class="col-lg-4 col-md-6">
+                    <div class="premium-video-card d-flex flex-column">
+                        <?php if ($video_id): ?>
+                            <div class="video-thumbnail-wrapper ratio ratio-16x9" onclick="openVideoLightbox('<?php echo $video_id; ?>', '<?php echo htmlspecialchars($vid['title'], ENT_QUOTES); ?>')">
+                                <img src="https://img.youtube.com/vi/<?php echo $video_id; ?>/hqdefault.jpg" class="object-fit-cover w-100 h-100" alt="<?php echo e($vid['title']); ?>">
+                                <div class="video-play-overlay">
+                                    <div class="glowing-play-icon">
+                                        <i class="fas fa-play ms-1"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php else: ?>
+                            <div class="video-thumbnail-wrapper ratio ratio-16x9 bg-dark text-white d-flex align-items-center justify-content-center">
+                                <span class="small text-danger"><i class="fas fa-exclamation-triangle me-1"></i> Invalid Video URL</span>
+                            </div>
+                        <?php endif; ?>
+                        
+                        <div class="card-body">
+                            <div class="video-meta mb-2 d-flex align-items-center justify-content-between">
+                                <span><i class="fas fa-video text-warning me-1"></i> Program Footage</span>
+                                <span><i class="far fa-calendar-alt text-success me-1"></i> Gouseva Update</span>
+                            </div>
+                            <h4 class="video-title font-heading"><?php echo e($vid['title']); ?></h4>
+                            <p class="video-desc"><?php echo e($vid['description']); ?></p>
+                            
+                            <?php if ($video_id): ?>
+                                <button onclick="openVideoLightbox('<?php echo $video_id; ?>', '<?php echo htmlspecialchars($vid['title'], ENT_QUOTES); ?>')" class="btn btn-sm btn-kamadenu-primary w-100 font-ui fw-bold mt-auto py-2 rounded-pill shadow-sm">
+                                    <i class="fab fa-youtube me-1.5"></i> Play In Theater Mode
+                                </button>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+
 
 
 <!-- Impact Statistics Counter Bar -->
@@ -281,9 +640,31 @@ $quote = $stmt->fetch();
                                     <span class="fs-4 fw-bold text-dark font-mono">₹<?php echo number_format($p['price']); ?></span>
                                     <small class="text-muted font-ui"><?php echo __t('product_stock'); ?>: <?php echo $p['stock_quantity']; ?></small>
                                 </div>
-                                <div class="d-flex gap-2">
-                                    <button onclick="addToCart(<?php echo $p['id']; ?>, '<?php echo addslashes($p['name']); ?>', <?php echo $p['price']; ?>, '<?php echo $p['image']; ?>')" class="btn btn-outline-dark btn-sm flex-fill font-ui fw-bold"><i class="fas fa-shopping-cart me-1"></i> <?php echo __t('btn_add_to_cart'); ?></button>
-                                    <button onclick="buyNow(<?php echo $p['id']; ?>, '<?php echo addslashes($p['name']); ?>', <?php echo $p['price']; ?>, '<?php echo $p['image']; ?>')" class="btn btn-warning btn-sm flex-fill font-ui fw-bold text-dark shadow-sm"><i class="fas fa-bolt me-1"></i> <?php echo __t('btn_buy_now'); ?></button>
+                                <div class="d-flex flex-column gap-2 w-100">
+                                    <?php if ($product_checkout_method === 'both' || $product_checkout_method === 'website'): ?>
+                                        <div class="d-flex gap-2 w-100">
+                                            <button onclick="addToCart(<?php echo $p['id']; ?>, '<?php echo addslashes($p['name']); ?>', <?php echo $p['price']; ?>, '<?php echo $p['image']; ?>')" class="btn btn-outline-dark btn-sm flex-fill font-ui fw-bold">
+                                                <i class="fas fa-shopping-cart me-1"></i> <?php echo __t('btn_add_to_cart'); ?>
+                                            </button>
+                                            <button onclick="buyNow(<?php echo $p['id']; ?>, '<?php echo addslashes($p['name']); ?>', <?php echo $p['price']; ?>, '<?php echo $p['image']; ?>')" class="btn btn-warning btn-sm flex-fill font-ui fw-bold text-dark shadow-sm">
+                                                <i class="fas fa-bolt me-1"></i> <?php echo __t('btn_buy_now'); ?>
+                                            </button>
+                                        </div>
+                                    <?php endif; ?>
+                                    <?php if ($product_checkout_method === 'whatsapp' || $product_checkout_method === 'both'): ?>
+                                        <?php 
+                                            // Look up if product has custom WA number, else use default order number
+                                            $p_wa = $pdo->prepare("SELECT wn.phone_number FROM products p JOIN whatsapp_numbers wn ON p.whatsapp_number_id = wn.id WHERE p.id = ?");
+                                            $p_wa->execute([$p['id']]);
+                                            $wa_phone_dir = $p_wa->fetchColumn();
+                                            $wa_phone = !empty($wa_phone_dir) ? $wa_phone_dir : get_setting($pdo, 'whatsapp_order_default', '+91 98800 12345');
+                                            $wa_msg = !empty($p['whatsapp_message']) ? $p['whatsapp_message'] : "Hare Krishna! I would like to purchase this product:\n- Product: " . $p['name'] . "\n- Price: ₹" . number_format($p['price'], 2) . "\n\nPlease let me know how to proceed.";
+                                            $whatsapp_url = "https://api.whatsapp.com/send?phone=" . preg_replace('/[^0-9]/', '', $wa_phone) . "&text=" . urlencode($wa_msg);
+                                        ?>
+                                        <a href="<?php echo $whatsapp_url; ?>" target="_blank" class="btn btn-success btn-sm w-100 py-2 font-ui fw-bold shadow-sm text-center">
+                                            <i class="fab fa-whatsapp me-1"></i> Order via WhatsApp
+                                        </a>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -403,73 +784,110 @@ $quote = $stmt->fetch();
     </div>
 </section>
 
-<!-- Recent Goushala Program Videos Section -->
-<section class="py-5 bg-card border-top" id="recent-videos-section">
-    <div class="container py-3">
-        <div class="text-center mb-5">
-            <span class="badge bg-warning text-dark font-ui px-3 py-2 rounded-pill mb-2 fw-bold shadow-sm">
-                <i class="fab fa-youtube me-1"></i> SACRED MOMENTS
-            </span>
-            <h2 class="font-heading display-6 mb-2">Recent Goushala Programs & Activities</h2>
-            <p class="text-secondary max-w-600 mx-auto">Watch videos of our recent daily Gouseva rituals, cow adoption updates, and emergency rescue campaigns at the sanctuary.</p>
-        </div>
 
-        <div class="row g-4">
-            <!-- Video 1 -->
-            <div class="col-lg-4 col-md-6">
-                <div class="kamadenu-card h-100 p-3 shadow-sm border border-warning-subtle d-flex flex-column">
-                    <div class="ratio ratio-16x9 mb-3 rounded overflow-hidden shadow-sm">
-                        <iframe src="https://www.youtube.com/embed/XmueYxEL6dg" title="Goushala Daily Seva & Feeding" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="border: 0;"></iframe>
-                    </div>
-                    <h5 class="font-heading mb-2">Daily Gouseva & Feeding Rituals</h5>
-                    <p class="small text-muted flex-grow-1">Experience the serene atmosphere during our morning grass feeding programs and daily Gouseva rituals performed with devotion.</p>
-                    <a href="https://www.youtube.com/watch?v=XmueYxEL6dg" target="_blank" class="btn btn-sm btn-outline-warning w-100 font-ui fw-bold mt-auto">
-                        <i class="fab fa-youtube me-1.5"></i> Watch on YouTube
-                    </a>
-                </div>
+
+
+<!-- Video Immersive Lightbox Modal -->
+<div class="modal fade" id="videoLightboxModal" tabindex="-1" aria-labelledby="videoLightboxModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-dark border-warning shadow-lg" style="border-radius: 18px; overflow: hidden;">
+            <div class="modal-header border-0 bg-black bg-opacity-25 py-3 px-4 d-flex justify-content-between align-items-center">
+                <h5 class="modal-title font-heading text-warning mb-0" id="videoModalTitle">Sacred Video Playback</h5>
+                <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
-            <!-- Video 2 -->
-            <div class="col-lg-4 col-md-6">
-                <div class="kamadenu-card h-100 p-3 shadow-sm border border-warning-subtle d-flex flex-column">
-                    <div class="ratio ratio-16x9 mb-3 rounded overflow-hidden shadow-sm">
-                        <iframe src="https://www.youtube.com/embed/a6n9Y69VPl0" title="Sanctuary Rescue & Medical Care Operations" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="border: 0;"></iframe>
-                    </div>
-                    <h5 class="font-heading mb-2">Cattle Rescue & Medical Rehabilitation</h5>
-                    <p class="small text-muted flex-grow-1">A glimpse into our rescue operations for stray, injured, and orphaned cows, and their medical recovery journey at our sanctuary hospital.</p>
-                    <a href="https://www.youtube.com/watch?v=a6n9Y69VPl0" target="_blank" class="btn btn-sm btn-outline-warning w-100 font-ui fw-bold mt-auto">
-                        <i class="fab fa-youtube me-1.5"></i> Watch on YouTube
-                    </a>
-                </div>
-            </div>
-
-            <!-- Video 3 -->
-            <div class="col-lg-4 col-md-6 mx-auto">
-                <div class="kamadenu-card h-100 p-3 shadow-sm border border-warning-subtle d-flex flex-column">
-                    <div class="ratio ratio-16x9 mb-3 rounded overflow-hidden shadow-sm">
-                        <iframe src="https://www.youtube.com/embed/e_Kgr2Z5Grc" title="Adopted Cow Updates & Devotees Celebrations" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="border: 0;"></iframe>
-                    </div>
-                    <h5 class="font-heading mb-2">Devotees Cow Adoption Highlights</h5>
-                    <p class="small text-muted flex-grow-1">See the joy of families visiting their sponsored cows, participating in special sanctuary celebrations, and performing direct Gouseva.</p>
-                    <a href="https://www.youtube.com/watch?v=e_Kgr2Z5Grc" target="_blank" class="btn btn-sm btn-outline-warning w-100 font-ui fw-bold mt-auto">
-                        <i class="fab fa-youtube me-1.5"></i> Watch on YouTube
-                    </a>
+            <div class="modal-body p-2 bg-black">
+                <div class="ratio ratio-16x9">
+                    <iframe id="videoModalIframe" src="" title="Video Player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border: 0;"></iframe>
                 </div>
             </div>
         </div>
     </div>
-</section>
+</div>
 
-<!-- Selfless Volunteer CTA Banner -->
+<script>
+function openVideoLightbox(videoId, title) {
+    const titleEl = document.getElementById('videoModalTitle');
+    const iframeEl = document.getElementById('videoModalIframe');
+    
+    if (titleEl) titleEl.textContent = title;
+    if (iframeEl) iframeEl.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&rel=0";
+    
+    const modalEl = document.getElementById('videoLightboxModal');
+    const modal = new bootstrap.Modal(modalEl);
+    modal.show();
+    
+    modalEl.addEventListener('hidden.bs.modal', function() {
+        if (iframeEl) iframeEl.src = "";
+    }, { once: true });
+}
+</script>
+
+<!-- Volunteer CTA Banner — DB Controlled -->
 <section class="py-5 bg-card border-top">
     <div class="container">
         <div class="kamadenu-card p-5 text-center bg-gradient-hero text-white border-warning">
-            <h2 class="font-heading text-warning mb-2"><?php echo __t('volunteer_cta_title'); ?></h2>
-            <p class="lead text-white-50 mb-4 max-w-600 mx-auto"><?php echo __t('volunteer_cta_desc'); ?></p>
-            <a href="/Kamadenu/volunteer.php" class="btn btn-kamadenu-primary btn-lg font-ui fw-bold px-5 shadow"><i class="fas fa-hand-holding-heart me-2"></i> <?php echo __t('apply_volunteer_btn'); ?></a>
+            <h2 class="font-heading text-warning mb-2"><?php echo htmlspecialchars(get_hp($pdo, 'hp_cta_title', __t('volunteer_cta_title'))); ?></h2>
+            <p class="lead text-white-50 mb-4 max-w-600 mx-auto"><?php echo htmlspecialchars(get_hp($pdo, 'hp_cta_subtitle', __t('volunteer_cta_desc'))); ?></p>
+            <a href="<?php echo htmlspecialchars(get_hp($pdo, 'hp_cta_btn_link', '/Kamadenu/volunteer.php')); ?>" class="btn btn-kamadenu-primary btn-lg font-ui fw-bold px-5 shadow">
+                <i class="fas fa-hand-holding-heart me-2"></i>
+                <?php echo htmlspecialchars(get_hp($pdo, 'hp_cta_btn_text', __t('apply_volunteer_btn'))); ?>
+            </a>
         </div>
     </div>
 </section>
 
+
+<script>
+let currentHeroSlideIdx = 0;
+const heroBgs = document.querySelectorAll('.hero-slide-bg');
+const heroContents = document.querySelectorAll('.hero-slide-content');
+const heroIndicators = document.querySelectorAll('.hero-indicator');
+const bgTrack = document.querySelector('.hero-bg-slider-track');
+const contentTrack = document.querySelector('.hero-content-slider-track');
+const totalHeroSlides = heroBgs.length;
+let heroAutoplayTimer;
+
+function showHeroSlide(index) {
+    if (index >= totalHeroSlides) index = 0;
+    if (index < 0) index = totalHeroSlides - 1;
+    
+    currentHeroSlideIdx = index;
+    
+    heroBgs.forEach(bg => bg.classList.remove('active'));
+    heroContents.forEach(c => c.classList.remove('active'));
+    heroIndicators.forEach(ind => ind.classList.remove('active'));
+    
+    heroBgs[currentHeroSlideIdx].classList.add('active');
+    heroContents[currentHeroSlideIdx].classList.add('active');
+    if (heroIndicators[currentHeroSlideIdx]) {
+        heroIndicators[currentHeroSlideIdx].classList.add('active');
+    }
+
+    const percentage = currentHeroSlideIdx * (100 / totalHeroSlides);
+    if (bgTrack) {
+        bgTrack.style.transform = `translateX(-${percentage}%)`;
+    }
+    if (contentTrack) {
+        contentTrack.style.transform = `translateX(-${percentage}%)`;
+    }
+    
+    resetHeroAutoplay();
+}
+
+function nextHeroSlide() {
+    showHeroSlide(currentHeroSlideIdx + 1);
+}
+
+function prevHeroSlide() {
+    showHeroSlide(currentHeroSlideIdx - 1);
+}
+
+function resetHeroAutoplay() {
+    clearInterval(heroAutoplayTimer);
+    heroAutoplayTimer = setInterval(nextHeroSlide, 7000); // Cycle slides every 7 seconds
+}
+
+resetHeroAutoplay();
+</script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

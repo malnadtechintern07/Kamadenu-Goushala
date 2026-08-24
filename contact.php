@@ -49,7 +49,7 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="rounded-circle bg-warning text-dark p-3 fs-4"><i class="fas fa-map-marker-alt"></i></div>
                         <div>
                             <h5 class="font-heading mb-1">Sanctuary Address</h5>
-                            <p class="text-muted mb-0">Kamadenu Sacred Grove, Nelamangala Road, Bengaluru Rural, Karnataka 562123</p>
+                            <p class="text-muted mb-0"><?php echo e(get_setting($pdo, 'goushala_address', 'Kamadenu Sacred Grove, Nelamangala Road, Bengaluru Rural, Karnataka 562123')); ?></p>
                         </div>
                     </div>
 
@@ -57,7 +57,7 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="rounded-circle bg-warning text-dark p-3 fs-4"><i class="fas fa-phone"></i></div>
                         <div>
                             <h5 class="font-heading mb-1">Helpline & WhatsApp</h5>
-                            <p class="text-muted mb-0">+91 98800 12345 / +91 98450 67890</p>
+                            <p class="text-muted mb-0"><?php echo e(get_setting($pdo, 'contact_phone', '+91 98800 12345')); ?></p>
                         </div>
                     </div>
 
@@ -65,7 +65,7 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="rounded-circle bg-warning text-dark p-3 fs-4"><i class="fas fa-envelope"></i></div>
                         <div>
                             <h5 class="font-heading mb-1">Email Inquiry</h5>
-                            <p class="text-muted mb-0">info@kamadenugoushala.org</p>
+                            <p class="text-muted mb-0"><?php echo e(get_setting($pdo, 'contact_email', 'info@kamadenugoushala.org')); ?></p>
                         </div>
                     </div>
 

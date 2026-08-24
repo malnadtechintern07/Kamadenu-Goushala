@@ -83,6 +83,8 @@ CREATE TABLE IF NOT EXISTS `cows` (
   `adoption_status` ENUM('Available', 'Sponsored', 'Partially Sponsored') DEFAULT 'Available',
   `monthly_sponsorship_amount` DECIMAL(10,2) DEFAULT 2500.00,
   `is_featured` TINYINT(1) DEFAULT 0,
+  `whatsapp_number` VARCHAR(20) DEFAULT NULL,
+  `contact_method` VARCHAR(20) DEFAULT 'website',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -174,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `sponsorships` (
   `start_date` DATE NOT NULL,
   `end_date` DATE NOT NULL,
   `renewal_date` DATE,
-  `status` ENUM('Active', 'Expired', 'Cancelled') DEFAULT 'Active',
+  `status` ENUM('Active', 'Expired', 'Cancelled', 'Pending Approval') DEFAULT 'Active',
   `payment_id` VARCHAR(100),
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (`sponsor_id`) REFERENCES `sponsors`(`id`) ON DELETE CASCADE,
@@ -193,7 +195,7 @@ CREATE TABLE IF NOT EXISTS `donations` (
   `purpose` VARCHAR(100) DEFAULT 'General Gouseva',
   `is_anonymous` TINYINT(1) DEFAULT 0,
   `payment_id` VARCHAR(100),
-  `status` ENUM('Completed', 'Pending', 'Failed') DEFAULT 'Completed',
+  `status` ENUM('Completed', 'Pending', 'Failed', 'Pending Approval') DEFAULT 'Completed',
   `receipt_number` VARCHAR(50) UNIQUE,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE SET NULL
@@ -206,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `payments` (
   `signature` VARCHAR(255),
   `amount` DECIMAL(10,2) NOT NULL,
   `currency` VARCHAR(10) DEFAULT 'INR',
-  `status` ENUM('Captured', 'Authorized', 'Failed', 'Refunded') DEFAULT 'Captured',
+  `status` ENUM('Captured', 'Authorized', 'Failed', 'Refunded', 'Pending Approval') DEFAULT 'Captured',
   `payment_method` VARCHAR(50) DEFAULT 'Razorpay',
   `entity_type` ENUM('Donation', 'Sponsorship', 'Order', 'Seva') NOT NULL,
   `entity_id` INT NOT NULL,
@@ -252,7 +254,7 @@ CREATE TABLE IF NOT EXISTS `seva_logs` (
   `sponsor_name` VARCHAR(100) NOT NULL,
   `cow_id` INT,
   `date_performed` DATE NOT NULL,
-  `status` ENUM('Scheduled', 'Completed', 'In Progress') DEFAULT 'Completed',
+  `status` ENUM('Scheduled', 'Completed', 'In Progress', 'Pending Approval') DEFAULT 'Completed',
   `amount_paid` DECIMAL(10,2) DEFAULT 0.00,
   `notes` TEXT,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -324,6 +326,8 @@ CREATE TABLE IF NOT EXISTS `products` (
   `unit` VARCHAR(20) DEFAULT 'pack', -- kg, ltr, pack, bottle
   `image` VARCHAR(255) DEFAULT 'assets/images/product-default.jpg',
   `is_active` TINYINT(1) DEFAULT 1,
+  `whatsapp_number` VARCHAR(20) DEFAULT NULL,
+  `contact_method` VARCHAR(20) DEFAULT 'website',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (`category_id`) REFERENCES `product_categories`(`id`) ON DELETE CASCADE
@@ -360,8 +364,8 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `customer_phone` VARCHAR(20) NOT NULL,
   `shipping_address` TEXT NOT NULL,
   `total_amount` DECIMAL(10,2) NOT NULL,
-  `payment_status` ENUM('Paid', 'Pending', 'Failed') DEFAULT 'Paid',
-  `order_status` ENUM('Processing', 'Dispatched', 'Delivered', 'Cancelled') DEFAULT 'Processing',
+  `payment_status` ENUM('Paid', 'Pending', 'Failed', 'Pending Approval') DEFAULT 'Paid',
+  `order_status` ENUM('On Hold', 'Processing', 'Dispatched', 'Delivered', 'Cancelled') DEFAULT 'Processing',
   `payment_id` VARCHAR(100),
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -663,4 +667,19 @@ INSERT INTO `settings` (`setting_key`, `setting_value`, `setting_group`, `descri
 ('goushala_address', 'Kamadenu Sacred Grove, Nelamangala Road, Bengaluru Rural, Karnataka 562123', 'contact', 'Goushala Address'),
 ('razorpay_key_id', 'rzp_test_Kamadenu2026', 'payment', 'Razorpay Test Key ID'),
 ('razorpay_key_secret', 'secret_Kamadenu_test_2026_key', 'payment', 'Razorpay Test Key Secret'),
-('currency_symbol', '₹', 'general', 'Currency Symbol');
+('currency_symbol', '₹', 'general', 'Currency Symbol'),
+('whatsapp_adoption_default', '+91 98800 12345', 'whatsapp', 'Default WhatsApp number for cow adoptions'),
+('whatsapp_order_default', '+91 98800 12345', 'whatsapp', 'Default WhatsApp number for product orders');
+
+-- 19. WhatsApp Numbers Directory
+CREATE TABLE IF NOT EXISTS `whatsapp_numbers` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `label` VARCHAR(100) NOT NULL,
+  `phone_number` VARCHAR(20) NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `whatsapp_numbers` (`label`, `phone_number`) VALUES
+('Gouseva Desk', '+91 98800 12345'),
+('Store Sales Desk', '+91 98800 12345');
+

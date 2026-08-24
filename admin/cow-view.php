@@ -14,7 +14,7 @@ if (!$cow) {
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="font-heading mb-0"><i class="fas fa-cow text-warning me-2"></i> Cow Passport (<?php echo e($cow['cow_code']); ?>)</h3>
+    <h3 class="font-heading mb-0"><i class="fas fa-cow text-warning me-2"></i> Cattle Profile (<?php echo e($cow['cow_code']); ?>)</h3>
     <a href="/Kamadenu/admin/cows.php" class="btn btn-outline-secondary font-ui">&larr; Back to List</a>
 </div>
 
@@ -29,7 +29,7 @@ if (!$cow) {
     </div>
     <div class="col-md-8">
         <div class="kamadenu-card p-4">
-            <h4 class="font-heading mb-3">Passport Information</h4>
+            <h4 class="font-heading mb-3">Cattle Details</h4>
             <div class="row g-3">
                 <div class="col-6"><strong>Gender:</strong> <?php echo ucfirst($cow['gender']); ?></div>
                 <div class="col-6"><strong>Age:</strong> <?php echo $cow['age_years']; ?> Yrs</div>

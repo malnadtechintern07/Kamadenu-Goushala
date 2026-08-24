@@ -4,7 +4,7 @@ require_once __DIR__ . '/includes/header.php';
 $campaign_id = isset($_GET['campaign']) ? intval($_GET['campaign']) : 0;
 $campaign = null;
 if ($campaign_id > 0) {
-    $stmt = $pdo->prepare("SELECT * FROM emergency_campaigns WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT ec.*, wn.phone_number as wa_phone_dir FROM emergency_campaigns ec LEFT JOIN whatsapp_numbers wn ON ec.whatsapp_number_id = wn.id WHERE ec.id = ?");
     $stmt->execute([$campaign_id]);
     $campaign = $stmt->fetch();
 }
@@ -120,14 +120,68 @@ if ($campaign_id > 0) {
                             </label>
                         </div>
 
-                        <button type="submit" class="btn btn-kamadenu-primary w-100 py-3 font-ui fs-5 fw-bold shadow">
-                            <i class="fas fa-lock me-2"></i> Proceed to Secure Razorpay Donation
-                        </button>
+                        <?php
+                        $resolved_method = 'website';
+                        if ($campaign) {
+                            $resolved_method = $campaign['contact_method'];
+                        } else {
+                            $resolved_method = get_setting($pdo, 'donation_action_mode', 'website');
+                        }
+                        ?>
+
+                        <div class="d-flex flex-column gap-3 w-100">
+                            <?php if ($resolved_method === 'both' || $resolved_method === 'website' || empty($resolved_method)): ?>
+                                <button type="submit" class="btn btn-kamadenu-primary w-100 py-3 font-ui fs-5 fw-bold shadow">
+                                    <i class="fas fa-lock me-2"></i> Proceed to Secure Razorpay Donation
+                                </button>
+                            <?php endif; ?>
+                            
+                            <?php if ($resolved_method === 'whatsapp' || $resolved_method === 'both'): ?>
+                                <button type="button" onclick="submitDonationToWhatsApp(event)" class="btn btn-success w-100 py-3 font-ui fs-5 fw-bold shadow">
+                                    <i class="fab fa-whatsapp me-2"></i> Confirm &amp; Donate via WhatsApp
+                                </button>
+                            <?php endif; ?>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<script>
+function submitDonationToWhatsApp(e) {
+    e.preventDefault();
+    const amount = document.getElementById('custom_amt').value;
+    const purpose = document.querySelector('select[name="purpose"]').value;
+    const name = document.querySelector('input[name="name"]').value;
+    const email = document.querySelector('input[name="email"]').value;
+    const phone = document.querySelector('input[name="phone"]').value;
+    const pan = document.querySelector('input[name="pan"]').value;
+    const isAnonymous = document.getElementById('anonCheck').checked ? 'Yes' : 'No';
+    
+    let waPhone = <?php echo json_encode($campaign ? $campaign['wa_phone_dir'] : get_setting($pdo, 'whatsapp_donation_default', '+91 98800 12345')); ?>;
+    if (!waPhone) {
+        waPhone = '+91 98800 12345';
+    }
+    
+    let msg = `Hare Krishna! I would like to make a Gouseva contribution to Kamadenu Goushala.\n\n`;
+    msg += `*Contribution Details*:\n`;
+    msg += `- Purpose: ${purpose}\n`;
+    msg += `- Amount: ₹${parseFloat(amount).toLocaleString('en-IN')}\n`;
+    msg += `- Anonymous: ${isAnonymous}\n\n`;
+    msg += `*Donor Details*:\n`;
+    msg += `- Name: ${name}\n`;
+    msg += `- Phone: ${phone}\n`;
+    msg += `- Email: ${email}\n`;
+    if (pan.trim() !== '') {
+        msg += `- PAN: ${pan.trim()}\n`;
+    }
+    
+    const cleanPhone = waPhone.replace(/[^0-9]/g, '');
+    const waUrl = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(msg)}`;
+    window.open(waUrl, '_blank');
+}
+</script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

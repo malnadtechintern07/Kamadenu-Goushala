@@ -21,7 +21,7 @@ if (empty($table) || $id <= 0) {
 }
 
 // Whitelist tables to prevent arbitrary deletion
-$allowed_tables = ['cows', 'products', 'emergency_campaigns', 'events', 'seva', 'stories', 'users', 'volunteers', 'sponsorships', 'donations', 'orders'];
+$allowed_tables = ['cows', 'products', 'emergency_campaigns', 'events', 'seva', 'stories', 'users', 'volunteers', 'sponsorships', 'donations', 'orders', 'videos'];
 
 if (!in_array($table, $allowed_tables)) {
     json_response(false, 'Deletion not allowed for this table.');

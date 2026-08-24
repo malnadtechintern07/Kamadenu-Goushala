@@ -44,9 +44,9 @@
 
             <div class="col-lg-3 col-md-6">
                 <h5 class="font-ui text-white fw-bold mb-3">Sacred Sanctuary</h5>
-                <p class="small text-light mb-2"><i class="fas fa-map-marker-alt text-warning me-2"></i> Kamadenu Grove, Nelamangala Road, Bengaluru Rural, Karnataka 562123</p>
-                <p class="small text-light mb-2"><i class="fas fa-phone text-warning me-2"></i> +91 98800 12345</p>
-                <p class="small text-light mb-3"><i class="fas fa-envelope text-warning me-2"></i> info@kamadenugoushala.org</p>
+                <p class="small text-light mb-2"><i class="fas fa-map-marker-alt text-warning me-2"></i> <?php echo e(get_setting($pdo, 'goushala_address', 'Kamadenu Grove, Nelamangala Road, Bengaluru Rural, Karnataka 562123')); ?></p>
+                <p class="small text-light mb-2"><i class="fas fa-phone text-warning me-2"></i> <?php echo e(get_setting($pdo, 'contact_phone', '+91 98800 12345')); ?></p>
+                <p class="small text-light mb-3"><i class="fas fa-envelope text-warning me-2"></i> <?php echo e(get_setting($pdo, 'contact_email', 'info@kamadenugoushala.org')); ?></p>
 
                 <div class="d-flex gap-2">
                     <a href="#" class="btn btn-outline-warning btn-sm rounded-circle"><i class="fab fa-facebook-f"></i></a>

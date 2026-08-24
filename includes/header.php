@@ -19,7 +19,7 @@ function is_dropdown_active($pages, $current) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo __t('site_title'); ?> | <?php echo __t('tagline'); ?></title>
+    <title><?php echo e(get_setting($pdo, 'site_name', 'Kamadenu Goushala')); ?> | <?php echo __t('tagline'); ?></title>
 
     <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -30,23 +30,25 @@ function is_dropdown_active($pages, $current) {
     <!-- Theme & Master Stylesheets -->
     <link rel="stylesheet" href="/Kamadenu/css/style.css">
     <link id="theme-stylesheet" rel="stylesheet" href="/Kamadenu/css/<?php echo e($theme); ?>.css">
+    
+    <!-- Favicon Icon -->
+    <link rel="icon" type="image/svg+xml" href="/Kamadenu/assets/images/favicon.svg">
 </head>
 
 <body>
-
-<!-- Devotional Top Announcement Bar -->
-<div class="py-1 text-center bg-dark text-warning border-bottom border-warning">
-    <small class="devotional-phrase"><i class="fas fa-om me-2"></i> “ಗೋ ಮಾತಾ ಕಿ ಜೈ” <i class="fas fa-om ms-2"></i></small>
-</div>
 
 <!-- Main Bootstrap 5 Compact Navigation -->
 <nav class="navbar navbar-expand-xl navbar-dark navbar-kamadenu sticky-top py-2 shadow">
     <div class="container-fluid px-lg-3">
         <a class="navbar-brand py-0 me-3 d-flex align-items-center" href="/Kamadenu/index.php">
-            <img src="/Kamadenu/assets/images/logo.png" alt="Kamadenu Goushala Trust Logo" class="brand-logo me-2.5" style="height: 44px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.4));">
+            <?php 
+            $logo_setting = get_setting($pdo, 'website_logo', '');
+            $logo_url = img_url(empty($logo_setting) ? 'assets/images/logo.png' : $logo_setting);
+            ?>
+            <img src="<?php echo htmlspecialchars($logo_url); ?>" alt="Kamadenu Goushala Trust Logo" class="brand-logo me-2.5" style="height: 44px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.4));">
 
             <div class="d-inline-block align-middle">
-                <span class="d-block lh-1 fs-5 fw-bold"><?php echo __t('site_title'); ?></span>
+                <span class="d-block lh-1 fs-5 fw-bold"><?php echo e(get_setting($pdo, 'site_name', 'Kamadenu Goushala')); ?></span>
                 <small class="fs-7 fw-normal text-warning d-none d-sm-block kn-text">ಗೋ ಮಾತಾ ಕಿ ಜೈ</small>
             </div>
         </a>
@@ -70,23 +72,23 @@ function is_dropdown_active($pages, $current) {
                 <!-- Dropdown: Explore & Media -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-nowrap <?php echo is_dropdown_active(['stories.php', 'gallery.php', 'activity-feed.php'], $current_page); ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-compass me-1 text-warning"></i> Explore <i class="fas fa-chevron-down ms-1 small"></i>
+                        Explore <i class="fas fa-chevron-down ms-1 small"></i>
                     </a>
                     <ul class="dropdown-menu shadow border-warning">
-                        <li><a class="dropdown-item <?php echo is_nav_active('stories.php', $current_page); ?>" href="/Kamadenu/stories.php"><i class="fas fa-book-open me-2 text-warning"></i> <?php echo __t('nav_stories'); ?></a></li>
-                        <li><a class="dropdown-item <?php echo is_nav_active('gallery.php', $current_page); ?>" href="/Kamadenu/gallery.php"><i class="fas fa-images me-2 text-warning"></i> <?php echo __t('nav_gallery'); ?></a></li>
-                        <li><a class="dropdown-item <?php echo is_nav_active('activity-feed.php', $current_page); ?>" href="/Kamadenu/activity-feed.php"><i class="fas fa-stream me-2 text-warning"></i> <?php echo __t('nav_activity'); ?></a></li>
+                        <li><a class="dropdown-item <?php echo is_nav_active('stories.php', $current_page); ?>" href="/Kamadenu/stories.php"><?php echo __t('nav_stories'); ?></a></li>
+                        <li><a class="dropdown-item <?php echo is_nav_active('gallery.php', $current_page); ?>" href="/Kamadenu/gallery.php"><?php echo __t('nav_gallery'); ?></a></li>
+                        <li><a class="dropdown-item <?php echo is_nav_active('activity-feed.php', $current_page); ?>" href="/Kamadenu/activity-feed.php"><?php echo __t('nav_activity'); ?></a></li>
                     </ul>
                 </li>
 
                 <!-- Dropdown: Get Involved & Support -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-nowrap <?php echo is_dropdown_active(['volunteer.php', 'contact.php'], $current_page); ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-hands-helping me-1 text-warning"></i> Support <i class="fas fa-chevron-down ms-1 small"></i>
+                        Support <i class="fas fa-chevron-down ms-1 small"></i>
                     </a>
                     <ul class="dropdown-menu shadow border-warning">
-                        <li><a class="dropdown-item <?php echo is_nav_active('volunteer.php', $current_page); ?>" href="/Kamadenu/volunteer.php"><i class="fas fa-user-plus me-2 text-warning"></i> <?php echo __t('nav_volunteer'); ?></a></li>
-                        <li><a class="dropdown-item <?php echo is_nav_active('contact.php', $current_page); ?>" href="/Kamadenu/contact.php"><i class="fas fa-envelope me-2 text-warning"></i> <?php echo __t('nav_contact'); ?></a></li>
+                        <li><a class="dropdown-item <?php echo is_nav_active('volunteer.php', $current_page); ?>" href="/Kamadenu/volunteer.php"><?php echo __t('nav_volunteer'); ?></a></li>
+                        <li><a class="dropdown-item <?php echo is_nav_active('contact.php', $current_page); ?>" href="/Kamadenu/contact.php"><?php echo __t('nav_contact'); ?></a></li>
                     </ul>
                 </li>
             </ul>

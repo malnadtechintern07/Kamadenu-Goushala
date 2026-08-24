@@ -43,9 +43,9 @@ if ($export === 'csv_cows') {
 
     <div class="col-md-6">
         <div class="kamadenu-card p-4">
-            <h4 class="font-heading mb-2"><i class="fas fa-file-csv text-primary me-2"></i> Cows & Herd Health Report</h4>
-            <p class="text-muted small">Export resident cow passports, health status, breed distributions, and monthly sponsorship costs.</p>
-            <a href="/Kamadenu/admin/reports.php?export=csv_cows" class="btn btn-primary font-ui fw-bold"><i class="fas fa-download me-1"></i> Export Cows CSV</a>
+            <h4 class="font-heading mb-2"><i class="fas fa-file-csv text-primary me-2"></i> Cattles &amp; Herd Health Report</h4>
+            <p class="text-muted small">Export resident cattles profiles, health status, breed distributions, and monthly sponsorship costs.</p>
+            <a href="/Kamadenu/admin/reports.php?export=csv_cows" class="btn btn-primary font-ui fw-bold"><i class="fas fa-download me-1"></i> Export Cattles CSV</a>
         </div>
     </div>
 </div>

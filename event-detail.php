@@ -2,7 +2,7 @@
 require_once __DIR__ . '/includes/header.php';
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-$stmt = $pdo->prepare("SELECT * FROM events WHERE id = ? OR slug = ?");
+$stmt = $pdo->prepare("SELECT e.*, wn.phone_number as wa_phone_dir FROM events e LEFT JOIN whatsapp_numbers wn ON e.whatsapp_number_id = wn.id WHERE e.id = ? OR e.slug = ?");
 $stmt->execute([$id, $id]);
 $ev = $stmt->fetch();
 
@@ -38,9 +38,23 @@ if (!$ev) {
 
                     <p class="lead text-secondary mb-4"><?php echo e($ev['description']); ?></p>
 
-                    <a href="/Kamadenu/contact.php?event=<?php echo urlencode($ev['title']); ?>" class="btn btn-kamadenu-primary btn-lg w-100 py-3 font-ui fw-bold shadow">
-                        <i class="fas fa-hand-holding-heart me-2"></i> Register / Participate in Event
-                    </a>
+                    <div class="d-flex flex-column gap-3 w-100">
+                        <?php if ($ev['contact_method'] === 'both' || $ev['contact_method'] === 'website' || empty($ev['contact_method'])): ?>
+                            <a href="/Kamadenu/contact.php?event=<?php echo urlencode($ev['title']); ?>" class="btn btn-kamadenu-primary btn-lg w-100 py-3 font-ui fw-bold shadow text-center">
+                                <i class="fas fa-hand-holding-heart me-2"></i> Register / Participate in Event
+                            </a>
+                        <?php endif; ?>
+                        <?php if ($ev['contact_method'] === 'whatsapp' || $ev['contact_method'] === 'both'): ?>
+                            <?php 
+                                $wa_phone = !empty($ev['wa_phone_dir']) ? $ev['wa_phone_dir'] : get_setting($pdo, 'whatsapp_order_default', '+91 98800 12345');
+                                $wa_msg = !empty($ev['whatsapp_message']) ? $ev['whatsapp_message'] : "Hare Krishna! I would like to register/participate in this event:\n- Event: " . $ev['title'] . "\n- Date: " . date('F d, Y', strtotime($ev['event_date'])) . "\n\nPlease let me know how to proceed.";
+                                $whatsapp_url = "https://api.whatsapp.com/send?phone=" . preg_replace('/[^0-9]/', '', $wa_phone) . "&text=" . urlencode($wa_msg);
+                            ?>
+                            <a href="<?php echo $whatsapp_url; ?>" target="_blank" class="btn btn-success btn-lg w-100 py-3 font-ui fw-bold shadow text-center">
+                                <i class="fab fa-whatsapp me-2"></i> Register via WhatsApp
+                            </a>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>

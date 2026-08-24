@@ -29,6 +29,19 @@ try {
     die("Database Connection Error: " . $e->getMessage());
 }
 
+// Auto-migration: Create videos table if it does not exist
+try {
+    $pdo->exec("CREATE TABLE IF NOT EXISTS `videos` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `title` VARCHAR(255) NOT NULL,
+        `description` TEXT NULL,
+        `youtube_url` VARCHAR(255) NOT NULL,
+        `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+} catch (PDOException $e) {
+    // Fail silently or log if table creation fails
+}
+
 /**
  * Handle image file upload for admin forms
  */
@@ -231,3 +244,109 @@ function log_audit($pdo, $action, $target_table = null, $record_id = null, $old_
         $ip
     ]);
 }
+
+/**
+ * Get system setting value by key
+ */
+function get_setting($pdo, $key, $default = '') {
+    static $settings_cache = [];
+    if (isset($settings_cache[$key])) {
+        return $settings_cache[$key];
+    }
+    $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = ?");
+    $stmt->execute([$key]);
+    $val = $stmt->fetchColumn();
+    if ($val === false) {
+        return $default;
+    }
+    $settings_cache[$key] = $val;
+    return $val;
+}
+
+/**
+ * Get homepage-specific setting with multi-language fallback
+ * Tries language-suffixed key first (e.g., hero_1_title_kn), falls back to English
+ */
+function get_hp($pdo, $key, $default = '') {
+    static $hp_cache = [];
+    $lang = get_current_lang();
+    $localized_key = ($lang !== 'en') ? $key . '_' . $lang : $key;
+
+    if (isset($hp_cache[$localized_key])) return $hp_cache[$localized_key];
+
+    // Try localized version first
+    if ($lang !== 'en') {
+        $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = ?");
+        $stmt->execute([$localized_key]);
+        $val = $stmt->fetchColumn();
+        if ($val !== false && $val !== '') {
+            $hp_cache[$localized_key] = $val;
+            return $val;
+        }
+    }
+
+    // Fallback to base English key
+    if (isset($hp_cache[$key])) return $hp_cache[$key];
+    $stmt = $pdo->prepare("SELECT setting_value FROM settings WHERE setting_key = ?");
+    $stmt->execute([$key]);
+    $val = $stmt->fetchColumn();
+    $result = ($val !== false && $val !== '') ? $val : $default;
+    $hp_cache[$key] = $result;
+    return $result;
+}
+
+/**
+ * Ensure database schema has necessary columns for contact methods & WhatsApp setting configurations
+ */
+function ensure_database_schema($pdo) {
+    $tables = ['cows', 'products', 'seva', 'emergency_campaigns'];
+    foreach ($tables as $table) {
+        try {
+            // Check for whatsapp_number_id
+            $check = $pdo->query("SHOW COLUMNS FROM `$table` LIKE 'whatsapp_number_id'")->fetch();
+            if (!$check) {
+                $pdo->exec("ALTER TABLE `$table` ADD COLUMN `whatsapp_number_id` INT DEFAULT NULL");
+            }
+            
+            // Check for contact_method
+            $check = $pdo->query("SHOW COLUMNS FROM `$table` LIKE 'contact_method'")->fetch();
+            if (!$check) {
+                $pdo->exec("ALTER TABLE `$table` ADD COLUMN `contact_method` VARCHAR(20) DEFAULT 'website'");
+            }
+            
+            // Check for whatsapp_message
+            $check = $pdo->query("SHOW COLUMNS FROM `$table` LIKE 'whatsapp_message'")->fetch();
+            if (!$check) {
+                $pdo->exec("ALTER TABLE `$table` ADD COLUMN `whatsapp_message` TEXT DEFAULT NULL");
+            }
+        } catch (PDOException $e) {
+            // Table might not exist or other issues; skip silently
+        }
+    }
+
+    // Ensure product_checkout_method key exists in settings table
+    try {
+        $check = $pdo->prepare("SELECT COUNT(*) FROM settings WHERE setting_key = 'product_checkout_method'");
+        $check->execute();
+        if ($check->fetchColumn() == 0) {
+            $pdo->exec("INSERT INTO settings (setting_key, setting_value, setting_group, description) VALUES ('product_checkout_method', 'both', 'whatsapp', 'Checkout action mode for all products: website, whatsapp, or both')");
+        }
+    } catch (PDOException $e) {
+        // Table might not exist or other issues; skip silently
+    }
+}
+
+// Auto-run schema check
+ensure_database_schema($pdo);
+
+/**
+ * Ensure homepage settings exist in DB with default values (self-healing)
+ */
+function ensure_hp_settings($pdo, array $defaults) {
+    ensure_database_schema($pdo);
+    foreach ($defaults as $key => $value) {
+        $stmt = $pdo->prepare("INSERT IGNORE INTO settings (setting_key, setting_value, setting_group, description) VALUES (?, ?, 'homepage', ?)");
+        $stmt->execute([$key, $value, 'Homepage setting: ' . $key]);
+    }
+}
+

@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
 
-$seva_items = $pdo->query("SELECT * FROM seva WHERE is_active = 1 ORDER BY id ASC")->fetchAll();
+$seva_items = $pdo->query("SELECT s.*, wn.phone_number as wa_phone_dir FROM seva s LEFT JOIN whatsapp_numbers wn ON s.whatsapp_number_id = wn.id WHERE s.is_active = 1 ORDER BY s.id ASC")->fetchAll();
 $recent_logs = $pdo->query("SELECT sl.*, s.title as seva_title, c.name as cow_name FROM seva_logs sl JOIN seva s ON sl.seva_id = s.id LEFT JOIN cows c ON sl.cow_id = c.id ORDER BY sl.id DESC LIMIT 8")->fetchAll();
 ?>
 
@@ -35,12 +35,25 @@ $recent_logs = $pdo->query("SELECT sl.*, s.title as seva_title, c.name as cow_na
                             <p class="small text-muted mb-3"><?php echo e($sdesc); ?></p>
                         </div>
 
-
                         <div>
                             <div class="fs-3 fw-bold text-dark font-mono mb-3">₹<?php echo number_format($s['suggested_amount']); ?></div>
-                            <a href="/Kamadenu/checkout.php?type=seva&seva_id=<?php echo $s['id']; ?>&amount=<?php echo $s['suggested_amount']; ?>" class="btn btn-kamadenu-primary w-100 font-ui fw-bold">
-                                <i class="fas fa-hand-holding-heart me-1"></i> Sponsor Seva
-                            </a>
+                            <div class="d-flex flex-column gap-2 w-100">
+                                <?php if ($s['contact_method'] === 'both' || $s['contact_method'] === 'website' || empty($s['contact_method'])): ?>
+                                    <a href="/Kamadenu/checkout.php?type=seva&seva_id=<?php echo $s['id']; ?>&amount=<?php echo $s['suggested_amount']; ?>" class="btn btn-kamadenu-primary w-100 font-ui fw-bold">
+                                        <i class="fas fa-hand-holding-heart me-1"></i> Sponsor Seva
+                                    </a>
+                                <?php endif; ?>
+                                <?php if ($s['contact_method'] === 'whatsapp' || $s['contact_method'] === 'both'): ?>
+                                    <?php 
+                                        $wa_phone = !empty($s['wa_phone_dir']) ? $s['wa_phone_dir'] : get_setting($pdo, 'whatsapp_order_default', '+91 98800 12345');
+                                        $wa_msg = !empty($s['whatsapp_message']) ? $s['whatsapp_message'] : "Hare Krishna! I would like to sponsor this seva:\n- Seva: " . $s['title'] . "\n- Amount: ₹" . number_format($s['suggested_amount']) . "\n\nPlease let me know how to proceed.";
+                                        $whatsapp_url = "https://api.whatsapp.com/send?phone=" . preg_replace('/[^0-9]/', '', $wa_phone) . "&text=" . urlencode($wa_msg);
+                                    ?>
+                                    <a href="<?php echo $whatsapp_url; ?>" target="_blank" class="btn btn-success w-100 font-ui fw-bold">
+                                        <i class="fab fa-whatsapp me-1"></i> Sponsor via WhatsApp
+                                    </a>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
                 </div>

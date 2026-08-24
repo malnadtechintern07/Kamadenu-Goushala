@@ -5,12 +5,12 @@ $cows = $pdo->query("SELECT * FROM cows ORDER BY id ASC")->fetchAll();
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="font-heading mb-0"><i class="fas fa-cow text-warning me-2"></i> Resident Cattle & Passports</h3>
-    <a href="/Kamadenu/admin/cow-add.php" class="btn btn-kamadenu-primary font-ui fw-bold"><i class="fas fa-plus me-1"></i> Add New Cow Passport</a>
+    <h3 class="font-heading mb-0"><i class="fas fa-cow text-warning me-2"></i> Resident Cattles</h3>
+    <a href="/Kamadenu/admin/cow-add.php" class="btn btn-kamadenu-primary font-ui fw-bold"><i class="fas fa-plus me-1"></i> Add New Cattles</a>
 </div>
 
 <?php if (isset($_GET['updated'])): ?>
-    <div class="alert alert-success">Cow passport and photo updated in MySQL.</div>
+    <div class="alert alert-success">Cattles profile and photo updated in MySQL.</div>
 <?php endif; ?>
 
 <div class="kamadenu-card p-4">

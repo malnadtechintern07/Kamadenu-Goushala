@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
 
-$campaigns = $pdo->query("SELECT * FROM emergency_campaigns ORDER BY id DESC")->fetchAll();
+$campaigns = $pdo->query("SELECT ec.*, wn.phone_number as wa_phone_dir FROM emergency_campaigns ec LEFT JOIN whatsapp_numbers wn ON ec.whatsapp_number_id = wn.id ORDER BY ec.id DESC")->fetchAll();
 ?>
 
 <section class="py-4 bg-dark text-white border-bottom border-warning">
@@ -40,7 +40,21 @@ $campaigns = $pdo->query("SELECT * FROM emergency_campaigns ORDER BY id DESC")->
                             </div>
                         </div>
 
-                        <a href="/Kamadenu/donate.php?campaign=<?php echo $c['id']; ?>" class="btn btn-danger w-100 py-3 font-ui fw-bold shadow"><i class="fas fa-hand-holding-heart me-2"></i> <?php echo __t('emergency_donate_now'); ?></a>
+                        <div class="d-flex flex-column gap-2 mt-4">
+                            <?php if ($c['contact_method'] === 'both' || $c['contact_method'] === 'website' || empty($c['contact_method'])): ?>
+                                <a href="/Kamadenu/donate.php?campaign=<?php echo $c['id']; ?>" class="btn btn-danger w-100 py-3 font-ui fw-bold shadow"><i class="fas fa-hand-holding-heart me-2"></i> <?php echo __t('emergency_donate_now'); ?></a>
+                            <?php endif; ?>
+                            <?php if ($c['contact_method'] === 'whatsapp' || $c['contact_method'] === 'both'): ?>
+                                <?php 
+                                    $wa_phone = !empty($c['wa_phone_dir']) ? $c['wa_phone_dir'] : get_setting($pdo, 'whatsapp_order_default', '+91 98800 12345');
+                                    $wa_msg = !empty($c['whatsapp_message']) ? $c['whatsapp_message'] : "Hare Krishna! I would like to contribute to this emergency rescue campaign:\n- Campaign: " . $c['title'] . "\n- Urgency: " . $c['urgency_level'] . "\n\nPlease let me know how to proceed.";
+                                    $whatsapp_url = "https://api.whatsapp.com/send?phone=" . preg_replace('/[^0-9]/', '', $wa_phone) . "&text=" . urlencode($wa_msg);
+                                ?>
+                                <a href="<?php echo $whatsapp_url; ?>" target="_blank" class="btn btn-success w-100 py-3 font-ui fw-bold shadow text-center">
+                                    <i class="fab fa-whatsapp me-2"></i> Donate via WhatsApp
+                                </a>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
 

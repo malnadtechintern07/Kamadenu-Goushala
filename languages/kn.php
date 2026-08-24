@@ -76,7 +76,7 @@ return [
     'cow_adoption_status' => 'ದತ್ತು ಸ್ಥಿತಿ',
     'cow_monthly_cost' => 'ಮಾಸಿಕ ಪಾಲನೆ ವೆಚ್ಚ',
     'cow_rescue_story' => 'ರಕ್ಷಣೆಯ ಕಥೆ',
-    'cow_btn_view' => 'ಪಾಸ್‌ಪೋರ್ಟ್ ವೀಕ್ಷಿಸಿ',
+    'cow_btn_view' => 'ಪ್ರಾಯೋಜಿಸಿ',
     'cow_btn_sponsor' => 'ಈ ಗೋವನ್ನು ಪೋಷಿಸಿ',
     'filter_all_breeds' => 'ಎಲ್ಲಾ ತಳಿಗಳು',
     'search_cow_placeholder' => 'ಹಸುವಿನ ಹೆಸರು ಅಥವಾ ಕೋಡ್ ಮೂಲಕ ಹುಡುಕಿ (ಉದಾ. ಗೌರಿ ಅಥವಾ KG-001)...',

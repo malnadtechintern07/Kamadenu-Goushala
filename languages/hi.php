@@ -76,7 +76,7 @@ return [
     'cow_adoption_status' => 'गोद लेने की स्थिति',
     'cow_monthly_cost' => 'मासिक पालन लागत',
     'cow_rescue_story' => 'बचाव की कहानी',
-    'cow_btn_view' => 'पासपोर्ट देखें',
+    'cow_btn_view' => 'प्रायोजित करें',
     'cow_btn_sponsor' => 'यह गाय प्रायोजित करें',
     'filter_all_breeds' => 'सभी नस्लें',
     'search_cow_placeholder' => 'गाय का नाम या कोड खोजें (जैसे गौरी या KG-001)...',

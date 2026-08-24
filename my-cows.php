@@ -34,7 +34,7 @@ $sponsored_cows = $stmt->fetchAll();
                                 <span class="badge-cow-code mb-1"><?php echo e($sc['cow_code']); ?></span>
                                 <h3 class="font-heading mb-1"><?php echo e($sc['cow_name']); ?></h3>
                                 <p class="small text-muted mb-2"><?php echo e($sc['breed']); ?> Breed &bull; Health: <span class="text-success fw-bold"><?php echo e($sc['health_status']); ?></span></p>
-                                <a href="/Kamadenu/cow-detail.php?id=<?php echo $sc['cow_id']; ?>" class="btn btn-sm btn-kamadenu-primary font-ui fw-bold">View Cow Passport &rarr;</a>
+                                <a href="/Kamadenu/cow-detail.php?id=<?php echo $sc['cow_id']; ?>" class="btn btn-sm btn-kamadenu-primary font-ui fw-bold">View Cattle Profile &rarr;</a>
                             </div>
                         </div>
                     </div>

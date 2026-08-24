@@ -52,6 +52,90 @@ document.addEventListener('DOMContentLoaded', function() {
             overlay.classList.remove('active');
         });
     }
+
+    // Dynamic toggle for WhatsApp fields in Admin forms
+    const contactMethodSelect = document.querySelector('select[name="contact_method"]');
+    if (contactMethodSelect) {
+        const updateWaFieldsVisibility = () => {
+            const val = contactMethodSelect.value;
+            const waPhoneSelect = document.querySelector('select[name="whatsapp_number_id"]');
+            const waMessageInput = document.querySelector('input[name="whatsapp_message"]');
+            
+            if (waPhoneSelect && waMessageInput) {
+                const waPhoneCol = waPhoneSelect.closest('[class*="col-"]');
+                const waMessageCol = waMessageInput.closest('[class*="col-"]');
+                
+                if (val === 'website') {
+                    // Hide them smoothly
+                    if (waPhoneCol) {
+                        waPhoneCol.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                        waPhoneCol.style.opacity = '0';
+                        waPhoneCol.style.transform = 'translateY(-10px)';
+                        waPhoneCol.style.pointerEvents = 'none';
+                        setTimeout(() => {
+                            if (contactMethodSelect.value === 'website') {
+                                waPhoneCol.style.display = 'none';
+                            }
+                        }, 300);
+                    }
+                    if (waMessageCol) {
+                        waMessageCol.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                        waMessageCol.style.opacity = '0';
+                        waMessageCol.style.transform = 'translateY(-10px)';
+                        waMessageCol.style.pointerEvents = 'none';
+                        setTimeout(() => {
+                            if (contactMethodSelect.value === 'website') {
+                                waMessageCol.style.display = 'none';
+                            }
+                        }, 300);
+                    }
+                } else {
+                    // Show them
+                    if (waPhoneCol) {
+                        waPhoneCol.style.display = '';
+                        setTimeout(() => {
+                            waPhoneCol.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                            waPhoneCol.style.opacity = '1';
+                            waPhoneCol.style.transform = 'translateY(0)';
+                            waPhoneCol.style.pointerEvents = 'auto';
+                        }, 10);
+                    }
+                    if (waMessageCol) {
+                        waMessageCol.style.display = '';
+                        setTimeout(() => {
+                            waMessageCol.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                            waMessageCol.style.opacity = '1';
+                            waMessageCol.style.transform = 'translateY(0)';
+                            waMessageCol.style.pointerEvents = 'auto';
+                        }, 10);
+                    }
+                }
+            }
+        };
+        
+        contactMethodSelect.addEventListener('change', updateWaFieldsVisibility);
+        
+        // Run once on load to establish initial state
+        const waPhoneSelect = document.querySelector('select[name="whatsapp_number_id"]');
+        const waMessageInput = document.querySelector('input[name="whatsapp_message"]');
+        if (waPhoneSelect && waMessageInput) {
+            const val = contactMethodSelect.value;
+            const waPhoneCol = waPhoneSelect.closest('[class*="col-"]');
+            const waMessageCol = waMessageInput.closest('[class*="col-"]');
+            if (val === 'website') {
+                if (waPhoneCol) {
+                    waPhoneCol.style.display = 'none';
+                    waPhoneCol.style.opacity = '0';
+                    waPhoneCol.style.transform = 'translateY(-10px)';
+                }
+                if (waMessageCol) {
+                    waMessageCol.style.display = 'none';
+                    waMessageCol.style.opacity = '0';
+                    waMessageCol.style.transform = 'translateY(-10px)';
+                }
+            }
+        }
+    }
 });
 </script>
 </body>

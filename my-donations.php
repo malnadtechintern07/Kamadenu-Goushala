@@ -20,7 +20,7 @@ $donations = $stmt->fetchAll();
         <div class="kamadenu-card p-4">
             <?php if (empty($donations)): ?>
                 <p class="text-muted text-center py-4">No donation history recorded yet.</p>
-            <?php else: ?>
+            <?php else: ?> 
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead>
@@ -32,7 +32,7 @@ $donations = $stmt->fetchAll();
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <  tbody>
                             <?php foreach ($donations as $d): ?>
                                 <tr>
                                     <td class="font-mono small"><?php echo date('M d, Y H:i', strtotime($d['created_at'])); ?></td>

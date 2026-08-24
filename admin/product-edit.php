@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/header.php';
+require_once __DIR__ . '/../config/database.php';
+require_admin_login($pdo);
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $stmt = $pdo->prepare("SELECT * FROM products WHERE id = ?");
@@ -10,8 +11,6 @@ if (!$product) {
     header("Location: /Kamadenu/admin/products.php");
     exit;
 }
-
-$categories = $pdo->query("SELECT * FROM product_categories ORDER BY id ASC")->fetchAll();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $category_id = intval($_POST['category_id']);
@@ -35,8 +34,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $image_path = $product['image'];
     }
 
-    $stmt = $pdo->prepare("UPDATE products SET category_id = ?, name = ?, name_kn = ?, name_hi = ?, description = ?, price = ?, stock_quantity = ?, unit = ?, is_active = ?, image = ? WHERE id = ?");
-    $stmt->execute([$category_id, $name, $name_kn, $name_hi, $description, $price, $stock, $unit, $is_active, $image_path, $id]);
+    $whatsapp_message = isset($_POST['whatsapp_message']) && trim($_POST['whatsapp_message']) !== '' ? trim($_POST['whatsapp_message']) : NULL;
+    $whatsapp_number_id = isset($_POST['whatsapp_number_id']) && trim($_POST['whatsapp_number_id']) !== '' ? intval($_POST['whatsapp_number_id']) : NULL;
+    $contact_method = isset($_POST['contact_method']) ? trim($_POST['contact_method']) : 'website';
+
+    $stmt = $pdo->prepare("UPDATE products SET category_id = ?, name = ?, name_kn = ?, name_hi = ?, description = ?, price = ?, stock_quantity = ?, unit = ?, is_active = ?, image = ?, whatsapp_number_id = ?, contact_method = ?, whatsapp_message = ? WHERE id = ?");
+    $stmt->execute([$category_id, $name, $name_kn, $name_hi, $description, $price, $stock, $unit, $is_active, $image_path, $whatsapp_number_id, $contact_method, $whatsapp_message, $id]);
 
     $pdo->prepare("UPDATE inventory SET current_stock = ? WHERE product_id = ?")->execute([$stock, $id]);
 
@@ -44,6 +47,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: /Kamadenu/admin/products.php?updated=1");
     exit;
 }
+
+require_once __DIR__ . '/header.php';
+$wa_numbers = $pdo->query("SELECT * FROM whatsapp_numbers ORDER BY id ASC")->fetchAll();
+$categories = $pdo->query("SELECT * FROM product_categories ORDER BY id ASC")->fetchAll();
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -85,6 +92,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="col-md-4">
                 <label class="form-label font-ui small fw-bold">Unit</label>
                 <input type="text" name="unit" class="form-control" value="<?php echo e($product['unit']); ?>" required>
+            </div>
+            <div class="col-12">
+                <div class="p-3 bg-light border border-warning border-opacity-25 rounded-3 mb-2">
+                    <h5 class="text-warning font-heading small fw-bold mb-3"><i class="fab fa-whatsapp me-1"></i> WhatsApp & Checkout Action Integration</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label font-ui small fw-bold">Checkout Action Mode</label>
+                            <select name="contact_method" class="form-select">
+                                <option value="website" <?php echo $product['contact_method'] === 'website' ? 'selected' : ''; ?>>Website Checkout (Standard Gateway)</option>
+                                <option value="whatsapp" <?php echo $product['contact_method'] === 'whatsapp' ? 'selected' : ''; ?>>WhatsApp Contact (Direct Message)</option>
+                                <option value="both" <?php echo $product['contact_method'] === 'both' ? 'selected' : ''; ?>>Both (Show Website & WhatsApp Options to User)</option>
+                            </select>
+                            <small class="text-muted"><i class="fas fa-info-circle text-warning"></i> <strong>Note:</strong> This local setting is overridden by the global <strong>Product Checkout Method</strong> option in <a href="/Kamadenu/admin/settings.php" class="text-warning">System Configuration</a>.</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label font-ui small fw-bold">WhatsApp Contact Phone (Optional)</label>
+                            <select name="whatsapp_number_id" class="form-select font-mono">
+                                <option value="">-- Use Default Store Number --</option>
+                                <?php foreach ($wa_numbers as $wn): ?>
+                                    <option value="<?php echo $wn['id']; ?>" <?php echo intval($product['whatsapp_number_id']) === intval($wn['id']) ? 'selected' : ''; ?>>
+                                        <?php echo e($wn['label']); ?> (<?php echo e($wn['phone_number']); ?>)
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <small class="text-muted">Defaults to global Store WhatsApp number if none selected.</small>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label font-ui small fw-bold">WhatsApp Pre-filled Customer Message (Optional)</label>
+                            <input type="text" name="whatsapp_message" class="form-control" value="<?php echo e($product['whatsapp_message']); ?>" placeholder="e.g. Hare Krishna! I would like to buy product from store. Please guide me.">
+                            <small class="text-muted">Pre-populated text inside the user's WhatsApp message box when initiating chat.</small>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Current Product Image Preview -->
