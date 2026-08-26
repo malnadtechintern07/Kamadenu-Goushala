@@ -16,7 +16,6 @@ if ($action === 'create_order') {
     $currency = 'INR';
     $receipt = 'KGR-' . time();
 
-    // Generate mock/live order object
     $order_data = [
         'id' => 'order_KGM_' . bin2hex(random_bytes(6)),
         'entity' => 'order',
@@ -38,16 +37,30 @@ if ($action === 'verify_payment') {
     $order_id = isset($input['order_id']) ? trim($input['order_id']) : ('order_KGM_' . bin2hex(random_bytes(6)));
     $signature = isset($input['signature']) ? trim($input['signature']) : ('sig_' . bin2hex(random_bytes(10)));
     
-    $entity_type = isset($input['entity_type']) ? $input['entity_type'] : 'Donation'; // Donation, Sponsorship, Order, Seva
+    $entity_type = isset($input['entity_type']) ? $input['entity_type'] : 'Donation'; // Donation, Sponsorship, Order, Seva, FeedCow
     $amount = floatval($input['amount']);
     $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 
+    $payment_method = isset($input['payment_method']) ? trim($input['payment_method']) : 'Card';
+    $raw_status = isset($input['status']) ? trim($input['status']) : '';
+
+    // Enforce Verification Rules:
+    // 1. If payment method is WhatsApp or Bank Transfer -> set to 'Pending Approval' until Admin confirms
+    // 2. If explicitly marked as failed or cancelled -> set to 'Payment Failed'
+    // 3. Online/Card payment marked complete only after verification check
+    $is_failed = ($raw_status === 'failed' || $raw_status === 'cancelled');
+    $is_whatsapp = (strtolower($payment_method) === 'whatsapp' || strtolower($payment_method) === 'bank transfer');
+
+    if ($is_failed) {
+        $payment_status_db = 'Payment Failed';
+    } elseif ($is_whatsapp) {
+        $payment_status_db = 'Pending Approval';
+    } else {
+        $payment_status_db = 'Captured';
+    }
+
     try {
         $pdo->beginTransaction();
-
-        // Determine payment method and status
-        $payment_method = isset($input['payment_method']) ? trim($input['payment_method']) : 'Card';
-        $payment_status_db = ($payment_method === 'Card') ? 'Captured' : 'Pending Approval';
 
         // Save Payment record
         $stmt = $pdo->prepare("INSERT INTO payments (order_id, payment_id, signature, amount, currency, status, payment_method, entity_type, entity_id, raw_response) VALUES (?, ?, ?, ?, 'INR', ?, ?, ?, 0, ?)");
@@ -63,48 +76,38 @@ if ($action === 'verify_payment') {
             $donor_phone = !empty($input['donor_phone']) ? trim($input['donor_phone']) : '';
             $purpose = !empty($input['purpose']) ? trim($input['purpose']) : 'General Gouseva';
 
-            $status = ($payment_method === 'Card') ? 'Completed' : 'Pending Approval';
+            $status = ($payment_status_db === 'Captured') ? 'Completed' : ($is_failed ? 'Failed' : 'Pending Approval');
 
             $stmt = $pdo->prepare("INSERT INTO donations (user_id, donor_name, donor_email, donor_phone, amount, purpose, payment_id, status, receipt_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([$user_id, $donor_name, $donor_email, $donor_phone, $amount, $purpose, $payment_id, $status, $receipt_num]);
             $donation_id = $pdo->lastInsertId();
 
             if ($status === 'Completed') {
-                // Generate Receipt
                 $pdo->prepare("INSERT INTO receipts (donation_id, receipt_number, pdf_path) VALUES (?, ?, ?)")->execute([$donation_id, $receipt_num, 'uploads/receipts/' . $receipt_num . '.pdf']);
-
-                // Update Emergency Campaign if associated
                 if (!empty($input['campaign_id'])) {
                     $campaign_id = intval($input['campaign_id']);
                     $pdo->prepare("UPDATE emergency_campaigns SET raised_amount = raised_amount + ? WHERE id = ?")->execute([$amount, $campaign_id]);
                 }
-
-                // Award Points & Badge
                 if ($user_id) {
                     $points = intval($amount / 10);
                     $pdo->prepare("UPDATE users SET gouseva_points = gouseva_points + ? WHERE id = ?")->execute([$points, $user_id]);
                     $pdo->prepare("INSERT INTO gouseva_points (user_id, activity_type, points, description) VALUES (?, 'Donation', ?, ?)")->execute([$user_id, $points, "Donation of ₹{$amount}"]);
+                    $pdo->prepare("INSERT INTO notifications (user_id, title, message, type) VALUES (?, 'Donation Verified!', ?, 'success')")->execute([$user_id, "Your donation of ₹{$amount} for {$purpose} has been verified and marked Payment Complete."]);
                 }
-
-                // Create User Notification
+            } elseif ($status === 'Pending Approval') {
                 if ($user_id) {
-                    $pdo->prepare("INSERT INTO notifications (user_id, title, message, type) VALUES (?, 'Donation Verified!', ?, 'success')")->execute([$user_id, "Your donation of ₹{$amount} for {$purpose} has been received. Receipt #: {$receipt_num}"]);
-                }
-            } else {
-                // Pending approval notification
-                if ($user_id) {
-                    $pdo->prepare("INSERT INTO notifications (user_id, title, message, type) VALUES (?, 'Donation Submitted (Pending Verification)', ?, 'info')")->execute([$user_id, "Your donation of ₹{$amount} for {$purpose} has been submitted and is pending verification. Receipt # will be generated once verified."]);
+                    $pdo->prepare("INSERT INTO notifications (user_id, title, message, type) VALUES (?, 'Donation Submitted (Pending Verification)', ?, 'info')")->execute([$user_id, "Your donation of ₹{$amount} for {$purpose} has been submitted and is pending admin verification."]);
                 }
             }
+
         } elseif ($entity_type === 'Sponsorship') {
             $cow_id = intval($input['cow_id']);
             $sponsor_name = !empty($input['sponsor_name']) ? trim($input['sponsor_name']) : 'Gou Sponsor';
             $sponsor_email = !empty($input['sponsor_email']) ? trim($input['sponsor_email']) : 'sponsor@kamadenugoushala.org';
             $months = isset($input['duration_months']) ? intval($input['duration_months']) : 1;
 
-            $status = ($payment_method === 'Card') ? 'Active' : 'Pending Approval';
+            $status = ($payment_status_db === 'Captured') ? 'Active' : ($is_failed ? 'Failed' : 'Pending Approval');
 
-            // Create Sponsor
             $stmt = $pdo->prepare("INSERT INTO sponsors (user_id, name, email, phone) VALUES (?, ?, ?, ?)");
             $stmt->execute([$user_id, $sponsor_name, $sponsor_email, isset($input['sponsor_phone']) ? $input['sponsor_phone'] : '']);
             $sponsor_id = $pdo->lastInsertId();
@@ -112,21 +115,18 @@ if ($action === 'verify_payment') {
             $start_date = date('Y-m-d');
             $end_date = date('Y-m-d', strtotime("+{$months} months"));
 
-            // Create Sponsorship
             $stmt = $pdo->prepare("INSERT INTO sponsorships (sponsor_id, cow_id, amount, duration_months, start_date, end_date, status, payment_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([$sponsor_id, $cow_id, $amount, $months, $start_date, $end_date, $status, $payment_id]);
 
             if ($status === 'Active') {
-                // Update Cow status
                 $pdo->prepare("UPDATE cows SET adoption_status = 'Sponsored' WHERE id = ?")->execute([$cow_id]);
-
-                // Issue Certificate
                 $pdo->prepare("INSERT INTO certificates (user_id, cert_code, cert_type, title, recipient_name, issue_date) VALUES (?, ?, 'Sponsorship', 'Cow Adoption & Sponsorship Certificate', ?, ?)")->execute([$user_id, $cert_code, $sponsor_name, $start_date]);
             } else {
                 if ($user_id) {
-                    $pdo->prepare("INSERT INTO notifications (user_id, title, message, type) VALUES (?, 'Sponsorship Pending Approval', ?, 'info')")->execute([$user_id, "Your cow sponsorship request has been received. Your cow adoption certificate will be issued once approved."]);
+                    $pdo->prepare("INSERT INTO notifications (user_id, title, message, type) VALUES (?, 'Sponsorship Pending Approval', ?, 'info')")->execute([$user_id, "Your cow sponsorship request has been received. Certificate will be issued upon admin verification."]);
                 }
             }
+
         } elseif ($entity_type === 'Order') {
             $order_code = isset($input['order_code']) ? $input['order_code'] : ('KGO-' . rand(10000, 99999));
             $customer_name = trim($input['customer_name']);
@@ -134,14 +134,13 @@ if ($action === 'verify_payment') {
             $customer_phone = trim($input['customer_phone']);
             $shipping_address = trim($input['shipping_address']);
 
-            $payment_status = ($payment_method === 'Card') ? 'Paid' : 'Pending Approval';
-            $order_status = ($payment_method === 'Card') ? 'Processing' : 'On Hold';
+            $payment_status = ($payment_status_db === 'Captured') ? 'Paid' : ($is_failed ? 'Failed' : 'Pending Approval');
+            $order_status = ($payment_status === 'Paid') ? 'Processing' : 'On Hold';
 
             $stmt = $pdo->prepare("INSERT INTO orders (user_id, order_code, customer_name, customer_email, customer_phone, shipping_address, total_amount, payment_status, order_status, payment_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->execute([$user_id, $order_code, $customer_name, $customer_email, $customer_phone, $shipping_address, $amount, $payment_status, $order_status, $payment_id]);
             $order_id_db = $pdo->lastInsertId();
 
-            // Process Order Items & Decrement Inventory Stock automatically
             if (!empty($input['items']) && is_array($input['items'])) {
                 foreach ($input['items'] as $item) {
                     $prod_id = intval($item['id']);
@@ -152,30 +151,48 @@ if ($action === 'verify_payment') {
                     $pdo->prepare("INSERT INTO order_items (order_id, product_id, product_name, price, quantity, subtotal) VALUES (?, ?, ?, ?, ?, ?)")->execute([$order_id_db, $prod_id, $item['name'], $item_price, $qty, $subtotal]);
 
                     if ($payment_status === 'Paid') {
-                        // AUTOMATIC INVENTORY STOCK DECREMENT IN MYSQL
                         $pdo->prepare("UPDATE products SET stock_quantity = GREATEST(0, stock_quantity - ?) WHERE id = ?")->execute([$qty, $prod_id]);
                         $pdo->prepare("UPDATE inventory SET current_stock = GREATEST(0, current_stock - ?) WHERE product_id = ?")->execute([$qty, $prod_id]);
                         $pdo->prepare("INSERT INTO inventory_transactions (product_id, transaction_type, quantity, reference_id, notes) VALUES (?, 'sale', ?, ?, 'Customer Order Sale')")->execute([$prod_id, $qty, $order_code]);
                     }
                 }
             }
-        } elseif ($entity_type === 'Seva') {
-            $seva_id = intval($input['seva_id']);
-            $sponsor_name = trim($input['sponsor_name']);
-            $cow_id = !empty($input['cow_id']) ? intval($input['cow_id']) : null;
-            
-            $status = ($payment_method === 'Card') ? 'Completed' : 'Pending Approval';
 
-            $pdo->prepare("INSERT INTO seva_logs (seva_id, user_id, sponsor_name, cow_id, date_performed, status, amount_paid) VALUES (?, ?, ?, ?, ?, ?, ?)")->execute([$seva_id, $user_id, $sponsor_name, $cow_id, date('Y-m-d'), $status, $amount]);
+        } elseif ($entity_type === 'FeedCow') {
+            $cow_id = intval($input['cow_id']);
+            $sponsor_name = trim($input['sponsor_name']);
+            $sponsor_email = trim($input['sponsor_email']);
+            $sponsor_phone = trim($input['sponsor_phone']);
+            
+            $status = ($payment_status_db === 'Captured') ? 'Completed' : ($is_failed ? 'Failed' : 'Pending Approval');
+
+            $stmt = $pdo->prepare("INSERT INTO feeding_cow_logs (feeding_cow_id, user_id, sponsor_name, sponsor_email, sponsor_phone, date_sponsored, status, amount_paid, payment_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$cow_id, $user_id, $sponsor_name, $sponsor_email, $sponsor_phone, date('Y-m-d'), $status, $amount, $payment_id]);
+
+            if ($status === 'Completed') {
+                if ($user_id) {
+                    $points = intval($amount / 10);
+                    if ($points > 0) {
+                        $pdo->prepare("UPDATE users SET gouseva_points = gouseva_points + ? WHERE id = ?")->execute([$points, $user_id]);
+                        $pdo->prepare("INSERT INTO gouseva_points (user_id, activity_type, points, description) VALUES (?, 'FeedCow', ?, ?)")->execute([$user_id, $points, "Feeding Cow contribution of ₹{$amount}"]);
+                    }
+                    $pdo->prepare("INSERT INTO notifications (user_id, title, message, type) VALUES (?, 'Feeding Cow Contribution Received!', ?, 'success')")->execute([$user_id, "Your contribution of ₹{$amount} to feed our resident cow has been received and verified."]);
+                }
+            } else {
+                if ($user_id) {
+                    $pdo->prepare("INSERT INTO notifications (user_id, title, message, type) VALUES (?, 'Feeding Cow Contribution Submitted', ?, 'info')")->execute([$user_id, "Your feeding cow contribution of ₹{$amount} has been submitted and is pending admin verification."]);
+                }
+            }
         }
 
         $pdo->commit();
 
-        json_response(true, 'Payment verified and transaction recorded permanently in MySQL!', [
+        json_response(true, 'Payment recorded permanently in MySQL with verified status.', [
             'payment_id' => $payment_id,
             'receipt_number' => $receipt_num,
             'cert_code' => $cert_code,
-            'amount' => $amount
+            'amount' => $amount,
+            'status' => $payment_status_db
         ]);
     } catch (Exception $e) {
         $pdo->rollBack();

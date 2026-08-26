@@ -44,13 +44,21 @@ $breeds = $pdo->query("SELECT DISTINCT breed FROM cows ORDER BY breed ASC")->fet
 
 <section class="py-4 bg-secondary-subtle border-bottom">
     <div class="container">
-        <div class="row align-items-center">
+        <div class="row align-items-center g-3">
             <div class="col-md-6">
                 <h1 class="font-heading mb-1"><?php echo __t('nav_cows'); ?></h1>
                 <p class="text-muted mb-0">Browse and support our indigenous Gir, Sahiwal, Kankrej, Tharparkar, Vechur & Hallikar cattle.</p>
             </div>
-            <div class="col-md-6 text-md-end">
-                <div class="devotional-phrase fs-4">ಗೋ ಮಾತಾ ಕಿ ಜೈ</div>
+            <div class="col-md-6 text-md-end d-flex justify-content-md-end align-items-center gap-2 flex-wrap">
+                <a href="/Kamadenu/adopt.php" class="btn btn-kamadenu-primary font-ui fw-bold px-3 py-2 shadow-sm">
+                    <i class="fas fa-heart me-1.5"></i> Sponsor Cow
+                </a>
+                <a href="/Kamadenu/feed-cow.php" class="btn btn-feed-cow font-ui fw-bold px-3 py-2 shadow-sm">
+                    <i class="fas fa-cookie-bite me-1.5"></i> Feed Cow
+                </a>
+                <a href="#cows-list-grid" class="btn btn-cow-details font-ui fw-bold px-3 py-2 shadow-sm">
+                    <i class="fas fa-info-circle me-1.5"></i> Cow Details
+                </a>
             </div>
         </div>
     </div>
@@ -136,7 +144,17 @@ $breeds = $pdo->query("SELECT DISTINCT breed FROM cows ORDER BY breed ASC")->fet
                                         <small class="text-muted d-block"><?php echo __t('cow_monthly_cost'); ?></small>
                                         <span class="fs-5 fw-bold text-dark font-mono">₹<?php echo number_format($cow['monthly_sponsorship_amount']); ?></span>
                                     </div>
-                                    <a href="/Kamadenu/cow-detail.php?id=<?php echo $cow['id']; ?>" class="btn btn-kamadenu-primary btn-sm px-3"><?php echo __t('cow_btn_view'); ?></a>
+                                    <div class="d-flex gap-1 flex-wrap">
+                                        <a href="/Kamadenu/adopt.php?cow_id=<?php echo $cow['id']; ?>" class="btn btn-kamadenu-primary btn-sm px-2 font-ui fw-bold" title="Sponsor Cow">
+                                            <i class="fas fa-heart me-1"></i> Sponsor
+                                        </a>
+                                        <a href="/Kamadenu/feed-cow.php?cow_id=<?php echo $cow['id']; ?>" class="btn btn-feed-cow btn-sm px-2 font-ui fw-bold" title="Feed Cow">
+                                            <i class="fas fa-cookie-bite me-1"></i> Feed
+                                        </a>
+                                        <a href="/Kamadenu/cow-detail.php?id=<?php echo $cow['id']; ?>" class="btn btn-cow-details btn-sm px-2 font-ui fw-bold" title="Cow Details">
+                                            <i class="fas fa-info-circle me-1"></i> Details
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

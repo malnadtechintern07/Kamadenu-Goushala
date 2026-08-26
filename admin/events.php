@@ -32,7 +32,7 @@ $events = $pdo->query("SELECT * FROM events ORDER BY event_date DESC")->fetchAll
             <tbody>
                 <?php foreach ($events as $ev): ?>
                     <tr>
-                        <td><img src="<?php echo img_url($ev['photo']); ?>" width="60" height="45" class="rounded object-fit-cover" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=100&q=80'"></td>
+                        <td><img src="<?php echo img_url($ev['photo']); ?>" class="rounded" style="width: 60px; height: 45px; object-fit: cover; flex-shrink: 0;" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=100&q=80'"></td>
                         <td>
                             <strong><?php echo e($ev['title']); ?></strong>
                             <?php if ($ev['title_kn']) echo "<small class='kn-text text-warning d-block'>({$ev['title_kn']})</small>"; ?>

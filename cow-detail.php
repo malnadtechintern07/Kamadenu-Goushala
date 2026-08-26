@@ -41,9 +41,12 @@ $updates = $stmt->fetchAll();
                 <span class="badge bg-warning text-dark font-ui font-semibold ms-1"><?php echo e($cow['breed']); ?> Breed</span>
                 <h1 class="font-heading text-warning mt-2 mb-0"><?php echo e($cow_name); ?> Passport</h1>
             </div>
-            <div class="mt-3 mt-md-0">
-                <a href="/Kamadenu/adopt.php?cow_id=<?php echo $cow['id']; ?>" class="btn btn-kamadenu-primary btn-lg shadow">
+            <div class="mt-3 mt-md-0 d-flex gap-2.5 flex-wrap">
+                <a href="/Kamadenu/adopt.php?cow_id=<?php echo $cow['id']; ?>" class="btn btn-kamadenu-primary btn-lg shadow d-flex align-items-center">
                     <i class="fas fa-heart me-2"></i> Sponsor <?php echo e($cow_name); ?> (₹<?php echo number_format($cow['monthly_sponsorship_amount']); ?>/mo)
+                </a>
+                <a href="/Kamadenu/feed-cow.php?cow_id=<?php echo $cow['id']; ?>" class="btn btn-feed-cow btn-lg shadow d-flex align-items-center fw-bold">
+                    <i class="fas fa-cookie-bite me-2"></i> Feed <?php echo e($cow_name); ?>
                 </a>
             </div>
         </div>
@@ -89,10 +92,14 @@ $updates = $stmt->fetchAll();
                         </div>
                     </div>
 
-                    <a href="/Kamadenu/adopt.php?cow_id=<?php echo $cow['id']; ?>" class="btn btn-kamadenu-primary w-100 mt-4 py-3 font-ui fw-bold fs-5">
-                        <i class="fas fa-hand-holding-heart me-2"></i> Sponsor <?php echo e($cow['name']); ?>
-
-                    </a>
+                    <div class="d-flex gap-2 mt-4">
+                        <a href="/Kamadenu/adopt.php?cow_id=<?php echo $cow['id']; ?>" class="btn btn-kamadenu-primary flex-fill py-3 font-ui fw-bold fs-6">
+                            <i class="fas fa-hand-holding-heart me-1.5"></i> Sponsor
+                        </a>
+                        <a href="/Kamadenu/feed-cow.php?cow_id=<?php echo $cow['id']; ?>" class="btn btn-feed-cow flex-fill py-3 font-ui fw-bold fs-6">
+                            <i class="fas fa-cookie-bite me-1.5"></i> Feed
+                        </a>
+                    </div>
                 </div>
             </div>
 

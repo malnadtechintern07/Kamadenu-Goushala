@@ -1,9 +1,23 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
 
+if (!is_user_logged_in()) {
+    $redirect_url = $_SERVER['REQUEST_URI'];
+    header("Location: /Kamadenu/login.php?redirect=" . urlencode($redirect_url) . "&msg=login_required");
+    exit;
+}
+
 $selected_cow_id = isset($_GET['cow_id']) ? intval($_GET['cow_id']) : 0;
 $cows = $pdo->query("SELECT c.*, wn.phone_number as wa_phone_dir FROM cows c LEFT JOIN whatsapp_numbers wn ON c.whatsapp_number_id = wn.id ORDER BY c.id ASC")->fetchAll();
 $default_whatsapp_adoption = get_setting($pdo, 'whatsapp_adoption_default', '+91 98800 12345');
+
+// Validate selected cow ID against database
+$selected_cow = null;
+if ($selected_cow_id > 0) {
+    $stmt = $pdo->prepare("SELECT c.*, wn.phone_number as wa_phone_dir FROM cows c LEFT JOIN whatsapp_numbers wn ON c.whatsapp_number_id = wn.id WHERE c.id = ?");
+    $stmt->execute([$selected_cow_id]);
+    $selected_cow = $stmt->fetch();
+}
 ?>
 
 <section class="py-4 bg-dark text-white border-bottom border-warning">
@@ -25,7 +39,27 @@ $default_whatsapp_adoption = get_setting($pdo, 'whatsapp_adoption_default', '+91
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="kamadenu-card p-4 p-md-5">
-                    <h3 class="font-heading mb-4 text-center">Select Cow & Sponsorship Plan</h3>
+                    
+                    <?php if ($selected_cow): ?>
+                        <!-- Highlight Selected Cow Passport Header -->
+                        <div class="card bg-dark text-white border-warning mb-4 p-3 rounded-4 shadow">
+                            <div class="d-flex align-items-center gap-3">
+                                <img src="<?php echo img_url($selected_cow['photo']); ?>" class="rounded-3 shadow" style="width: 85px; height: 85px; object-fit: cover; flex-shrink: 0;" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=100&q=80'">
+                                <div class="flex-fill">
+                                    <span class="badge-cow-code me-1"><?php echo e($selected_cow['cow_code']); ?></span>
+                                    <span class="badge bg-warning text-dark font-ui fw-bold"><?php echo e($selected_cow['breed']); ?></span>
+                                    <h4 class="font-heading text-warning mb-1 mt-1"><?php echo e(__td($selected_cow, 'name')); ?></h4>
+                                    <p class="small text-white-50 mb-0"><?php echo e(mb_strimwidth($selected_cow['rescue_story'], 0, 90, '...')); ?></p>
+                                </div>
+                                <div class="text-end d-none d-sm-block">
+                                    <span class="small text-white-50 d-block">Monthly Care</span>
+                                    <strong class="fs-5 text-warning font-mono">₹<?php echo number_format($selected_cow['monthly_sponsorship_amount']); ?></strong>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <h3 class="font-heading mb-4 text-center">Sponsorship Plan Details</h3>
 
                     <form id="adoptForm" onsubmit="handleAdoptSubmit(event)">
                         <input type="hidden" name="type" value="sponsorship">

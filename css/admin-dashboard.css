@@ -4,23 +4,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-    --admin-bg-body: #090D16;
-    --admin-card-bg: #131B2E;
-    --admin-card-border: rgba(212, 175, 55, 0.18);
-    --admin-card-hover-border: rgba(245, 158, 11, 0.5);
+    --admin-bg-body: #111215;
+    --admin-card-bg: #181A1F;
+    --admin-card-border: rgba(255, 255, 255, 0.08);
+    --admin-card-hover-border: rgba(255, 255, 255, 0.25);
     
-    --admin-gold-primary: #F59E0B;
-    --admin-gold-dark: #D97706;
-    --admin-gold-light: #FDE68A;
-    --admin-text-white: #FFFFFF;
-    --admin-text-muted: #94A3B8;
+    --admin-gold-primary: #E2E8F0;
+    --admin-gold-dark: #8A8F98;
+    --admin-gold-light: #F1F3F5;
+    --admin-text-white: #F1F3F5;
+    --admin-text-muted: #A0A5B0;
 
-    --gradient-hero-admin: linear-gradient(135deg, #1E1B18 0%, #2D1A0E 40%, #4A2312 100%);
-    --gradient-gold-badge: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-    --gradient-emerald: linear-gradient(135deg, #10B981 0%, #059669 100%);
-    --gradient-blue: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%);
-    --gradient-purple: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
-    --gradient-rose: linear-gradient(135deg, #F43F5E 0%, #BE123C 100%);
+    --gradient-hero-admin: linear-gradient(135deg, #1C1D21 0%, #24262B 50%, #2F3138 100%);
+    --gradient-gold-badge: linear-gradient(135deg, #8A8F98 0%, #646A75 100%);
+    --gradient-emerald: linear-gradient(135deg, #8A8F98 0%, #646A75 100%);
+    --gradient-blue: linear-gradient(135deg, #8A8F98 0%, #646A75 100%);
+    --gradient-purple: linear-gradient(135deg, #8A8F98 0%, #646A75 100%);
+    --gradient-rose: linear-gradient(135deg, #8A8F98 0%, #646A75 100%);
 }
 
 body.admin-body {
@@ -33,12 +33,34 @@ body.admin-body {
 
 /* Sidebar Navigation */
 .admin-sidebar-nav {
-    background: #0B0F19 !important;
+    background: #0C0D0E !important;
     border-right: 1px solid var(--admin-card-border);
-    min-height: 100vh;
+    height: 100vh;
+    position: sticky;
+    top: 0;
     width: 280px;
     flex-shrink: 0;
     box-shadow: 5px 0 30px rgba(0,0,0,0.5);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}
+
+.admin-sidebar-nav::-webkit-scrollbar {
+    width: 5px;
+}
+
+.admin-sidebar-nav::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.admin-sidebar-nav::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+}
+
+.admin-sidebar-nav::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
 }
 
 .admin-sidebar-nav .nav-section-title {
@@ -90,7 +112,7 @@ body.admin-body {
 
 /* Header Top Bar */
 .admin-header-nav {
-    background: rgba(19, 27, 46, 0.85) !important;
+    background: rgba(24, 26, 31, 0.85) !important;
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--admin-card-border) !important;

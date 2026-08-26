@@ -39,6 +39,10 @@ $videos = $pdo->query("SELECT * FROM videos ORDER BY id DESC")->fetchAll();
                             $video_id = '';
                             if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $vid['youtube_url'], $match)) {
                                 $video_id = $match[1];
+                            } elseif (preg_match('%youtube\.com/shorts/([^"&?/ ]{11})%i', $vid['youtube_url'], $match)) {
+                                $video_id = $match[1];
+                            } elseif (preg_match('%youtube\.com/embed/([^"&?/ ]{11})%i', $vid['youtube_url'], $match)) {
+                                $video_id = $match[1];
                             }
                         ?>
                         <tr>

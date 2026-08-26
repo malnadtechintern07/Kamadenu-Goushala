@@ -8,6 +8,8 @@ return [
     'nav_about' => 'About',
     'nav_cows' => 'Cows',
     'nav_adopt' => 'Adopt',
+    'nav_feed' => 'Feed Cow',
+    'nav_feed_general' => 'Fodder Seva',
     'nav_seva' => 'Seva',
     'nav_activity' => 'Live',
     'nav_donate' => 'Donate',

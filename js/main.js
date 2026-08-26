@@ -51,6 +51,19 @@ function showToast(message, type = 'success') {
     });
 }
 
+// Auth Helper for User Actions
+function requireUserAuth(actionDesc = 'perform this action', redirectTarget = null) {
+    if (window.isUserLoggedIn) {
+        return true;
+    }
+    const target = redirectTarget || (window.location.pathname + window.location.search);
+    showToast(`Please login first to ${actionDesc}.`, 'warning');
+    setTimeout(() => {
+        window.location.href = `/Kamadenu/login.php?redirect=${encodeURIComponent(target)}&msg=login_required`;
+    }, 800);
+    return false;
+}
+
 // Cart Management (LocalStorage Sync)
 function getCart() {
     return JSON.parse(localStorage.getItem('kamadenu_cart') || '[]');
@@ -63,6 +76,9 @@ function saveCart(cart) {
 }
 
 function addToCart(productId, name, price, image) {
+    if (!requireUserAuth('add items to your cart', '/Kamadenu/products.php')) {
+        return;
+    }
     let cart = getCart();
     let existing = cart.find(item => item.id == productId);
     if (existing) {
@@ -71,11 +87,41 @@ function addToCart(productId, name, price, image) {
         cart.push({ id: productId, name: name, price: price, image: image, quantity: 1 });
     }
     saveCart(cart);
+    showToast(`Added ${name} to your cart!`, 'success');
     window.location.href = '/Kamadenu/cart.php';
 }
 
+let currentBuyNowProduct = null;
 
-function buyNow(productId, name, price, image) {
+function buyNow(productId, name, price, image, checkoutMethod, whatsappUrl) {
+    if (!requireUserAuth('buy products and checkout', '/Kamadenu/buy-product.php?id=' + productId)) {
+        return;
+    }
+
+    checkoutMethod = checkoutMethod || 'both';
+
+    if (checkoutMethod === 'website') {
+        proceedWebsiteCheckout(productId, name, price, image);
+    } else if (checkoutMethod === 'whatsapp') {
+        if (whatsappUrl) {
+            window.location.href = whatsappUrl;
+        } else {
+            window.location.href = '/Kamadenu/buy-product.php?id=' + productId;
+        }
+    } else {
+        window.location.href = '/Kamadenu/buy-product.php?id=' + productId;
+    }
+}
+
+function proceedWebsiteCheckout(productId, name, price, image) {
+    if (!productId && currentBuyNowProduct) {
+        productId = currentBuyNowProduct.productId;
+        name = currentBuyNowProduct.name;
+        price = currentBuyNowProduct.price;
+        image = currentBuyNowProduct.image;
+    }
+    if (!productId) return;
+
     let cart = getCart();
     let existing = cart.find(item => item.id == productId);
     if (existing) {
@@ -84,7 +130,14 @@ function buyNow(productId, name, price, image) {
         cart.push({ id: productId, name: name, price: price, image: image, quantity: 1 });
     }
     saveCart(cart);
-    proceedCartCheckout();
+
+    const modalEl = document.getElementById('buyNowModal');
+    if (modalEl) {
+        const bsModal = bootstrap.Modal.getInstance(modalEl);
+        if (bsModal) bsModal.hide();
+    }
+
+    window.location.href = '/Kamadenu/checkout.php?type=cart';
 }
 
 function updateCartBadge() {

@@ -31,7 +31,7 @@ $products = $pdo->query("SELECT p.*, c.name as category_name FROM products p JOI
             <tbody>
                 <?php foreach ($products as $p): ?>
                     <tr>
-                        <td><img src="/Kamadenu/<?php echo e($p['image']); ?>" width="50" height="50" class="rounded object-fit-cover" onerror="this.src='https://images.unsplash.com/photo-1589927986089-35812388d1f4?auto=format&fit=crop&w=100&q=80'"></td>
+                         <td><img src="/Kamadenu/<?php echo e($p['image']); ?>" class="rounded" style="width: 50px; height: 50px; object-fit: cover; flex-shrink: 0;" onerror="this.src='https://images.unsplash.com/photo-1589927986089-35812388d1f4?auto=format&fit=crop&w=100&q=80'"></td>
                         <td><strong><?php echo e($p['name']); ?></strong></td>
                         <td><span class="badge bg-warning-subtle text-dark border border-warning"><?php echo e($p['category_name']); ?></span></td>
                         <td class="font-mono fw-bold">₹<?php echo number_format($p['price'], 2); ?></td>

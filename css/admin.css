@@ -1,33 +1,211 @@
 /* ==========================================================================
-   KAMADENU GOUSHALA - PREMIUM MODERN ADMIN DASHBOARD SYSTEM
+   KAMADENU GOUSHALA - VIBRANT & ATTRACTIVE ADMIN THEME SYSTEM (DARK & LIGHT)
    ========================================================================== */
 
-:root {
-    --admin-bg: #0B0F17;
-    --admin-card-bg: #151C2C;
-    --admin-card-border: rgba(255, 255, 255, 0.08);
-    --admin-sidebar-bg: #090D16;
-    --admin-header-bg: rgba(21, 28, 44, 0.85);
-    --admin-text-main: #F8FAFC;
-    --admin-text-sub: #94A3B8;
-    --admin-text-muted: #64748B;
-
-    --admin-gold: #F59E0B;
-    --admin-gold-glow: rgba(245, 158, 11, 0.35);
-    --admin-accent-amber: #D97706;
-    --admin-accent-emerald: #10B981;
-    --admin-accent-blue: #0EA5E9;
-    --admin-accent-purple: #8B5CF6;
-    --admin-accent-rose: #F43F5E;
+/* 1. DARK MODE VARIABLES & OVERRIDES (Default) */
+:root, [data-admin-theme="dark"], body.admin-body:not([data-admin-theme="light"]) {
+    --admin-bg: #0b0e14;
+    --admin-card-bg: #151922;
+    --admin-card-border: rgba(245, 158, 11, 0.2);
+    --admin-sidebar-bg: #07090d;
+    --admin-header-bg: rgba(21, 25, 34, 0.95);
+    --admin-text-main: #f8fafc;
+    --admin-text-sub: #cbd5e1;
+    --admin-text-muted: #94a3b8;
+    --admin-table-bg: #151922;
+    --admin-table-row-hover: rgba(245, 158, 11, 0.08);
+    --admin-input-bg: #0d1017;
+    --admin-input-text: #f8fafc;
+    --admin-input-border: rgba(245, 158, 11, 0.3);
+    --admin-gold: #f59e0b;
+    --admin-gold-glow: rgba(245, 158, 11, 0.25);
 }
 
+/* In Dark Mode: Override Bootstrap Utilities for High Contrast */
+[data-admin-theme="dark"] .text-dark,
+body.admin-body:not([data-admin-theme="light"]) .text-dark,
+[data-admin-theme="dark"] .text-black,
+body.admin-body:not([data-admin-theme="light"]) .text-black,
+[data-admin-theme="dark"] .text-body,
+body.admin-body:not([data-admin-theme="light"]) .text-body {
+    color: #f8fafc !important;
+}
+
+[data-admin-theme="dark"] .text-muted,
+body.admin-body:not([data-admin-theme="light"]) .text-muted,
+[data-admin-theme="dark"] .text-secondary,
+body.admin-body:not([data-admin-theme="light"]) .text-secondary {
+    color: #cbd5e1 !important;
+}
+
+[data-admin-theme="dark"] .bg-light,
+body.admin-body:not([data-admin-theme="light"]) .bg-light,
+[data-admin-theme="dark"] .bg-white,
+body.admin-body:not([data-admin-theme="light"]) .bg-white,
+[data-admin-theme="dark"] .bg-secondary-subtle,
+body.admin-body:not([data-admin-theme="light"]) .bg-secondary-subtle {
+    background-color: #1a1e29 !important;
+    color: #f8fafc !important;
+    border-color: rgba(245, 158, 11, 0.25) !important;
+}
+
+
+/* 2. LIGHT MODE VARIABLES & OVERRIDES */
+[data-admin-theme="light"] {
+    --admin-bg: #f1f5f9;
+    --admin-card-bg: #ffffff;
+    --admin-card-border: rgba(217, 119, 6, 0.25);
+    --admin-sidebar-bg: #0f172a;
+    --admin-header-bg: rgba(255, 255, 255, 0.95);
+    --admin-text-main: #0f172a;
+    --admin-text-sub: #334155;
+    --admin-text-muted: #475569;
+    --admin-table-bg: #ffffff;
+    --admin-table-row-hover: #f8fafc;
+    --admin-input-bg: #f8fafc;
+    --admin-input-text: #0f172a;
+    --admin-input-border: #cbd5e1;
+    --admin-gold: #d97706;
+    --admin-gold-glow: rgba(217, 119, 6, 0.2);
+}
+
+/* In Light Mode: Override Bootstrap Utilities for High Contrast */
+[data-admin-theme="light"] .text-white:not(.admin-sidebar-nav *):not(.badge *),
+[data-admin-theme="light"] .text-light:not(.admin-sidebar-nav *) {
+    color: #0f172a !important;
+}
+
+[data-admin-theme="light"] .text-muted,
+[data-admin-theme="light"] .text-secondary {
+    color: #475569 !important;
+}
+
+[data-admin-theme="light"] .bg-dark:not(.admin-sidebar-nav *),
+[data-admin-theme="light"] .bg-secondary,
+[data-admin-theme="light"] .bg-black {
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-admin-theme="light"] .admin-header-nav {
+    background: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-admin-theme="light"] .admin-header-nav h4,
+[data-admin-theme="light"] .admin-header-nav .user-name-glow {
+    color: #0f172a !important;
+}
+
+
+/* 3. UNIVERSAL HIGH-CONTRAST TEXT & COMPONENT RULES */
 body.admin-body {
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--admin-bg);
-    color: var(--admin-text-main);
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--admin-bg) !important;
+    color: var(--admin-text-main) !important;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.admin-body .kamadenu-card,
+body.admin-body .admin-card,
+body.admin-body .card {
+    background-color: var(--admin-card-bg) !important;
+    border: 1px solid var(--admin-card-border) !important;
+    color: var(--admin-text-main) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+body.admin-body h1, body.admin-body h2, body.admin-body h3, 
+body.admin-body h4, body.admin-body h5, body.admin-body h6 {
+    color: var(--admin-text-main) !important;
+    font-weight: 700;
+}
+
+body.admin-body p, body.admin-body span, body.admin-body label,
+body.admin-body div, body.admin-body strong, body.admin-body b,
+body.admin-body small, body.admin-body td {
+    color: inherit;
+}
+
+/* Form Controls & Inputs */
+body.admin-body .form-control,
+body.admin-body .form-select,
+body.admin-body textarea {
+    background-color: var(--admin-input-bg) !important;
+    color: var(--admin-input-text) !important;
+    border: 1px solid var(--admin-input-border) !important;
+    border-radius: 12px;
+}
+
+body.admin-body .form-control:focus,
+body.admin-body .form-select:focus,
+body.admin-body textarea:focus {
+    border-color: var(--admin-gold) !important;
+    box-shadow: 0 0 0 3px var(--admin-gold-glow) !important;
+}
+
+/* Tables & Data Grids */
+body.admin-body table,
+body.admin-body .table {
+    color: var(--admin-text-main) !important;
+    background-color: transparent !important;
+    border-color: var(--admin-card-border) !important;
+}
+
+body.admin-body table th,
+body.admin-body .table th {
+    color: var(--admin-text-sub) !important;
+    background-color: var(--admin-card-bg) !important;
+    border-bottom: 2px solid var(--admin-card-border) !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    letter-spacing: 0.8px;
+}
+
+body.admin-body table td,
+body.admin-body .table td {
+    color: var(--admin-text-main) !important;
+    border-bottom: 1px solid var(--admin-card-border) !important;
+    background-color: transparent !important;
+    vertical-align: middle;
+}
+
+body.admin-body table tr:hover td,
+body.admin-body .table tr:hover td {
+    background-color: var(--admin-table-row-hover) !important;
+    color: var(--admin-text-main) !important;
+}
+
+/* Modals & Dropdown Menus */
+body.admin-body .dropdown-menu {
+    background-color: var(--admin-card-bg) !important;
+    border: 1px solid var(--admin-card-border) !important;
+    color: var(--admin-text-main) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25) !important;
+}
+
+body.admin-body .dropdown-item {
+    color: var(--admin-text-main) !important;
+}
+
+body.admin-body .dropdown-item:hover {
+    background-color: var(--admin-table-row-hover) !important;
+    color: var(--admin-gold) !important;
+}
+
+/* Badges */
+body.admin-body .badge-cow-code,
+body.admin-body .badge-admin-gold {
+    background: rgba(245, 158, 11, 0.18) !important;
+    color: #f59e0b !important;
+    border: 1px solid rgba(245, 158, 11, 0.4) !important;
 }
 
 /* Glassmorphic Admin Header */
@@ -41,7 +219,7 @@ body.admin-body {
 
 @supports (backdrop-filter: blur(16px)) or (-webkit-backdrop-filter: blur(16px)) {
     .admin-header-nav {
-        background: rgba(21, 28, 44, 0.7);
+        background: rgba(24, 26, 31, 0.75);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
     }
@@ -54,14 +232,33 @@ body.admin-body {
 
 /* Sidebar base */
 .admin-sidebar-nav {
-    background: linear-gradient(180deg, #080C14 0%, #0B0F1A 60%, #090D16 100%);
+    background: linear-gradient(180deg, #0C0D0E 0%, #111215 60%, #0D0E10 100%);
     border-right: 1px solid rgba(255,255,255,0.06);
-    min-height: 100vh;
     width: 270px;
     flex-shrink: 0;
     box-shadow: 6px 0 40px rgba(0,0,0,0.6);
-    position: relative;
-    overflow: hidden;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    max-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 1020;
+}
+
+/* Custom Sleek Scrollbar for Sidebar */
+.admin-sidebar-nav::-webkit-scrollbar {
+    width: 5px;
+}
+.admin-sidebar-nav::-webkit-scrollbar-track {
+    background: transparent;
+}
+.admin-sidebar-nav::-webkit-scrollbar-thumb {
+    background: rgba(245, 158, 11, 0.3);
+    border-radius: 10px;
+}
+.admin-sidebar-nav::-webkit-scrollbar-thumb:hover {
+    background: rgba(245, 158, 11, 0.6);
 }
 
 /* Ambient glow orb at the top */
@@ -72,7 +269,7 @@ body.admin-body {
     left: -60px;
     width: 220px;
     height: 220px;
-    background: radial-gradient(circle, rgba(245,158,11,0.18) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
     pointer-events: none;
     border-radius: 50%;
 }
@@ -528,18 +725,48 @@ body.admin-body {
 .admin-form-control,
 .admin-card .form-control,
 .admin-card .form-select {
-    background-color: #0B0F17 !important;
+    background-color: rgba(11, 15, 23, 0.7) !important;
     color: var(--admin-text-main) !important;
-    border: 1px solid var(--admin-card-border) !important;
-    border-radius: 12px;
-    padding: 10px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 14px;
+    padding: 12px 18px;
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* Hover effects for form controls */
+.admin-form-control:hover,
+.admin-card .form-control:hover,
+.admin-card .form-select:hover {
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    background-color: rgba(15, 20, 30, 0.8) !important;
+}
+
+/* Focus effects for form controls */
 .admin-form-control:focus,
 .admin-card .form-control:focus,
 .admin-card .form-select:focus {
     border-color: var(--admin-gold) !important;
-    box-shadow: 0 0 15px var(--admin-gold-glow) !important;
+    background-color: #0B0F17 !important;
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15), inset 0 1px 2px rgba(0,0,0,0.2) !important;
+    outline: none;
+    transform: translateY(-1px);
+}
+
+/* Special styling for select dropdowns to make them cleaner */
+.admin-card .form-select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 14px center !important;
+    background-size: 16px !important;
+    padding-right: 40px !important;
+}
+
+.admin-card .form-select:focus {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F59E0B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
 }
 
 /* Badges */
@@ -671,4 +898,72 @@ body.admin-body {
 
 .animate-spin-slow {
     animation: fa-spin 12s linear infinite;
+}
+
+/* Custom Admin Dropdown Menu */
+.admin-header-nav .dropdown-menu {
+    background-color: var(--admin-card-bg);
+    border: 1px solid var(--admin-card-border) !important;
+    border-radius: 14px;
+    min-width: 220px;
+    padding: 10px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    animation: dropdownFade 0.2s ease forwards;
+}
+
+@keyframes dropdownFade {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.admin-header-nav .dropdown-item {
+    color: var(--admin-text-sub);
+    border-radius: 8px;
+    padding: 8px 16px;
+    margin-bottom: 2px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.admin-header-nav .dropdown-item i {
+    width: 20px;
+    text-align: center;
+}
+
+.admin-header-nav .dropdown-item:hover,
+.admin-header-nav .dropdown-item:focus {
+    background-color: rgba(255, 255, 255, 0.06);
+    color: var(--admin-text-main);
+}
+
+.admin-header-nav .dropdown-item.text-danger:hover {
+    background-color: rgba(244, 63, 94, 0.15);
+    color: #FDA4AF !important;
+}
+
+.admin-header-nav .admin-profile-toggle {
+    padding: 6px 12px 6px 6px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.admin-header-nav .admin-profile-toggle:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Colorless (Monochrome) Sidebar Nav Link Icons Override */
+.admin-sidebar-nav .nav-link i {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: var(--admin-text-sub) !important;
+    box-shadow: none !important;
+}
+
+.admin-sidebar-nav .nav-link:hover i,
+.admin-sidebar-nav .nav-link.active i {
+    background: rgba(255, 255, 255, 0.12) !important;
+    color: var(--admin-text-main) !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important;
 }

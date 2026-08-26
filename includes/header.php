@@ -33,13 +33,82 @@ function is_dropdown_active($pages, $current) {
     
     <!-- Favicon Icon -->
     <link rel="icon" type="image/svg+xml" href="/Kamadenu/assets/images/favicon.svg">
+
+    <script>
+        window.isUserLoggedIn = <?php echo is_user_logged_in() ? 'true' : 'false'; ?>;
+    </script>
+
+    <!-- Dynamic Custom Button Styles Configured from Admin Panel -->
+    <?php
+    $b_p_start = get_setting($pdo, 'btn_primary_bg_start', '#e67e22');
+    $b_p_end = get_setting($pdo, 'btn_primary_bg_end', '#d35400');
+    $b_p_text = get_setting($pdo, 'btn_primary_text_color', '#ffffff');
+    $b_p_border = get_setting($pdo, 'btn_primary_border_color', '#ffd700');
+    $b_p_radius = get_setting($pdo, 'btn_primary_border_radius', '50px');
+
+    $b_f_start = get_setting($pdo, 'btn_feed_bg_start', '#10b981');
+    $b_f_end = get_setting($pdo, 'btn_feed_bg_end', '#059669');
+    $b_f_text = get_setting($pdo, 'btn_feed_text_color', '#ffffff');
+    $b_f_border = get_setting($pdo, 'btn_feed_border_color', '#6ee7b7');
+    $b_f_radius = get_setting($pdo, 'btn_feed_border_radius', '50px');
+
+    $b_w_start = get_setting($pdo, 'btn_wa_bg_start', '#16a34a');
+    $b_w_end = get_setting($pdo, 'btn_wa_bg_end', '#15803d');
+    $b_w_text = get_setting($pdo, 'btn_wa_text_color', '#ffffff');
+    $b_w_border = get_setting($pdo, 'btn_wa_border_color', '#86efac');
+    $b_w_radius = get_setting($pdo, 'btn_wa_border_radius', '50px');
+
+    $b_d_start = get_setting($pdo, 'btn_details_bg_start', '#1e293b');
+    $b_d_end = get_setting($pdo, 'btn_details_bg_end', '#0f172a');
+    $b_d_text = get_setting($pdo, 'btn_details_text_color', '#f8fafc');
+    $b_d_border = get_setting($pdo, 'btn_details_border_color', '#38bdf8');
+    $b_d_radius = get_setting($pdo, 'btn_details_border_radius', '50px');
+
+    $b_c_start = get_setting($pdo, 'btn_cart_bg_start', '#fef3c7');
+    $b_c_end = get_setting($pdo, 'btn_cart_bg_end', '#fde68a');
+    $b_c_text = get_setting($pdo, 'btn_cart_text_color', '#b45309');
+    $b_c_border = get_setting($pdo, 'btn_cart_border_color', '#f59e0b');
+    $b_c_radius = get_setting($pdo, 'btn_cart_border_radius', '50px');
+    ?>
+    <style id="kamadenu-dynamic-admin-buttons">
+    .btn-kamadenu-primary, .btn-sponsor-primary {
+        background: linear-gradient(135deg, <?php echo e($b_p_start); ?> 0%, <?php echo e($b_p_end); ?> 100%) !important;
+        color: <?php echo e($b_p_text); ?> !important;
+        border: 1.5px solid <?php echo e($b_p_border); ?> !important;
+        border-radius: <?php echo e($b_p_radius); ?> !important;
+    }
+    .btn-feed-cow {
+        background: linear-gradient(135deg, <?php echo e($b_f_start); ?> 0%, <?php echo e($b_f_end); ?> 100%) !important;
+        color: <?php echo e($b_f_text); ?> !important;
+        border: 1.5px solid <?php echo e($b_f_border); ?> !important;
+        border-radius: <?php echo e($b_f_radius); ?> !important;
+    }
+    .btn-cart, .btn-kamadenu-outline {
+        background: linear-gradient(135deg, <?php echo e($b_c_start); ?> 0%, <?php echo e($b_c_end); ?> 100%) !important;
+        color: <?php echo e($b_c_text); ?> !important;
+        border: 1.5px solid <?php echo e($b_c_border); ?> !important;
+        border-radius: <?php echo e($b_c_radius); ?> !important;
+    }
+    .btn-success, .btn-whatsapp {
+        background: linear-gradient(135deg, <?php echo e($b_w_start); ?> 0%, <?php echo e($b_w_end); ?> 100%) !important;
+        color: <?php echo e($b_w_text); ?> !important;
+        border: 1.5px solid <?php echo e($b_w_border); ?> !important;
+        border-radius: <?php echo e($b_w_radius); ?> !important;
+    }
+    .btn-cow-details {
+        background: linear-gradient(135deg, <?php echo e($b_d_start); ?> 0%, <?php echo e($b_d_end); ?> 100%) !important;
+        color: <?php echo e($b_d_text); ?> !important;
+        border: 1.5px solid <?php echo e($b_d_border); ?> !important;
+        border-radius: <?php echo e($b_d_radius); ?> !important;
+    }
+    </style>
 </head>
 
 <body>
 
 <!-- Main Bootstrap 5 Compact Navigation -->
 <nav class="navbar navbar-expand-xl navbar-dark navbar-kamadenu sticky-top py-2 shadow">
-    <div class="container-fluid px-lg-3">
+    <div class="container-fluid px-lg-4 px-xl-5">
         <a class="navbar-brand py-0 me-3 d-flex align-items-center" href="/Kamadenu/index.php">
             <?php 
             $logo_setting = get_setting($pdo, 'website_logo', '');
@@ -53,8 +122,8 @@ function is_dropdown_active($pages, $current) {
             </div>
         </a>
 
-        <button class="navbar-toggler border-0 p-1" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler border-0 p-2 ms-auto text-warning shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars fs-2"></i>
         </button>
 
         <div class="collapse navbar-collapse" id="mainNavbar">
@@ -62,7 +131,31 @@ function is_dropdown_active($pages, $current) {
                 <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('index.php', $current_page); ?>" href="/Kamadenu/index.php"><?php echo __t('nav_home'); ?></a></li>
                 <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('about.php', $current_page); ?>" href="/Kamadenu/about.php"><?php echo __t('nav_about'); ?></a></li>
                 <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('cows.php', $current_page); ?>" href="/Kamadenu/cows.php"><?php echo __t('nav_cows'); ?></a></li>
-                <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('adopt.php', $current_page); ?>" href="/Kamadenu/adopt.php"><?php echo __t('nav_adopt'); ?></a></li>
+                
+                <!-- Merged Dropdown: Adopt & Feed Cow -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-nowrap <?php echo is_dropdown_active(['adopt.php', 'feed-cow.php', 'feed.php'], $current_page); ?>" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-heart text-warning me-1"></i> Adopt &amp; Feed Cow <i class="fas fa-chevron-down ms-1 small"></i>
+                    </a>
+                    <ul class="dropdown-menu shadow border-warning">
+                        <li>
+                            <a class="dropdown-item <?php echo is_nav_active('adopt.php', $current_page); ?>" href="/Kamadenu/adopt.php">
+                                <i class="fas fa-heart text-danger me-2"></i> Sponsor / Adopt Cow
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item <?php echo is_nav_active('feed-cow.php', $current_page); ?>" href="/Kamadenu/feed-cow.php">
+                                <i class="fas fa-cookie-bite text-success me-2"></i> Feed Specific Cow
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item <?php echo is_nav_active('feed.php', $current_page); ?>" href="/Kamadenu/feed.php">
+                                <i class="fas fa-wheat-awn text-warning me-2"></i> Fodder Seva (General)
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('seva.php', $current_page); ?>" href="/Kamadenu/seva.php"><?php echo __t('nav_seva'); ?></a></li>
                 <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('products.php', $current_page); ?>" href="/Kamadenu/products.php"><?php echo __t('nav_products'); ?></a></li>
                 <li class="nav-item"><a class="nav-link text-nowrap <?php echo is_nav_active('events.php', $current_page); ?>" href="/Kamadenu/events.php"><?php echo __t('nav_events'); ?></a></li>
@@ -109,15 +202,7 @@ function is_dropdown_active($pages, $current) {
                     </ul>
                 </div>
 
-                <!-- Header Cart Link Button -->
-                <a href="/Kamadenu/cart.php" class="btn btn-warning btn-sm rounded-pill font-ui fw-bold px-3 d-flex align-items-center gap-2 position-relative <?php echo is_nav_active('cart.php', $current_page); ?>" title="<?php echo __t('nav_cart'); ?>">
-                    <i class="fas fa-shopping-basket"></i>
-                    <span><?php echo __t('nav_cart'); ?></span>
-                    <span class="badge rounded-pill bg-danger cart-badge" style="display:none;">0</span>
-                </a>
-
-
-
+                <!-- Header User Login / Account Option -->
                 <?php if ($user): ?>
                     <div class="dropdown">
                         <button class="btn btn-warning btn-sm dropdown-toggle font-ui rounded-pill fw-semibold px-3" type="button" data-bs-toggle="dropdown">
@@ -134,8 +219,10 @@ function is_dropdown_active($pages, $current) {
                         </ul>
                     </div>
                 <?php else: ?>
-                    <a href="/Kamadenu/login.php" class="btn btn-outline-light btn-sm rounded-pill font-ui px-3"><?php echo __t('nav_login'); ?></a>
-                    <a href="/Kamadenu/register.php" class="btn btn-warning btn-sm rounded-pill font-ui px-3 fw-semibold"><?php echo __t('nav_register'); ?></a>
+                    <a href="/Kamadenu/login.php" class="btn btn-warning btn-sm rounded-pill font-ui fw-bold px-3 d-flex align-items-center gap-2 shadow-sm" title="<?php echo __t('nav_login'); ?>">
+                        <i class="fas fa-user-circle"></i>
+                        <span><?php echo __t('nav_login'); ?></span>
+                    </a>
                 <?php endif; ?>
             </div>
         </div>

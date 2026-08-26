@@ -1,10 +1,17 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
 
+if (!is_user_logged_in()) {
+    $redirect_url = $_SERVER['REQUEST_URI'];
+    header("Location: /Kamadenu/login.php?redirect=" . urlencode($redirect_url) . "&msg=login_required");
+    exit;
+}
+
 $type = isset($_GET['type']) ? $_GET['type'] : 'donation'; // donation, sponsorship, seva, cart
 
 $whatsapp_order_default = get_setting($pdo, 'whatsapp_order_default', '+91 98800 12345');
 $product_wa_map = $pdo->query("SELECT p.id, wn.phone_number FROM products p JOIN whatsapp_numbers wn ON p.whatsapp_number_id = wn.id WHERE p.whatsapp_number_id IS NOT NULL")->fetchAll(PDO::FETCH_KEY_PAIR);
+$product_method_map = $pdo->query("SELECT id, contact_method FROM products")->fetchAll(PDO::FETCH_KEY_PAIR);
 
 $amount = 0;
 $description = 'Gouseva Contribution';
@@ -17,6 +24,14 @@ $sponsorship_contact_method = 'website';
 $seva_wa_msg = '';
 $seva_wa_phone = '';
 $seva_contact_method = 'website';
+
+$feed_wa_msg = '';
+$feed_wa_phone = '';
+$feed_contact_method = 'website';
+
+$feed_cow_wa_msg = '';
+$feed_cow_wa_phone = '';
+$feed_cow_contact_method = 'website';
 
 $campaign_id = isset($_GET['campaign_id']) ? intval($_GET['campaign_id']) : 0;
 $campaign_wa_msg = '';
@@ -71,6 +86,40 @@ if ($type === 'donation') {
         $seva_contact_method = $seva['contact_method'];
         $seva_wa_phone = !empty($seva['wa_phone_dir']) ? $seva['wa_phone_dir'] : get_setting($pdo, 'whatsapp_order_default', '+91 98800 12345');
         $seva_wa_msg = !empty($seva['whatsapp_message']) ? $seva['whatsapp_message'] : '';
+    }
+} elseif ($type === 'feed') {
+    $feed_id = isset($_GET['feed_id']) ? intval($_GET['feed_id']) : 1;
+    $qty = isset($_GET['quantity']) ? intval($_GET['quantity']) : 1;
+    
+    $stmt = $pdo->prepare("SELECT f.*, wn.phone_number as wa_phone_dir FROM feed_items f LEFT JOIN whatsapp_numbers wn ON f.whatsapp_number_id = wn.id WHERE f.id = ?");
+    $stmt->execute([$feed_id]);
+    $feed = $stmt->fetch();
+    
+    $cost = $feed ? floatval($feed['cost']) : 500.00;
+    $amount = $cost * $qty;
+    $description = "Feed Cow: " . ($feed ? $feed['title'] : 'Fodder') . " x{$qty}";
+    $entity_id = $feed_id;
+
+    if ($feed) {
+        $feed_contact_method = $feed['contact_method'];
+        $feed_wa_phone = !empty($feed['wa_phone_dir']) ? $feed['wa_phone_dir'] : get_setting($pdo, 'whatsapp_order_default', '+91 98800 12345');
+        $feed_wa_msg = !empty($feed['whatsapp_message']) ? $feed['whatsapp_message'] : '';
+    }
+} elseif ($type === 'feed_cow') {
+    $cow_id = isset($_GET['cow_id']) ? intval($_GET['cow_id']) : 0;
+    
+    $stmt = $pdo->prepare("SELECT fc.*, wn.phone_number as wa_phone_dir FROM feeding_cows fc LEFT JOIN whatsapp_numbers wn ON fc.whatsapp_number_id = wn.id WHERE fc.id = ?");
+    $stmt->execute([$cow_id]);
+    $cow = $stmt->fetch();
+    
+    $amount = isset($_GET['amount']) ? floatval($_GET['amount']) : ($cow ? floatval($cow['feed_amount']) : 500.00);
+    $description = "Feeding contribution for cow " . ($cow ? $cow['name'] : 'Indigenous Cow') . " (" . ($cow ? $cow['cow_code'] : '') . ")";
+    $entity_id = $cow_id;
+
+    if ($cow) {
+        $feed_cow_contact_method = $cow['payment_method'];
+        $feed_cow_wa_phone = !empty($cow['wa_phone_dir']) ? $cow['wa_phone_dir'] : get_setting($pdo, 'whatsapp_adoption_default', '+91 98800 12345');
+        $feed_cow_wa_msg = !empty($cow['whatsapp_message']) ? $cow['whatsapp_message'] : '';
     }
 } elseif ($type === 'cart') {
     $amount = isset($_GET['amount']) ? floatval($_GET['amount']) : 0.00;
@@ -157,14 +206,18 @@ $donor_phone = isset($_GET['phone']) ? trim($_GET['phone']) : ($user ? $user['ph
                                 </h2>
                                 <div id="optUPI" class="accordion-collapse collapse show" data-bs-parent="#paymentOptionsAccordionContainer">
                                     <div class="accordion-body text-start">
-                                        <div class="text-center p-3 bg-light rounded mb-3">
-                                            <i class="fas fa-qrcode display-4 text-dark mb-2"></i>
-                                            <div class="font-mono fw-bold text-dark">UPI ID: kamadenu@upi</div>
-                                            <small class="text-muted">Scan QR or transfer to official Goushala UPI ID</small>
+                                        <div class="text-center p-3 bg-light rounded mb-3 text-dark">
+                                            <?php 
+                                            $qr_code_setting = get_setting($pdo, 'donation_qr_code', 'assets/images/donation_qr.png');
+                                            $upi_id_setting = get_setting($pdo, 'donation_upi_id', 'kamadenu@upi');
+                                            ?>
+                                            <img src="<?php echo htmlspecialchars(img_url($qr_code_setting)); ?>" alt="Donation QR Code" class="img-fluid mb-2 rounded-3 shadow-sm border border-secondary" style="max-height: 180px; width: auto;">
+                                            <div class="font-mono fw-bold">UPI ID: <?php echo e($upi_id_setting); ?></div>
+                                            <small class="text-muted">Scan QR code or transfer to official Goushala UPI ID</small>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label font-ui small fw-bold">Enter Your UPI ID (e.g. user@okaxis)</label>
-                                            <input type="text" name="upi_id" class="form-control" placeholder="yourname@upi">
+                                            <label class="form-label font-ui small fw-bold">Enter Your UPI ID (e.g. user@okaxis) or UTR Number</label>
+                                            <input type="text" name="upi_id" class="form-control" placeholder="yourname@upi or 12-digit UTR">
                                         </div>
                                     </div>
                                 </div>
@@ -236,6 +289,7 @@ $donor_phone = isset($_GET['phone']) ? trim($_GET['phone']) : ($user ? $user['ph
 const type = <?php echo json_encode($type); ?>;
 const defaultWhatsAppOrder = <?php echo json_encode($whatsapp_order_default); ?>;
 const productWhatsAppMap = <?php echo json_encode($product_wa_map); ?>;
+const productMethodMap = <?php echo json_encode($product_method_map); ?>;
 const productCheckoutMethod = <?php echo json_encode(get_setting($pdo, 'product_checkout_method', 'both')); ?>;
 
 const donationActionMode = <?php echo json_encode(get_setting($pdo, 'donation_action_mode', 'website')); ?>;
@@ -254,6 +308,14 @@ const durationMonths = <?php echo isset($dur) ? intval($dur) : 1; ?>;
 const sevaContactMethod = <?php echo json_encode($seva_contact_method); ?>;
 const sevaWaPhone = <?php echo json_encode($seva_wa_phone); ?>;
 const sevaWaMsg = <?php echo json_encode($seva_wa_msg); ?>;
+
+const feedContactMethod = <?php echo json_encode($feed_contact_method); ?>;
+const feedWaPhone = <?php echo json_encode($feed_wa_phone); ?>;
+const feedWaMsg = <?php echo json_encode($feed_wa_msg); ?>;
+
+const feedCowContactMethod = <?php echo json_encode($feed_cow_contact_method); ?>;
+const feedCowWaPhone = <?php echo json_encode($feed_cow_wa_phone); ?>;
+const feedCowWaMsg = <?php echo json_encode($feed_cow_wa_msg); ?>;
 
 let isWhatsApp = false;
 
@@ -290,6 +352,10 @@ document.addEventListener("DOMContentLoaded", function() {
         resolvedMethod = sponsorshipContactMethod;
     } else if (type === 'seva') {
         resolvedMethod = sevaContactMethod;
+    } else if (type === 'feed') {
+        resolvedMethod = feedContactMethod;
+    } else if (type === 'feed_cow') {
+        resolvedMethod = feedCowContactMethod;
     }
 
     const noticeEl = document.getElementById('checkoutNoticeWhatsApp');
@@ -310,6 +376,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 btn.innerHTML = '<i class="fab fa-whatsapp me-2"></i> Sponsor Cow via WhatsApp';
             } else if (type === 'donation') {
                 btn.innerHTML = '<i class="fab fa-whatsapp me-2"></i> Donate via WhatsApp';
+            } else if (type === 'feed') {
+                btn.innerHTML = '<i class="fab fa-whatsapp me-2"></i> Feed Cow via WhatsApp';
+            } else if (type === 'feed_cow') {
+                btn.innerHTML = '<i class="fab fa-whatsapp me-2"></i> Feed Cow via WhatsApp';
             } else {
                 btn.innerHTML = '<i class="fab fa-whatsapp me-2"></i> Place Order via WhatsApp';
             }
@@ -384,26 +454,37 @@ function handlePaymentSubmit(e) {
     const formData = new FormData(form);
 
     const isCart = formData.get('type') === 'cart';
-    let isWhatsApp = false;
+    const optWhatsAppCollapse = document.getElementById('optWhatsApp');
+    let isWhatsApp = optWhatsAppCollapse ? optWhatsAppCollapse.classList.contains('show') : false;
     
-    if (isCart) {
-        const cart = JSON.parse(localStorage.getItem('kamadenu_cart') || '[]');
-        cart.forEach(item => {
-            if (productMethodMap[item.id] === 'whatsapp') {
+    if (!isWhatsApp) {
+        if (isCart) {
+            const cart = JSON.parse(localStorage.getItem('kamadenu_cart') || '[]');
+            cart.forEach(item => {
+                if (productMethodMap[item.id] === 'whatsapp') {
+                    isWhatsApp = true;
+                }
+            });
+        } else if (formData.get('type') === 'donation') {
+            if (donationActionMode === 'whatsapp') {
                 isWhatsApp = true;
             }
-        });
-    } else if (formData.get('type') === 'donation') {
-        if (donationActionMode === 'whatsapp') {
-            isWhatsApp = true;
-        }
-    } else if (formData.get('type') === 'sponsorship') {
-        if (sponsorshipContactMethod === 'whatsapp') {
-            isWhatsApp = true;
-        }
-    } else if (formData.get('type') === 'seva') {
-        if (sevaContactMethod === 'whatsapp') {
-            isWhatsApp = true;
+        } else if (formData.get('type') === 'sponsorship') {
+            if (sponsorshipContactMethod === 'whatsapp') {
+                isWhatsApp = true;
+            }
+        } else if (formData.get('type') === 'seva') {
+            if (sevaContactMethod === 'whatsapp') {
+                isWhatsApp = true;
+            }
+        } else if (formData.get('type') === 'feed') {
+            if (feedContactMethod === 'whatsapp') {
+                isWhatsApp = true;
+            }
+        } else if (formData.get('type') === 'feed_cow') {
+            if (feedCowContactMethod === 'whatsapp') {
+                isWhatsApp = true;
+            }
         }
     }
 
@@ -416,16 +497,24 @@ function handlePaymentSubmit(e) {
         }
     }
 
-    const payload = {
+    let mockPaymentId = 'pay_' + Math.random().toString(36).substring(2, 12);
+    if (method === 'Bank Transfer' && formData.get('utr_number')) {
+        mockPaymentId = 'UTR-' + formData.get('utr_number').trim();
+    } else if (method === 'UPI' && formData.get('upi_id')) {
+        mockPaymentId = 'UPI-' + formData.get('upi_id').trim();
+    }
+
+    let pendingPayload = {
         action: 'verify_payment',
         payment_method: method,
-        razorpay_payment_id: 'pay_' + Math.random().toString(36).substring(2, 12),
+        payment_id: mockPaymentId,
+        razorpay_payment_id: mockPaymentId,
         razorpay_order_id: 'order_' + Math.random().toString(36).substring(2, 12),
         razorpay_signature: 'simulated_sig_' + Date.now(),
-        entity_type: formData.get('type') === 'sponsorship' ? 'Sponsorship' : (formData.get('type') === 'seva' ? 'Seva' : (formData.get('type') === 'cart' ? 'Order' : 'Donation')),
+        entity_type: formData.get('type') === 'sponsorship' ? 'Sponsorship' : (formData.get('type') === 'seva' ? 'Seva' : (formData.get('type') === 'feed' ? 'Feed' : (formData.get('type') === 'feed_cow' ? 'FeedCow' : (formData.get('type') === 'cart' ? 'Order' : 'Donation')))),
         entity_id: formData.get('entity_id'),
         seva_id: formData.get('type') === 'seva' ? formData.get('entity_id') : null,
-        cow_id: formData.get('type') === 'sponsorship' ? formData.get('entity_id') : null,
+        cow_id: (formData.get('type') === 'sponsorship' || formData.get('type') === 'feed_cow') ? formData.get('entity_id') : null,
         sponsor_name: formData.get('donor_name'),
         sponsor_email: formData.get('donor_email'),
         sponsor_phone: formData.get('donor_phone'),
@@ -442,6 +531,50 @@ function handlePaymentSubmit(e) {
         purpose: '<?php echo addslashes($description); ?>'
     };
 
+    window.currentPendingPayload = pendingPayload;
+    window.isWhatsAppCurrent = isWhatsApp;
+    window.isCartCurrent = isCart;
+    window.formDataCurrent = formData;
+
+    if (isWhatsApp) {
+        // Send WhatsApp Pending Approval Request
+        executePaymentVerification(pendingPayload, true);
+    } else {
+        // Show Gateway Verification Modal for Website Payments
+        document.getElementById('pg-amount-display').textContent = `₹ ${parseFloat(formData.get('amount')).toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
+        document.getElementById('pg-purpose-display').textContent = pendingPayload.purpose;
+        
+        const modalEl = document.getElementById('paymentGatewayModal');
+        const bsModal = new bootstrap.Modal(modalEl);
+        bsModal.show();
+    }
+}
+
+function confirmPaymentVerification() {
+    if (!window.currentPendingPayload) return;
+    window.currentPendingPayload.status = 'success';
+    
+    const modalEl = document.getElementById('paymentGatewayModal');
+    const bsModal = bootstrap.Modal.getInstance(modalEl);
+    if (bsModal) bsModal.hide();
+
+    executePaymentVerification(window.currentPendingPayload, false);
+}
+
+function cancelPaymentVerification() {
+    if (!window.currentPendingPayload) return;
+    window.currentPendingPayload.status = 'failed';
+    
+    const modalEl = document.getElementById('paymentGatewayModal');
+    const bsModal = bootstrap.Modal.getInstance(modalEl);
+    if (bsModal) bsModal.hide();
+
+    executePaymentVerification(window.currentPendingPayload, false);
+}
+
+function executePaymentVerification(payload, isWhatsApp) {
+    showToast('Verifying payment status...', 'info');
+
     fetch('/Kamadenu/api/payments.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -455,99 +588,68 @@ function handlePaymentSubmit(e) {
                 let msg = '';
                 const refPaymentId = (data.data && data.data.payment_id) ? data.data.payment_id : (data.payment_id || 'pay_unknown');
 
-                if (formData.get('type') === 'cart') {
-                    localStorage.removeItem('kamadenu_cart');
-                    if (payload.items.length === 1) {
-                        const singleItem = payload.items[0];
-                        if (productWhatsAppMap[singleItem.id]) {
-                            targetWhatsAppNum = productWhatsAppMap[singleItem.id];
-                        }
-                    }
-                    const orderCode = (data.data && data.data.receipt_number) ? data.data.receipt_number : (data.receipt_number || payload.razorpay_order_id);
-
-                    msg = `Hare Krishna! I would like to place an order at Kamadenu Goushala Store.\n\n`;
-                    msg += `*Order Code*: ${orderCode}\n\n`;
-                    msg += `*Items Ordered*:\n`;
-                    payload.items.forEach(item => {
-                        msg += `- ${item.name} x ${item.quantity} (₹${item.price.toLocaleString('en-IN')} each)\n`;
-                    });
-                    msg += `\n*Total Price*: ₹${parseFloat(payload.amount).toLocaleString('en-IN')}\n\n`;
-                    msg += `*Delivery Details*:\n`;
-                    msg += `- Name: ${payload.customer_name}\n`;
-                    msg += `- Phone: ${payload.customer_phone}\n`;
-                    msg += `- Email: ${payload.customer_email}\n`;
-                    msg += `- Shipping Address: ${payload.shipping_address}\n\n`;
-                    msg += `_Please confirm my order. (Reference: ${refPaymentId})_`;
-
-                } else if (formData.get('type') === 'donation') {
-                    targetWhatsAppNum = donationWaPhone;
-                    if (donationWaMsg && donationWaMsg.trim() !== '') {
-                        msg = donationWaMsg.trim() + `\n\n*(Reference: ${refPaymentId})*`;
-                    } else {
-                        msg = `Hare Krishna! I have made a donation to Kamadenu Goushala.\n\n`;
-                        msg += `*Donation Details*:\n`;
-                        msg += `- Purpose: ${payload.purpose}\n`;
-                        msg += `- Amount: ₹${parseFloat(payload.amount).toLocaleString('en-IN')}\n\n`;
-                        msg += `*Donor Details*:\n`;
-                        msg += `- Name: ${payload.donor_name}\n`;
-                        msg += `- Email: ${payload.donor_email}\n`;
-                        msg += `- Phone: ${payload.donor_phone}\n\n`;
-                        msg += `_Reference: ${refPaymentId}_`;
-                    }
-
-                } else if (formData.get('type') === 'sponsorship') {
-                    targetWhatsAppNum = sponsorshipWaPhone;
-                    if (sponsorshipWaMsg && sponsorshipWaMsg.trim() !== '') {
-                        msg = sponsorshipWaMsg.trim() + `\n\n*(Reference: ${refPaymentId})*`;
-                    } else {
-                        msg = `Hare Krishna! I would like to sponsor a cow at Kamadenu Goushala.\n\n`;
-                        msg += `*Sponsorship Details*:\n`;
-                        msg += `- Details: ${payload.purpose}\n`;
-                        msg += `- Amount: ₹${parseFloat(payload.amount).toLocaleString('en-IN')}\n\n`;
-                        msg += `*Sponsor Details*:\n`;
-                        msg += `- Name: ${payload.donor_name}\n`;
-                        msg += `- Email: ${payload.donor_email}\n`;
-                        msg += `- Phone: ${payload.donor_phone}\n\n`;
-                        msg += `_Reference: ${refPaymentId}_`;
-                    }
-
-                } else if (formData.get('type') === 'seva') {
-                    targetWhatsAppNum = sevaWaPhone;
-                    if (sevaWaMsg && sevaWaMsg.trim() !== '') {
-                        msg = sevaWaMsg.trim() + `\n\n*(Reference: ${refPaymentId})*`;
-                    } else {
-                        msg = `Hare Krishna! I would like to sponsor a seva at Kamadenu Goushala.\n\n`;
-                        msg += `*Seva Details*:\n`;
-                        msg += `- Seva: ${payload.purpose}\n`;
-                        msg += `- Suggested Amount: ₹${parseFloat(payload.amount).toLocaleString('en-IN')}\n\n`;
-                        msg += `*Sponsor Details*:\n`;
-                        msg += `- Name: ${payload.donor_name}\n`;
-                        msg += `- Email: ${payload.donor_email}\n`;
-                        msg += `- Phone: ${payload.donor_phone}\n\n`;
-                        msg += `_Reference: ${refPaymentId}_`;
-                    }
+                if (payload.entity_type === 'Order') {
+                    if (window.isCartCurrent) localStorage.removeItem('kamadenu_cart');
+                    msg = `Hare Krishna! I would like to place an order at Kamadenu Goushala Store.\n\n*Order Reference*: ${refPaymentId}\n*Total Price*: ₹${parseFloat(payload.amount).toLocaleString('en-IN')}\n\n_Please verify & confirm my order._`;
+                } else {
+                    msg = `Hare Krishna! I have submitted a ${payload.entity_type} contribution to Kamadenu Goushala.\n\n*Details*: ${payload.purpose}\n*Amount*: ₹${parseFloat(payload.amount).toLocaleString('en-IN')}\n\n_Reference ID: ${refPaymentId}_`;
                 }
 
                 const cleanPhone = targetWhatsAppNum.replace(/[^0-9]/g, '');
                 const waUrl = `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(msg)}`;
                 window.location.href = waUrl;
             } else {
-                if (isCart) {
+                if (window.isCartCurrent && payload.status === 'success') {
                     localStorage.removeItem('kamadenu_cart');
                 }
                 const pId = (data.data && data.data.payment_id) ? data.data.payment_id : (data.payment_id || '');
                 const rcpt = (data.data && data.data.receipt_number) ? data.data.receipt_number : (data.receipt_number || '');
-                window.location.href = '/Kamadenu/thank-you.php?payment_id=' + pId + '&receipt=' + rcpt + '&amount=' + formData.get('amount');
+                const finalStatus = (payload.status === 'failed') ? 'failed' : 'completed';
+                
+                window.location.href = '/Kamadenu/thank-you.php?payment_id=' + pId + '&receipt=' + rcpt + '&amount=' + payload.amount + '&status=' + finalStatus;
             }
         } else {
-            alert('Payment processing error: ' + data.message);
+            showToast('Payment processing alert: ' + data.message, 'danger');
         }
     })
     .catch(err => {
         console.error(err);
-        alert('Payment verification failed.');
+        showToast('Payment verification request failed.', 'danger');
     });
 }
+</script>
+
+<!-- Payment Gateway Verification Modal -->
+<div class="modal fade" id="paymentGatewayModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-warning shadow-lg rounded-4">
+            <div class="modal-header bg-dark text-white border-warning">
+                <h5 class="modal-title font-heading text-warning"><i class="fas fa-shield-alt me-2"></i> Kamadenu Payment Gateway</h5>
+                <button type="button" class="btn-close btn-close-white" onclick="cancelPaymentVerification()"></button>
+            </div>
+            <div class="modal-body p-4 text-center">
+                <div class="mb-3">
+                    <i class="fas fa-credit-card text-warning display-3"></i>
+                </div>
+                <h3 class="font-heading mb-1 text-dark" id="pg-amount-display">₹ 0.00</h3>
+                <p class="text-muted small mb-4 font-ui" id="pg-purpose-display">Gouseva Contribution</p>
+                
+                <div class="alert alert-warning small font-ui text-start mb-4 border-warning">
+                    <i class="fas fa-info-circle me-1 text-warning"></i> Complete secure payment verification or simulate transaction response:
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-success btn-lg font-ui fw-bold shadow py-3" onclick="confirmPaymentVerification()">
+                        <i class="fas fa-check-circle me-2"></i> Pay &amp; Complete Verification
+                    </button>
+                    <button type="button" class="btn btn-outline-danger font-ui fw-semibold py-2" onclick="cancelPaymentVerification()">
+                        <i class="fas fa-times-circle me-2"></i> Cancel Payment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

@@ -206,6 +206,14 @@ require_once __DIR__ . '/header.php';
     <button class="hp-tab-btn" onclick="switchTab(event,'logo')"><i class="fas fa-image"></i> Website Logo</button>
 </div>
 
+<div class="alert alert-info border-info d-flex align-items-center gap-3 mb-4 rounded-4 shadow-sm text-dark bg-info bg-opacity-10">
+    <i class="fab fa-youtube fs-1 text-danger"></i>
+    <div>
+        <strong class="d-block text-dark fs-6">Homepage Video Gallery Link Template</strong>
+        <span class="small text-muted">The YouTube videos shown in the "Sacred Video Gallery" section of the homepage are managed in a dedicated control panel. You can add new videos, delete old ones, or edit titles and links anytime. <a href="/Kamadenu/admin/videos.php" class="fw-bold text-info text-decoration-none">Manage Homepage Videos &amp; Links &rarr;</a></span>
+    </div>
+</div>
+
 <form method="POST" enctype="multipart/form-data">
 <input type="hidden" name="save_hp" value="1">
 

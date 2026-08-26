@@ -32,7 +32,7 @@ $cows = $pdo->query("SELECT * FROM cows ORDER BY id ASC")->fetchAll();
             <tbody>
                 <?php foreach ($cows as $c): ?>
                     <tr>
-                        <td><img src="/Kamadenu/<?php echo e($c['photo']); ?>" width="50" height="50" class="rounded object-fit-cover" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=100&q=80'"></td>
+                        <td><img src="/Kamadenu/<?php echo e($c['photo']); ?>" class="rounded" style="width: 50px; height: 50px; object-fit: cover; flex-shrink: 0;" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=100&q=80'"></td>
                         <td><span class="badge-cow-code"><?php echo e($c['cow_code']); ?></span></td>
                         <td><strong><?php echo e($c['name']); ?></strong></td>
                         <td><span class="badge bg-warning-subtle text-dark border border-warning"><?php echo e($c['breed']); ?></span></td>

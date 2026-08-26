@@ -130,7 +130,7 @@ $categories = $pdo->query("SELECT * FROM product_categories ORDER BY id ASC")->f
             <!-- Current Product Image Preview -->
             <div class="col-12">
                 <div class="p-3 bg-light border rounded d-flex align-items-center gap-3">
-                    <img src="<?php echo img_url($product['image']); ?>" width="90" height="80" class="rounded object-fit-cover shadow-sm">
+                    <img src="<?php echo img_url($product['image']); ?>" class="rounded shadow-sm" style="width: 90px; height: 80px; object-fit: cover; flex-shrink: 0;">
                     <div>
                         <strong class="d-block font-heading">Current Active Product Image</strong>
                         <small class="text-muted font-mono d-block"><?php echo e($product['image']); ?></small>

@@ -41,6 +41,12 @@ if (!function_exists('get_youtube_id')) {
         if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match)) {
             return $match[1];
         }
+        if (preg_match('%youtube\.com/shorts/([^"&?/ ]{11})%i', $url, $match)) {
+            return $match[1];
+        }
+        if (preg_match('%youtube\.com/embed/([^"&?/ ]{11})%i', $url, $match)) {
+            return $match[1];
+        }
         return '';
     }
 }
@@ -413,14 +419,14 @@ ensure_hp_settings($pdo, $hp_defaults_idx);
                 <div class="col-lg-4 col-md-6">
                     <div class="premium-video-card d-flex flex-column">
                         <?php if ($video_id): ?>
-                            <div class="video-thumbnail-wrapper ratio ratio-16x9" onclick="openVideoLightbox('<?php echo $video_id; ?>', '<?php echo htmlspecialchars($vid['title'], ENT_QUOTES); ?>')">
+                            <a href="<?php echo htmlspecialchars($vid['youtube_url']); ?>" target="_blank" class="video-thumbnail-wrapper ratio ratio-16x9 d-block">
                                 <img src="https://img.youtube.com/vi/<?php echo $video_id; ?>/hqdefault.jpg" class="object-fit-cover w-100 h-100" alt="<?php echo e($vid['title']); ?>">
                                 <div class="video-play-overlay">
                                     <div class="glowing-play-icon">
                                         <i class="fas fa-play ms-1"></i>
                                     </div>
                                 </div>
-                            </div>
+                            </a>
                         <?php else: ?>
                             <div class="video-thumbnail-wrapper ratio ratio-16x9 bg-dark text-white d-flex align-items-center justify-content-center">
                                 <span class="small text-danger"><i class="fas fa-exclamation-triangle me-1"></i> Invalid Video URL</span>
@@ -436,9 +442,9 @@ ensure_hp_settings($pdo, $hp_defaults_idx);
                             <p class="video-desc"><?php echo e($vid['description']); ?></p>
                             
                             <?php if ($video_id): ?>
-                                <button onclick="openVideoLightbox('<?php echo $video_id; ?>', '<?php echo htmlspecialchars($vid['title'], ENT_QUOTES); ?>')" class="btn btn-sm btn-kamadenu-primary w-100 font-ui fw-bold mt-auto py-2 rounded-pill shadow-sm">
-                                    <i class="fab fa-youtube me-1.5"></i> Play In Theater Mode
-                                </button>
+                                <a href="<?php echo htmlspecialchars($vid['youtube_url']); ?>" target="_blank" class="btn btn-sm btn-kamadenu-primary w-100 font-ui fw-bold mt-auto py-2 rounded-pill shadow-sm d-flex align-items-center justify-content-center">
+                                    <i class="fab fa-youtube me-1.5"></i> Play on YouTube
+                                </a>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -641,30 +647,23 @@ ensure_hp_settings($pdo, $hp_defaults_idx);
                                     <small class="text-muted font-ui"><?php echo __t('product_stock'); ?>: <?php echo $p['stock_quantity']; ?></small>
                                 </div>
                                 <div class="d-flex flex-column gap-2 w-100">
-                                    <?php if ($product_checkout_method === 'both' || $product_checkout_method === 'website'): ?>
-                                        <div class="d-flex gap-2 w-100">
-                                            <button onclick="addToCart(<?php echo $p['id']; ?>, '<?php echo addslashes($p['name']); ?>', <?php echo $p['price']; ?>, '<?php echo $p['image']; ?>')" class="btn btn-outline-dark btn-sm flex-fill font-ui fw-bold">
-                                                <i class="fas fa-shopping-cart me-1"></i> <?php echo __t('btn_add_to_cart'); ?>
-                                            </button>
-                                            <button onclick="buyNow(<?php echo $p['id']; ?>, '<?php echo addslashes($p['name']); ?>', <?php echo $p['price']; ?>, '<?php echo $p['image']; ?>')" class="btn btn-warning btn-sm flex-fill font-ui fw-bold text-dark shadow-sm">
-                                                <i class="fas fa-bolt me-1"></i> <?php echo __t('btn_buy_now'); ?>
-                                            </button>
-                                        </div>
-                                    <?php endif; ?>
-                                    <?php if ($product_checkout_method === 'whatsapp' || $product_checkout_method === 'both'): ?>
-                                        <?php 
-                                            // Look up if product has custom WA number, else use default order number
-                                            $p_wa = $pdo->prepare("SELECT wn.phone_number FROM products p JOIN whatsapp_numbers wn ON p.whatsapp_number_id = wn.id WHERE p.id = ?");
-                                            $p_wa->execute([$p['id']]);
-                                            $wa_phone_dir = $p_wa->fetchColumn();
-                                            $wa_phone = !empty($wa_phone_dir) ? $wa_phone_dir : get_setting($pdo, 'whatsapp_order_default', '+91 98800 12345');
-                                            $wa_msg = !empty($p['whatsapp_message']) ? $p['whatsapp_message'] : "Hare Krishna! I would like to purchase this product:\n- Product: " . $p['name'] . "\n- Price: ₹" . number_format($p['price'], 2) . "\n\nPlease let me know how to proceed.";
-                                            $whatsapp_url = "https://api.whatsapp.com/send?phone=" . preg_replace('/[^0-9]/', '', $wa_phone) . "&text=" . urlencode($wa_msg);
-                                        ?>
-                                        <a href="<?php echo $whatsapp_url; ?>" target="_blank" class="btn btn-success btn-sm w-100 py-2 font-ui fw-bold shadow-sm text-center">
-                                            <i class="fab fa-whatsapp me-1"></i> Order via WhatsApp
-                                        </a>
-                                    <?php endif; ?>
+                                    <?php 
+                                        $p_wa = $pdo->prepare("SELECT wn.phone_number FROM products p JOIN whatsapp_numbers wn ON p.whatsapp_number_id = wn.id WHERE p.id = ?");
+                                        $p_wa->execute([$p['id']]);
+                                        $wa_phone_dir = $p_wa->fetchColumn();
+                                        $wa_phone = !empty($wa_phone_dir) ? $wa_phone_dir : get_setting($pdo, 'whatsapp_order_default', '+91 98800 12345');
+                                        $wa_msg = !empty($p['whatsapp_message']) ? $p['whatsapp_message'] : "Hare Krishna! I would like to purchase this product:\n- Product: " . $p['name'] . "\n- Price: ₹" . number_format($p['price'], 2) . "\n\nPlease let me know how to proceed.";
+                                        $whatsapp_url = "https://api.whatsapp.com/send?phone=" . preg_replace('/[^0-9]/', '', $wa_phone) . "&text=" . urlencode($wa_msg);
+                                        $p_checkout_method = !empty($p['contact_method']) ? $p['contact_method'] : $product_checkout_method;
+                                    ?>
+                                    <div class="d-flex gap-2 w-100">
+                                        <button onclick="addToCart(<?php echo $p['id']; ?>, '<?php echo addslashes($p['name']); ?>', <?php echo $p['price']; ?>, '<?php echo $p['image']; ?>')" class="btn btn-outline-dark btn-sm flex-fill font-ui fw-bold">
+                                            <i class="fas fa-shopping-cart me-1"></i> <?php echo e(get_setting($pdo, 'btn_cart_label', __t('btn_add_to_cart'))); ?>
+                                        </button>
+                                        <button onclick="buyNow(<?php echo $p['id']; ?>, '<?php echo addslashes($p['name']); ?>', <?php echo $p['price']; ?>, '<?php echo $p['image']; ?>', '<?php echo $p_checkout_method; ?>', '<?php echo addslashes($whatsapp_url); ?>')" class="btn btn-warning btn-sm flex-fill font-ui fw-bold text-dark shadow-sm">
+                                            <i class="fas fa-bolt me-1"></i> <?php echo __t('btn_buy_now'); ?>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -787,40 +786,7 @@ ensure_hp_settings($pdo, $hp_defaults_idx);
 
 
 
-<!-- Video Immersive Lightbox Modal -->
-<div class="modal fade" id="videoLightboxModal" tabindex="-1" aria-labelledby="videoLightboxModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content bg-dark border-warning shadow-lg" style="border-radius: 18px; overflow: hidden;">
-            <div class="modal-header border-0 bg-black bg-opacity-25 py-3 px-4 d-flex justify-content-between align-items-center">
-                <h5 class="modal-title font-heading text-warning mb-0" id="videoModalTitle">Sacred Video Playback</h5>
-                <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-2 bg-black">
-                <div class="ratio ratio-16x9">
-                    <iframe id="videoModalIframe" src="" title="Video Player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="border: 0;"></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<script>
-function openVideoLightbox(videoId, title) {
-    const titleEl = document.getElementById('videoModalTitle');
-    const iframeEl = document.getElementById('videoModalIframe');
-    
-    if (titleEl) titleEl.textContent = title;
-    if (iframeEl) iframeEl.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&rel=0";
-    
-    const modalEl = document.getElementById('videoLightboxModal');
-    const modal = new bootstrap.Modal(modalEl);
-    modal.show();
-    
-    modalEl.addEventListener('hidden.bs.modal', function() {
-        if (iframeEl) iframeEl.src = "";
-    }, { once: true });
-}
-</script>
 
 <!-- Volunteer CTA Banner — DB Controlled -->
 <section class="py-5 bg-card border-top">

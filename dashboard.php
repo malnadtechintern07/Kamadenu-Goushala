@@ -2,7 +2,7 @@
 require_once __DIR__ . '/includes/header.php';
 
 if (!is_user_logged_in()) {
-    header("Location: /Kamadenu/login.php");
+    header("Location: /Kamadenu/login.php?redirect=" . urlencode('/Kamadenu/dashboard.php') . "&msg=login_required");
     exit;
 }
 

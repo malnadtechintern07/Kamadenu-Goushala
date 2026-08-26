@@ -72,7 +72,7 @@ $product_checkout_method = get_setting($pdo, 'product_checkout_method', 'both');
                 ?>
                 <div class="col-md-4">
                     <div class="kamadenu-card h-100">
-                        <img src="<?php echo e($p['image']); ?>" class="cow-card-img" alt="<?php echo e($pname); ?>" onerror="this.src='https://images.unsplash.com/photo-1589927986089-35812388d1f4?auto=format&fit=crop&w=600&q=80'">
+                        <img src="<?php echo e($p['image']); ?>" class="product-card-img" alt="<?php echo e($pname); ?>" onerror="this.src='https://images.unsplash.com/photo-1589927986089-35812388d1f4?auto=format&fit=crop&w=600&q=80'">
                         <div class="card-body p-4 d-flex flex-column justify-content-between">
                             <div>
                                 <span class="badge bg-warning-subtle text-dark border border-warning mb-2"><?php echo e($p['category_name']); ?></span>
@@ -87,30 +87,23 @@ $product_checkout_method = get_setting($pdo, 'product_checkout_method', 'both');
                                         <span class="fs-4 fw-bold text-dark font-mono">₹<?php echo number_format($p['price']); ?></span>
                                         <small class="text-muted d-block font-ui"><?php echo __t('product_stock'); ?>: <?php echo $p['stock_quantity']; ?> <?php echo e($p['unit']); ?></small>
                                     </div>
-                                    <a href="/Kamadenu/product-detail.php?id=<?php echo $p['id']; ?>" class="btn btn-sm btn-outline-secondary font-ui"><i class="fas fa-info-circle"></i> Details</a>
+                                    <a href="/Kamadenu/product-detail.php?id=<?php echo $p['id']; ?>" class="btn btn-sm btn-cow-details"><i class="fas fa-info-circle me-1"></i> Details</a>
                                 </div>
 
                                 <div class="d-flex flex-column gap-2 w-100">
-                                    <?php if ($product_checkout_method === 'both' || $product_checkout_method === 'website'): ?>
-                                        <div class="d-flex gap-2 w-100">
-                                            <button onclick="addToCart(<?php echo $p['id']; ?>, '<?php echo addslashes($p['name']); ?>', <?php echo $p['price']; ?>, '<?php echo $p['image']; ?>')" class="btn btn-outline-dark btn-sm flex-fill font-ui fw-bold">
-                                                <i class="fas fa-shopping-cart me-1"></i> <?php echo __t('btn_add_to_cart'); ?>
-                                            </button>
-                                            <button onclick="buyNow(<?php echo $p['id']; ?>, '<?php echo addslashes($p['name']); ?>', <?php echo $p['price']; ?>, '<?php echo $p['image']; ?>')" class="btn btn-warning btn-sm flex-fill font-ui fw-bold text-dark shadow-sm">
-                                                <i class="fas fa-bolt me-1"></i> <?php echo __t('btn_buy_now'); ?>
-                                            </button>
-                                        </div>
-                                    <?php endif; ?>
-                                    <?php if ($product_checkout_method === 'whatsapp' || $product_checkout_method === 'both'): ?>
-                                        <?php 
-                                            $wa_phone = !empty($p['wa_phone_dir']) ? $p['wa_phone_dir'] : get_setting($pdo, 'whatsapp_order_default', '+91 98800 12345');
-                                            $wa_msg = !empty($p['whatsapp_message']) ? $p['whatsapp_message'] : "Hare Krishna! I would like to purchase this product:\n- Product: " . $p['name'] . "\n- Price: ₹" . number_format($p['price'], 2) . "\n\nPlease let me know how to proceed.";
-                                            $whatsapp_url = "https://api.whatsapp.com/send?phone=" . preg_replace('/[^0-9]/', '', $wa_phone) . "&text=" . urlencode($wa_msg);
-                                        ?>
-                                        <a href="<?php echo $whatsapp_url; ?>" target="_blank" class="btn btn-success btn-sm w-100 py-2 font-ui fw-bold shadow-sm text-center">
-                                            <i class="fab fa-whatsapp me-1"></i> Order via WhatsApp
-                                        </a>
-                                    <?php endif; ?>
+                                    <?php 
+                                        $wa_phone = !empty($p['wa_phone_dir']) ? $p['wa_phone_dir'] : get_setting($pdo, 'whatsapp_order_default', '+91 98800 12345');
+                                        $wa_msg = !empty($p['whatsapp_message']) ? $p['whatsapp_message'] : "Hare Krishna! I would like to purchase this product:\n- Product: " . $p['name'] . "\n- Price: ₹" . number_format($p['price'], 2) . "\n\nPlease let me know how to proceed.";
+                                        $whatsapp_url = "https://api.whatsapp.com/send?phone=" . preg_replace('/[^0-9]/', '', $wa_phone) . "&text=" . urlencode($wa_msg);
+                                    ?>
+                                    <div class="d-flex gap-2 w-100">
+                                        <button onclick="addToCart(<?php echo $p['id']; ?>, '<?php echo addslashes($p['name']); ?>', <?php echo $p['price']; ?>, '<?php echo $p['image']; ?>')" class="btn btn-kamadenu-outline btn-sm flex-fill font-ui fw-bold">
+                                            <i class="fas fa-shopping-cart me-1"></i> <?php echo e(get_setting($pdo, 'btn_cart_label', __t('btn_add_to_cart'))); ?>
+                                        </button>
+                                        <button onclick="buyNow(<?php echo $p['id']; ?>, '<?php echo addslashes($p['name']); ?>', <?php echo $p['price']; ?>, '<?php echo $p['image']; ?>', '<?php echo $product_checkout_method; ?>', '<?php echo addslashes($whatsapp_url); ?>')" class="btn btn-warning btn-sm flex-fill font-ui fw-bold text-dark shadow-sm">
+                                            <i class="fas fa-bolt me-1"></i> <?php echo __t('btn_buy_now'); ?>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -224,6 +224,14 @@ function require_admin_login($pdo) {
     }
 }
 
+function require_user_login() {
+    if (!is_user_logged_in()) {
+        $target = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/Kamadenu/products.php';
+        header("Location: /Kamadenu/login.php?redirect=" . urlencode($target) . "&msg=login_required");
+        exit;
+    }
+}
+
 /**
  * Audit Log Helper
  */
@@ -333,6 +341,157 @@ function ensure_database_schema($pdo) {
         }
     } catch (PDOException $e) {
         // Table might not exist or other issues; skip silently
+    }
+
+    // Ensure donation_action_mode key exists in settings table
+    try {
+        $check = $pdo->prepare("SELECT COUNT(*) FROM settings WHERE setting_key = 'donation_action_mode'");
+        $check->execute();
+        if ($check->fetchColumn() == 0) {
+            $pdo->exec("INSERT INTO settings (setting_key, setting_value, setting_group, description) VALUES ('donation_action_mode', 'both', 'payment', 'Checkout action mode for donations: website, whatsapp, qrcode, website_qrcode, whatsapp_qrcode, or all')");
+        }
+    } catch (PDOException $e) {
+        // Table might not exist or other issues; skip silently
+    }
+
+    // Ensure donation_qr_code key exists in settings table
+    try {
+        $check = $pdo->prepare("SELECT COUNT(*) FROM settings WHERE setting_key = 'donation_qr_code'");
+        $check->execute();
+        if ($check->fetchColumn() == 0) {
+            $pdo->exec("INSERT INTO settings (setting_key, setting_value, setting_group, description) VALUES ('donation_qr_code', 'assets/images/donation_qr.png', 'payment', 'QR code image path for donations')");
+        }
+    } catch (PDOException $e) {
+        // Table might not exist or other issues; skip silently
+    }
+
+    // Ensure donation_upi_id key exists in settings table
+    try {
+        $check = $pdo->prepare("SELECT COUNT(*) FROM settings WHERE setting_key = 'donation_upi_id'");
+        $check->execute();
+        if ($check->fetchColumn() == 0) {
+            $pdo->exec("INSERT INTO settings (setting_key, setting_value, setting_group, description) VALUES ('donation_upi_id', 'kamadenu@upi', 'payment', 'Official Goushala UPI ID for donation transfers')");
+        }
+    } catch (PDOException $e) {
+        // Table might not exist or other issues; skip silently
+    }
+
+    // Ensure videos table has default active videos if empty
+    try {
+        $check = $pdo->query("SELECT COUNT(*) FROM videos");
+        if ($check->fetchColumn() == 0) {
+            $pdo->exec("INSERT INTO videos (title, description, youtube_url) VALUES 
+                ('Daily Gouseva & Feeding Rituals', 'Experience the serene atmosphere during our morning grass feeding programs and daily Gouseva rituals performed with devotion.', 'https://www.youtube.com/watch?v=zF7hG8sBqA4'),
+                ('Cattle Rescue & Medical Rehabilitation', 'A glimpse into our rescue operations for stray, injured, and orphaned cows, and their medical recovery journey at our sanctuary hospital.', 'https://www.youtube.com/watch?v=t31V7Xy3pCo'),
+                ('Vedic Sanctuary Introduction & Tour', 'A guided walk through our Nelamangala sanctuary, showing how the cows are housed, fed and treated.', 'https://www.youtube.com/watch?v=s4X2gSg-J_U')
+            ");
+        }
+    } catch (PDOException $e) {
+        // Fail silently
+    }
+
+    // Ensure gallery table has default photos if empty
+    try {
+        $check = $pdo->query("SELECT COUNT(*) FROM gallery");
+        if ($check->fetchColumn() == 0) {
+            $pdo->exec("INSERT INTO gallery (title, category, image, caption) VALUES 
+                ('Morning Fodder Seva', 'Seva', 'https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=600&q=80', 'Devotees offering fresh Napier grass to Gir cows.'),
+                ('Sacred Gou Aarti', 'Worship', 'https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?auto=format&fit=crop&w=600&q=80', 'Daily evening Aarti ceremony conducted with Vedic chants.'),
+                ('Rescued Calf Playtime', 'Goushala Life', 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=600&q=80', 'Kapila enjoying open pasture sunshine.')
+            ");
+        }
+    } catch (PDOException $e) {
+        // Fail silently
+    }
+
+    // Ensure feed_items table exists
+    try {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `feed_items` (
+            `id` INT AUTO_INCREMENT PRIMARY KEY,
+            `title` VARCHAR(255) NOT NULL,
+            `title_kn` VARCHAR(255) NULL,
+            `title_hi` VARCHAR(255) NULL,
+            `description` TEXT NOT NULL,
+            `description_kn` TEXT NULL,
+            `description_hi` TEXT NULL,
+            `cost` DECIMAL(10,2) NOT NULL,
+            `image` VARCHAR(255) NOT NULL,
+            `contact_method` VARCHAR(20) DEFAULT 'website',
+            `whatsapp_number_id` INT DEFAULT NULL,
+            `whatsapp_message` TEXT DEFAULT NULL,
+            `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+    } catch (PDOException $e) {
+        // Fail silently
+    }
+
+    // Ensure feed_items table has default items if empty
+    try {
+        $check = $pdo->query("SELECT COUNT(*) FROM feed_items");
+        if ($check->fetchColumn() == 0) {
+            $pdo->exec("INSERT INTO feed_items (title, title_kn, title_hi, description, description_kn, description_hi, cost, image) VALUES 
+                ('Fresh Napier Grass (100 kg)', 'ಹಸಿರು ಹುಲ್ಲು (100 ಕೆಜಿ)', 'हरी घास (100 किलो)', 'Sponsor 100 kg of fresh green Napier grass harvested from our bio-farms.', 'ನಮ್ಮ ಜೈವಿಕ ಫಾರ್ಮ್‌ಗಳಿಂದ ಕೊಯ್ಲು ಮಾಡಿದ 100 ಕೆಜಿ ತಾಜಾ ಹಸಿರು ನೇಪಿಯರ್ ಹುಲ್ಲು.', 'हमारे जैव-खेतों से काटी गई 100 किलोग्राम ताजी हरी नेपियर घास।', 500.00, 'https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=600&q=80'),
+                ('Nutritious Wheat Bran (50 kg)', 'ಗೋಧಿ ಹೊಟ್ಟು (50 ಕೆಜಿ)', 'गेहूं का चोकर (50 किलो)', 'Sponsor a bag of high-fiber, highly digestible wheat bran mash for weak and milking cows.', 'ಬಲಹೀನ ಮತ್ತು ಹಾಲು ಕೊಡುವ ಹಸುಗಳಿಗೆ ಹೆಚ್ಚಿನ ನಾರಿನಂಶವಿರುವ ಗೋಧಿ ಹೊಟ್ಟು.', 'कमजोर और दुधारू गायों के लिए उच्च फाइबर युक्त गेहूं का चोकर।', 1200.00, 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80'),
+                ('Sacred Jaggery & Oil Cake Feast', 'ಬೆಲ್ಲ ಮತ್ತು ಹಿಂಡಿ ಔತಣ', 'गुड़ और खली भोज', 'A special energy feast containing mustard cake, cotton seed cake, and pure jaggery.', 'ಸಾಸಿವೆ ಹಿಂಡಿ, ಹತ್ತಿ ಬೀಜದ ಹಿಂಡಿ ಮತ್ತು ಶುದ್ಧ ಬೆಲ್ಲವನ್ನು ಹೊಂದಿರುವ ವಿಶೇಷ ಶಕ್ತಿ ಹಬ್ಬ.', 'सरसों की खली, बिनौला खली और शुद्ध गुड़ से युक्त एक विशेष ऊर्जा भोज।', 800.00, 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=600&q=80')
+            ");
+        }
+    } catch (PDOException $e) {
+        // Fail silently
+    }
+
+    // Ensure feed_logs table exists
+    try {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `feed_logs` (
+            `id` INT AUTO_INCREMENT PRIMARY KEY,
+            `feed_item_id` INT NOT NULL,
+            `user_id` INT NULL,
+            `sponsor_name` VARCHAR(255) NOT NULL,
+            `date_sponsored` DATE NOT NULL,
+            `status` VARCHAR(50) NOT NULL,
+            `amount_paid` DECIMAL(10,2) NOT NULL,
+            `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+    } catch (PDOException $e) {
+        // Fail silently
+    }
+
+    // Ensure feeding_cows table exists
+    try {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `feeding_cows` (
+            `id` INT AUTO_INCREMENT PRIMARY KEY,
+            `cow_code` VARCHAR(20) NOT NULL UNIQUE,
+            `name` VARCHAR(100) NOT NULL,
+            `description` TEXT NULL,
+            `photo` VARCHAR(255) DEFAULT 'assets/images/cow-default.jpg',
+            `feed_amount` DECIMAL(10,2) NOT NULL DEFAULT 500.00,
+            `is_available` TINYINT(1) DEFAULT 1,
+            `payment_method` VARCHAR(20) DEFAULT 'both',
+            `whatsapp_number_id` INT DEFAULT NULL,
+            `whatsapp_message` TEXT DEFAULT NULL,
+            `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+    } catch (PDOException $e) {
+        // Fail silently
+    }
+
+    // Ensure feeding_cow_logs table exists
+    try {
+        $pdo->exec("CREATE TABLE IF NOT EXISTS `feeding_cow_logs` (
+            `id` INT AUTO_INCREMENT PRIMARY KEY,
+            `feeding_cow_id` INT NOT NULL,
+            `user_id` INT NULL,
+            `sponsor_name` VARCHAR(255) NOT NULL,
+            `sponsor_email` VARCHAR(255) NOT NULL,
+            `sponsor_phone` VARCHAR(50) NOT NULL,
+            `date_sponsored` DATE NOT NULL,
+            `status` VARCHAR(50) NOT NULL,
+            `amount_paid` DECIMAL(10,2) NOT NULL,
+            `payment_id` VARCHAR(100) NULL,
+            `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+    } catch (PDOException $e) {
+        // Fail silently
     }
 }
 

@@ -8,6 +8,8 @@ return [
     'nav_about' => 'ಬಗ್ಗೆ',
     'nav_cows' => 'ಗೋವುಗಳು',
     'nav_adopt' => 'ದತ್ತು',
+    'nav_feed' => 'ಆಹಾರ ನೀಡಿ',
+    'nav_feed_general' => 'ಮೇವು ಸೇವೆ',
     'nav_seva' => 'ಸೇವೆ',
     'nav_activity' => 'ಚಟುವಟಿಕೆ',
     'nav_donate' => 'ದೇಣಿಗೆ',

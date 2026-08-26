@@ -25,6 +25,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare("UPDATE settings SET setting_value = ? WHERE setting_key = ?");
             $stmt->execute([trim($val), $key]);
         }
+        if (isset($_FILES['donation_qr_code_file']) && $_FILES['donation_qr_code_file']['error'] === UPLOAD_ERR_OK) {
+            $uploaded_path = handle_file_upload('donation_qr_code_file');
+            if (!empty($uploaded_path)) {
+                $stmt = $pdo->prepare("UPDATE settings SET setting_value = ? WHERE setting_key = 'donation_qr_code'");
+                $stmt->execute([$uploaded_path]);
+            }
+        }
         log_audit($pdo, 'Update System Settings', 'settings');
         header("Location: /Kamadenu/admin/settings.php?saved=1");
         exit;
@@ -57,9 +64,9 @@ foreach ($settings as $s) {
     <?php endif; ?>
 <?php endif; ?>
 
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     <?php foreach ($settings_by_group as $group => $items): ?>
-        <div class="kamadenu-card p-4 mb-4">
+        <div class="kamadenu-card p-4 mb-4" id="settings-group-<?php echo e($group); ?>">
             <h4 class="font-heading border-bottom pb-2 mb-3 text-warning">
                 <?php
                 if ($group === 'general') {
@@ -67,7 +74,7 @@ foreach ($settings as $s) {
                 } elseif ($group === 'contact') {
                     echo '<i class="fas fa-address-book me-2"></i> Goushala Contact Information';
                 } elseif ($group === 'payment') {
-                    echo '<i class="fas fa-credit-card me-2"></i> Razorpay Payment Gateway';
+                    echo '<i class="fas fa-credit-card me-2"></i> Donations & Payment Gateway Configuration';
                 } elseif ($group === 'whatsapp') {
                     echo '<i class="fab fa-whatsapp me-2"></i> WhatsApp Settings & Defaults';
                 } else {
@@ -79,16 +86,36 @@ foreach ($settings as $s) {
                 <?php foreach ($items as $s): ?>
                     <div class="col-md-6">
                         <label class="form-label font-ui small fw-bold"><?php echo e(ucwords(str_replace('_', ' ', $s['setting_key']))); ?></label>
-                        <?php if (in_array($s['setting_key'], ['donation_action_mode', 'product_checkout_method'])): ?>
+                        <?php if ($s['setting_key'] === 'donation_action_mode'): ?>
+                            <select name="settings[<?php echo e($s['setting_key']); ?>]" class="form-select font-mono">
+                                <option value="website" <?php echo $s['setting_value'] === 'website' ? 'selected' : ''; ?>>Website Payment Only</option>
+                                <option value="whatsapp" <?php echo $s['setting_value'] === 'whatsapp' ? 'selected' : ''; ?>>WhatsApp Payment Only</option>
+                                <option value="qrcode" <?php echo $s['setting_value'] === 'qrcode' ? 'selected' : ''; ?>>QR Code Payment Only</option>
+                                <option value="both" <?php echo $s['setting_value'] === 'both' ? 'selected' : ''; ?>>Website & WhatsApp Payments</option>
+                                <option value="website_qrcode" <?php echo $s['setting_value'] === 'website_qrcode' ? 'selected' : ''; ?>>Website & QR Code Payments</option>
+                                <option value="whatsapp_qrcode" <?php echo $s['setting_value'] === 'whatsapp_qrcode' ? 'selected' : ''; ?>>WhatsApp & QR Code Payments</option>
+                                <option value="all" <?php echo $s['setting_value'] === 'all' ? 'selected' : ''; ?>>All Options (Website, WhatsApp & QR Code)</option>
+                            </select>
+                        <?php elseif ($s['setting_key'] === 'product_checkout_method'): ?>
                             <select name="settings[<?php echo e($s['setting_key']); ?>]" class="form-select font-mono">
                                 <option value="website" <?php echo $s['setting_value'] === 'website' ? 'selected' : ''; ?>>Website Checkout (Standard Gateway)</option>
                                 <option value="whatsapp" <?php echo $s['setting_value'] === 'whatsapp' ? 'selected' : ''; ?>>WhatsApp Checkout (Direct Message)</option>
                                 <option value="both" <?php echo $s['setting_value'] === 'both' ? 'selected' : ''; ?>>Both (Show Website & WhatsApp Options to User)</option>
                             </select>
+                        <?php elseif ($s['setting_key'] === 'donation_qr_code'): ?>
+                            <div class="d-flex flex-column gap-2">
+                                <div class="d-flex align-items-center gap-3">
+                                    <img src="<?php echo htmlspecialchars(img_url($s['setting_value'])); ?>" alt="Donation QR Code" class="img-thumbnail" style="max-height: 60px; width: auto; border-radius: 8px;">
+                                    <div class="flex-grow-1">
+                                        <input type="text" name="settings[<?php echo e($s['setting_key']); ?>]" class="form-control font-mono bg-dark text-white-50" value="<?php echo e($s['setting_value']); ?>" readonly>
+                                    </div>
+                                </div>
+                                <input type="file" name="donation_qr_code_file" class="form-control">
+                            </div>
                         <?php else: ?>
-                            <input type="text" name="settings[<?php echo e($s['setting_key']); ?>]" class="form-control font-mono" value="<?php echo e($s['setting_value']); ?>" required>
+                            <input type="text" name="settings[<?php echo e($s['setting_key']); ?>]" class="form-control font-mono" value="<?php echo e($s['setting_value']); ?>">
                         <?php endif; ?>
-                        <small class="text-muted"><?php echo e($s['description']); ?></small>
+                        <small class="text-muted d-block mt-1"><?php echo e($s['description']); ?></small>
                     </div>
                 <?php endforeach; ?>
             </div>

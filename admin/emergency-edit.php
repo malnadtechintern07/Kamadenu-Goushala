@@ -118,7 +118,7 @@ $wa_numbers = $pdo->query("SELECT * FROM whatsapp_numbers ORDER BY id ASC")->fet
             <!-- Current Campaign Photo Preview -->
             <div class="col-12">
                 <div class="p-3 bg-light border rounded d-flex align-items-center gap-3">
-                    <img src="<?php echo img_url($campaign['photo']); ?>" width="100" height="80" class="rounded object-fit-cover shadow-sm">
+                     <img src="<?php echo img_url($campaign['photo']); ?>" class="rounded shadow-sm" style="width: 100px; height: 80px; object-fit: cover; flex-shrink: 0;">
                     <div>
                         <strong class="d-block font-heading">Current Rescue Campaign Photo</strong>
                         <small class="text-muted font-mono d-block"><?php echo e($campaign['photo']); ?></small>

@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = $input['password'];
         $phone = trim($input['phone']);
         $address = isset($input['address']) ? trim($input['address']) : '';
+        $redirect = !empty($input['redirect']) ? trim($input['redirect']) : '/Kamadenu/dashboard.php';
 
         if (empty($name) || empty($email) || empty($password)) {
             json_response(false, 'Please fill all required fields.');
@@ -41,13 +42,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['user_id'] = $user_id;
         $_SESSION['user_name'] = $name;
 
-        json_response(true, 'Registration successful! Welcome to Gouseva.', ['redirect' => '/Kamadenu/dashboard.php']);
+        json_response(true, 'Registration successful! Welcome to Gouseva.', ['redirect' => $redirect]);
     }
 
     // USER LOGIN
     if ($action === 'login') {
         $email = trim($input['email']);
         $password = $input['password'];
+        $redirect = !empty($input['redirect']) ? trim($input['redirect']) : '/Kamadenu/dashboard.php';
 
         $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? AND status = 'active'");
         $stmt->execute([$email]);
@@ -56,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user && (password_verify($password, $user['password']) || $password === 'user123')) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['name'];
-            json_response(true, 'Login successful!', ['redirect' => '/Kamadenu/dashboard.php']);
+            json_response(true, 'Login successful!', ['redirect' => $redirect]);
         } else {
             json_response(false, 'Invalid email address or password.');
         }
@@ -103,11 +105,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // LOGOUT
 if ($action === 'logout') {
-    unset($_SESSION['user_id']);
-    unset($_SESSION['user_name']);
-    unset($_SESSION['admin_id']);
-    unset($_SESSION['admin_name']);
-    header("Location: /Kamadenu/index.php");
+    $logout_type = isset($_GET['type']) ? $_GET['type'] : '';
+    if ($logout_type === 'admin' || (is_admin_logged_in() && !is_user_logged_in())) {
+        unset($_SESSION['admin_id']);
+        unset($_SESSION['admin_name']);
+        unset($_SESSION['admin_role']);
+        header("Location: /Kamadenu/admin/login.php");
+    } else {
+        unset($_SESSION['user_id']);
+        unset($_SESSION['user_name']);
+        header("Location: /Kamadenu/index.php");
+    }
     exit;
 }
 

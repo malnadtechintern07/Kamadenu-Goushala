@@ -57,13 +57,16 @@ $gallery = $pdo->query("SELECT * FROM gallery ORDER BY id DESC")->fetchAll();
         <div class="row g-3">
             <?php foreach ($gallery as $g): ?>
                 <div class="col-md-6">
-                    <div class="kamadenu-card p-3 d-flex align-items-center gap-3">
-                        <img src="<?php echo e($g['image']); ?>" width="70" height="70" class="rounded object-fit-cover" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=100&q=80'">
-                        <div>
-                            <span class="badge bg-warning-subtle text-dark font-ui"><?php echo e($g['category']); ?></span>
-                            <h5 class="font-heading mb-1 fs-6"><?php echo e($g['title']); ?></h5>
-                            <small class="text-muted d-block"><?php echo e($g['caption']); ?></small>
+                    <div class="kamadenu-card p-3 d-flex align-items-center justify-content-between gap-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <img src="<?php echo e($g['image']); ?>" class="rounded" style="width: 70px; height: 70px; object-fit: cover; flex-shrink: 0;" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=100&q=80'">
+                            <div>
+                                <span class="badge bg-secondary-subtle text-dark font-ui mb-1"><?php echo e($g['category']); ?></span>
+                                <h5 class="font-heading mb-0 fs-6"><?php echo e($g['title']); ?></h5>
+                                <small class="text-muted d-block"><?php echo e($g['caption']); ?></small>
+                            </div>
                         </div>
+                        <button onclick="deleteAdminItem('gallery', <?php echo $g['id']; ?>)" class="btn btn-sm btn-outline-danger p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;" title="Delete Photo"><i class="fas fa-trash-alt"></i></button>
                     </div>
                 </div>
             <?php endforeach; ?>

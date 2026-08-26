@@ -47,26 +47,19 @@ if (!$product) {
                     </div>
 
                     <div class="d-flex flex-column gap-3 w-100">
-                        <?php if ($product_checkout_method === 'both' || $product_checkout_method === 'website'): ?>
-                            <div class="d-flex gap-3 w-100">
-                                <button onclick="addToCart(<?php echo $product['id']; ?>, '<?php echo addslashes($product['name']); ?>', <?php echo $product['price']; ?>, '<?php echo $product['image']; ?>')" class="btn btn-outline-dark btn-lg flex-fill py-3 font-ui fw-bold shadow-sm">
-                                    <i class="fas fa-shopping-cart me-2"></i> <?php echo __t('btn_add_to_cart'); ?>
-                                </button>
-                                <button onclick="buyNow(<?php echo $product['id']; ?>, '<?php echo addslashes($product['name']); ?>', <?php echo $product['price']; ?>, '<?php echo $product['image']; ?>')" class="btn btn-warning btn-lg flex-fill py-3 font-ui fw-bold text-dark shadow">
-                                    <i class="fas fa-bolt me-2"></i> <?php echo __t('btn_buy_now'); ?>
-                                </button>
-                            </div>
-                        <?php endif; ?>
-                        <?php if ($product_checkout_method === 'whatsapp' || $product_checkout_method === 'both'): ?>
-                            <?php 
-                                $wa_phone = !empty($product['wa_phone_dir']) ? $product['wa_phone_dir'] : get_setting($pdo, 'whatsapp_order_default', '+91 98800 12345');
-                                $wa_msg = !empty($product['whatsapp_message']) ? $product['whatsapp_message'] : "Hare Krishna! I would like to purchase this product:\n- Product: " . $product['name'] . "\n- Price: ₹" . number_format($product['price'], 2) . "\n\nPlease let me know how to proceed.";
-                                $whatsapp_url = "https://api.whatsapp.com/send?phone=" . preg_replace('/[^0-9]/', '', $wa_phone) . "&text=" . urlencode($wa_msg);
-                            ?>
-                            <a href="<?php echo $whatsapp_url; ?>" target="_blank" class="btn btn-success btn-lg w-100 py-3 font-ui fw-bold shadow text-center">
-                                <i class="fab fa-whatsapp me-2"></i> Order via WhatsApp
-                            </a>
-                        <?php endif; ?>
+                        <?php 
+                            $wa_phone = !empty($product['wa_phone_dir']) ? $product['wa_phone_dir'] : get_setting($pdo, 'whatsapp_order_default', '+91 98800 12345');
+                            $wa_msg = !empty($product['whatsapp_message']) ? $product['whatsapp_message'] : "Hare Krishna! I would like to purchase this product:\n- Product: " . $product['name'] . "\n- Price: ₹" . number_format($product['price'], 2) . "\n\nPlease let me know how to proceed.";
+                            $whatsapp_url = "https://api.whatsapp.com/send?phone=" . preg_replace('/[^0-9]/', '', $wa_phone) . "&text=" . urlencode($wa_msg);
+                        ?>
+                        <div class="d-flex gap-3 w-100">
+                            <button onclick="addToCart(<?php echo $product['id']; ?>, '<?php echo addslashes($product['name']); ?>', <?php echo $product['price']; ?>, '<?php echo $product['image']; ?>')" class="btn btn-outline-dark btn-lg flex-fill py-3 font-ui fw-bold shadow-sm">
+                                <i class="fas fa-shopping-cart me-2"></i> <?php echo e(get_setting($pdo, 'btn_cart_label', __t('btn_add_to_cart'))); ?>
+                            </button>
+                            <button onclick="buyNow(<?php echo $product['id']; ?>, '<?php echo addslashes($product['name']); ?>', <?php echo $product['price']; ?>, '<?php echo $product['image']; ?>', '<?php echo $product_checkout_method; ?>', '<?php echo addslashes($whatsapp_url); ?>')" class="btn btn-warning btn-lg flex-fill py-3 font-ui fw-bold text-dark shadow">
+                                <i class="fas fa-bolt me-2"></i> <?php echo __t('btn_buy_now'); ?>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

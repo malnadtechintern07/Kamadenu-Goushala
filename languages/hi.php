@@ -8,6 +8,8 @@ return [
     'nav_about' => 'विवरण',
     'nav_cows' => 'गायें',
     'nav_adopt' => 'गोद',
+    'nav_feed' => 'खिलाएं',
+    'nav_feed_general' => 'चारा सेवा',
     'nav_seva' => 'सेवा',
     'nav_activity' => 'लाइव',
     'nav_donate' => 'दान',

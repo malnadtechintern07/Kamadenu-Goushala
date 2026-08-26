@@ -1,5 +1,10 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
+
+if (!is_user_logged_in()) {
+    header("Location: /Kamadenu/login.php?redirect=" . urlencode('/Kamadenu/cart.php') . "&msg=login_required");
+    exit;
+}
 ?>
 
 <section class="py-4 bg-dark text-white border-bottom border-warning">
@@ -78,7 +83,7 @@ function renderCartPage() {
             <tr>
                 <td>
                     <div class="d-flex align-items-center gap-3">
-                        <img src="${item.image}" width="50" height="50" class="rounded object-fit-cover" onerror="this.src='https://images.unsplash.com/photo-1589927986089-35812388d1f4?auto=format&fit=crop&w=100&q=80'">
+                        <img src="${item.image}" class="rounded" style="width: 50px; height: 50px; object-fit: cover; flex-shrink: 0;" onerror="this.src='https://images.unsplash.com/photo-1589927986089-35812388d1f4?auto=format&fit=crop&w=100&q=80'">
                         <strong class="font-ui">${item.name}</strong>
                     </div>
                 </td>
