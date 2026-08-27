@@ -10,7 +10,7 @@ $hp_defaults = [
     'hp_s1_badge'       => 'SACRED INDIGENOUS GOUSEVA SANCTUARY',
     'hp_s1_badge_color' => 'warning',
     'hp_s1_badge_icon'  => 'fas fa-om',
-    'hp_s1_title'       => 'Kamadenu Goushala — Sacred Shelter for Gou Mata',
+    'hp_s1_title'       => 'Kamadenu Goushala Trust — Sacred Shelter for Gou Mata',
     'hp_s1_subtitle'    => 'A Vedic sanctuary dedicated to the care, rescue, and spiritual wellbeing of indigenous Indian cattle. Your Gouseva brings merit, peace, and blessings to your family.',
     'hp_s1_phrase'      => '"ಗೋ ಮಾತಾ ಕಿ ಜೈ"',
     'hp_s1_btn1_text'   => 'Donate Now',
@@ -77,7 +77,7 @@ $hp_defaults = [
     'hp_stats_title'    => 'Our Living Impact — Powered by Your Gouseva',
     'hp_stats_sub'      => 'REAL-TIME SANCTUARY METRICS',
     // About / Mission strip (optional)
-    'hp_mission_text'   => 'Kamadenu Goushala is a sacred Vedic sanctuary dedicated to the protection, medical care, and dignified upkeep of indigenous Indian cattle. Founded on the principles of Gou Seva, we rescue abandoned, injured, and malnourished cows from streets and give them a peaceful forever home.',
+    'hp_mission_text'   => 'Kamadenu Goushala Trust is a sacred Vedic sanctuary dedicated to the protection, medical care, and dignified upkeep of indigenous Indian cattle. Founded on the principles of Gou Seva, we rescue abandoned, injured, and malnourished cows from streets and give them a peaceful forever home.',
 ];
 ensure_hp_settings($pdo, $hp_defaults);
 

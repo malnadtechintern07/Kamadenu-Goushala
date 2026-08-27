@@ -230,20 +230,40 @@ body.admin-body .badge-admin-gold {
    COLORFUL PREMIUM SIDEBAR NAV — STAND-OUT REDESIGN
    ═══════════════════════════════════════════════════════════ */
 
-/* Sidebar base */
+/* Sidebar base — Fixed Left Navigation */
 .admin-sidebar-nav {
     background: linear-gradient(180deg, #0C0D0E 0%, #111215 60%, #0D0E10 100%);
     border-right: 1px solid rgba(255,255,255,0.06);
     width: 270px;
     flex-shrink: 0;
     box-shadow: 6px 0 40px rgba(0,0,0,0.6);
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
     height: 100vh;
     max-height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
     z-index: 1020;
+}
+
+@media (min-width: 992px) {
+    .admin-sidebar-nav {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        width: 270px !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
+
+    .admin-main-content,
+    .admin-body .d-flex > .flex-grow-1 {
+        margin-left: 270px !important;
+        min-width: 0 !important;
+    }
 }
 
 /* Custom Sleek Scrollbar for Sidebar */

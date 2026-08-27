@@ -19,7 +19,7 @@ function is_dropdown_active($pages, $current) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo e(get_setting($pdo, 'site_name', 'Kamadenu Goushala')); ?> | <?php echo __t('tagline'); ?></title>
+    <title><?php echo e(get_setting($pdo, 'site_name', 'Kamadenu Goushala Trust')); ?> | <?php echo __t('tagline'); ?></title>
 
     <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -108,21 +108,21 @@ function is_dropdown_active($pages, $current) {
 
 <!-- Main Bootstrap 5 Compact Navigation -->
 <nav class="navbar navbar-expand-xl navbar-dark navbar-kamadenu sticky-top py-2 shadow">
-    <div class="container-fluid px-lg-4 px-xl-5">
-        <a class="navbar-brand py-0 me-3 d-flex align-items-center" href="/Kamadenu/index.php">
+    <div class="container-fluid px-2 px-sm-3 px-lg-4 px-xl-5 align-items-center justify-content-between">
+        <a class="navbar-brand py-0 me-2 d-flex align-items-center" href="/Kamadenu/index.php" style="max-width: calc(100% - 65px);">
             <?php 
             $logo_setting = get_setting($pdo, 'website_logo', '');
             $logo_url = img_url(empty($logo_setting) ? 'assets/images/logo.png' : $logo_setting);
             ?>
-            <img src="<?php echo htmlspecialchars($logo_url); ?>" alt="Kamadenu Goushala Trust Logo" class="brand-logo me-2.5" style="height: 44px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.4));">
+            <img src="<?php echo htmlspecialchars($logo_url); ?>" alt="Kamadenu Goushala Trust Logo" class="brand-logo me-2" style="height: 42px; width: auto; object-fit: contain; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.4)); flex-shrink: 0;">
 
-            <div class="d-inline-block align-middle">
-                <span class="d-block lh-1 fs-5 fw-bold"><?php echo e(get_setting($pdo, 'site_name', 'Kamadenu Goushala')); ?></span>
-                <small class="fs-7 fw-normal text-warning d-none d-sm-block kn-text">ಗೋ ಮಾತಾ ಕಿ ಜೈ</small>
+            <div class="d-inline-block align-middle text-truncate">
+                <span class="d-block lh-1 fs-5 fw-bold text-truncate"><?php echo e(get_setting($pdo, 'site_name', 'Kamadenu Goushala Trust')); ?></span>
+                <small class="fs-7 fw-normal text-warning d-none d-sm-block kn-text text-truncate">ಗೋ ಮಾತಾ ಕಿ ಜೈ</small>
             </div>
         </a>
 
-        <button class="navbar-toggler border-0 p-2 ms-auto text-warning shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler border-0 p-2 ms-auto text-warning shadow-none flex-shrink-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation" style="z-index: 1050;">
             <i class="fas fa-bars fs-2"></i>
         </button>
 

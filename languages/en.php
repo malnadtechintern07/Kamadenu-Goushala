@@ -1,7 +1,7 @@
 <?php
 return [
     // Header & Navigation
-    'site_title' => 'Kamadenu Goushala',
+    'site_title' => 'Kamadenu Goushala Trust',
     'tagline' => 'Sacred Sanctuary for Indigenous Indian Cows',
     'tagline_kn' => 'ಗೋ ಮಾತಾ ಕಿ ಜೈ',
     'nav_home' => 'Home',
@@ -38,7 +38,7 @@ return [
     // Hero & Home Section
     'hero_badge' => 'SACRED INDIGENOUS GOUSEVA SANCTUARY',
     'hero_title' => 'Protect, Serve & Cherish Indigenous Indian Cows',
-    'hero_subtitle' => 'Join Kamadenu Goushala in rescuing injured cattle, preserving pure A2 breeds, and participating in daily sacred Gouseva.',
+    'hero_subtitle' => 'Join Kamadenu Goushala Trust in rescuing injured cattle, preserving pure A2 breeds, and participating in daily sacred Gouseva.',
     'hero_btn_donate' => 'Make a Donation',
     'hero_btn_adopt' => 'Sponsor a Cow',
     'hero_btn_seva' => 'Sponsor Daily Seva',
@@ -102,7 +102,7 @@ return [
 
     // Products & Cart
     'products_title' => 'Pure Sacred Goushala Products',
-    'products_subtitle' => 'Pure A2 Vedic Gir Bilona Ghee, Panchagavya soaps, and bio-agriculture products from Kamadenu Goushala.',
+    'products_subtitle' => 'Pure A2 Vedic Gir Bilona Ghee, Panchagavya soaps, and bio-agriculture products from Kamadenu Goushala Trust.',
     'btn_add_to_cart' => 'Add to Cart',
     'btn_buy_now' => 'Buy Now',
     'btn_view_cart' => 'View Cart',
@@ -151,7 +151,7 @@ return [
     'apply_volunteer_btn' => 'Apply as a Volunteer',
 
     // Footer
-    'footer_about' => 'Kamadenu Goushala is a non-profit sanctuary dedicated to the lifelong shelter, medical treatment, and reverence of indigenous Indian cattle.',
+    'footer_about' => 'Kamadenu Goushala Trust is a non-profit sanctuary dedicated to the lifelong shelter, medical treatment, and reverence of indigenous Indian cattle.',
     'footer_rights' => 'All Rights Reserved. Kamadenu Goushala Trust.',
     'footer_gov_reg' => 'Registered 80G Tax Exempt Charitable Trust.'
 ];

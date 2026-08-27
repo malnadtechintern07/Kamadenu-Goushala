@@ -4,6 +4,6 @@
 </section>
 <section class="py-5"><div class="container"><div class="kamadenu-card p-4 p-md-5">
     <h3 class="font-heading">Terms & Conditions</h3>
-    <p>By using the Kamadenu Goushala platform, donating, or adopting cows, you agree to respect our traditional Gouseva terms. All contributions go towards indigenous cow protection.</p>
+    <p>By using the Kamadenu Goushala Trust platform, donating, or adopting cows, you agree to respect our traditional Gouseva terms. All contributions go towards indigenous cow protection.</p>
 </div></div></section>
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

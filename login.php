@@ -38,7 +38,7 @@ $show_login_msg = isset($_GET['msg']) && $_GET['msg'] === 'login_required';
                     <!-- Devotional Header -->
                     <div class="text-center mb-4">
                         <div class="mb-3">
-                            <img src="/Kamadenu/assets/images/logo.png" alt="Kamadenu Goushala Logo" class="rounded-circle shadow-sm" style="height: 72px; width: 72px; object-fit: contain; background: #FFF8EA; padding: 6px; border: 2px solid var(--brand-gold);">
+                            <img src="/Kamadenu/assets/images/logo.png" alt="Kamadenu Goushala Trust Logo" class="rounded-circle shadow-sm" style="height: 72px; width: 72px; object-fit: contain; background: #FFF8EA; padding: 6px; border: 2px solid var(--brand-gold);">
                         </div>
                         <div class="devotional-phrase text-warning fs-5 fw-bold mb-1">ಗೋ ಮಾತಾ ಕಿ ಜೈ</div>
                         <h2 class="font-heading mb-1 text-dark">Welcome to Gouseva</h2>

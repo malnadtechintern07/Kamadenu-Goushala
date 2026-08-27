@@ -1,4 +1,4 @@
--- KAMADENU GOUSHALA DATABASE SCHEMA & SEED DATA
+-- KAMADENU GOUSHALA TRUST DATABASE SCHEMA & SEED DATA
 CREATE DATABASE IF NOT EXISTS `kamadenu_goushala` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `kamadenu_goushala`;
 
@@ -573,7 +573,7 @@ INSERT INTO `cow_health` (`cow_id`, `last_checkup_date`, `health_status`, `weigh
 -- 6. Cow Journey Timeline
 INSERT INTO `cow_journey` (`cow_id`, `stage`, `title`, `description`, `milestone_date`) VALUES
 (1, 'Rescue', 'Rescued from Danger', 'Rescued from illegal transport lorry near the state border.', '2023-04-12'),
-(1, 'Arrival', 'Welcome to Kamadenu', 'Safely arrived at Kamadenu Goushala and received initial warm bath and pooja.', '2023-04-13'),
+(1, 'Arrival', 'Welcome to Kamadenu', 'Safely arrived at Kamadenu Goushala Trust and received initial warm bath and pooja.', '2023-04-13'),
 (1, 'Medical Check', 'Comprehensive Health Assessment', 'Dr. Ramesh conducted blood tests and initiated deworming & vitamin course.', '2023-04-15'),
 (1, 'Recovery', 'Full Health Restoration', 'Gained 45 kg over 3 months with nutritious organic fodder.', '2023-07-20'),
 (1, 'Current', 'Living Happily & Sponsored', 'Regularly receives love, jaggery feeding, and daily morning pooja.', '2024-01-01');
@@ -636,12 +636,12 @@ INSERT INTO `donations` (`user_id`, `donor_name`, `donor_email`, `donor_phone`, 
 
 -- 14. Stories
 INSERT INTO `stories` (`id`, `title`, `title_kn`, `title_hi`, `slug`, `summary`, `content`, `published_at`) VALUES
-(1, 'The Miracle Recovery of Gauri: From Highway Hazard to Herd Beloved', 'ಗೌರಿ ಹಸುವಿನ ಪವಾಡ ಚೇತರಿಕೆ', 'गौरी का चमत्कारिक पुनर्जन्म', 'miracle-recovery-gauri', 'Read how Gauri transformed from a frail injured cow into the most affectionate mother in our Goushala.', '<p>When Gauri first arrived at Kamadenu Goushala on an April night in 2023, she could barely stand. She had been rescued by our dedicated team along Highway 44...</p><p>With 24/7 care, clean water, organic jaggery, and daily love, Gauri was running freely across green pastures within two months!</p>', '2026-07-15'),
+(1, 'The Miracle Recovery of Gauri: From Highway Hazard to Herd Beloved', 'ಗೌರಿ ಹಸುವಿನ ಪವಾಡ ಚೇತರಿಕೆ', 'गौरी का चमत्कारिक पुनर्जन्म', 'miracle-recovery-gauri', 'Read how Gauri transformed from a frail injured cow into the most affectionate mother in our Goushala.', '<p>When Gauri first arrived at Kamadenu Goushala Trust on an April night in 2023, she could barely stand. She had been rescued by our dedicated team along Highway 44...</p><p>With 24/7 care, clean water, organic jaggery, and daily love, Gauri was running freely across green pastures within two months!</p>', '2026-07-15'),
 (2, 'Why Indigenous Indian Cow Breeds are Essential for Ecological Harmony', 'ದೇಶಿ ಗೋವುಗಳ ಮಹತ್ವ', 'भारतीय गायों का महत्त्व', 'indigenous-cow-breeds-harmony', 'Discover the scientific and spiritual reasons behind preserving Gir, Sahiwal, and Kankrej breeds.', '<p>Indigenous Indian cattle (Bos indicus) possess the distinctive hump and dewlap which regulate body temperature and produce A2 protein rich milk...</p>', '2026-08-05');
 
 -- 15. Testimonials
 INSERT INTO `testimonials` (`name`, `role`, `location`, `quote`, `rating`) VALUES
-('Dr. Sunita Deshmukh', 'Ayurvedic Physician', 'Mumbai', 'Visiting Kamadenu Goushala filled my heart with deep devotional peace. The cows are maintained with such dignity, cleanliness, and Vedic tradition.', 5),
+('Dr. Sunita Deshmukh', 'Ayurvedic Physician', 'Mumbai', 'Visiting Kamadenu Goushala Trust filled my heart with deep devotional peace. The cows are maintained with such dignity, cleanliness, and Vedic tradition.', 5),
 ('Raghavendra Joshi', 'IT Professional & Cow Sponsor', 'Bengaluru', 'Adopting Lakshmi through the Kamadenu portal was seamless. Getting monthly health updates and video clips of her makes me feel connected to Gouseva every day.', 5);
 
 -- 16. Daily Quotes
@@ -650,7 +650,7 @@ INSERT INTO `quotes` (`quote_en`, `quote_kn`, `quote_hi`, `source`, `date_active
 
 -- 17. Badges
 INSERT INTO `badges` (`id`, `name`, `description`, `icon`, `min_points`) VALUES
-(1, 'Gou Sevak', 'Awarded for starting your journey with Kamadenu Goushala.', 'fa-seedling', 50),
+(1, 'Gou Sevak', 'Awarded for starting your journey with Kamadenu Goushala Trust.', 'fa-seedling', 50),
 (2, 'Gou Protector', 'Awarded for sponsoring a cow or making significant contributions.', 'fa-shield-halved', 200),
 (3, 'Gou Guardian', 'Awarded to dedicated lifetime supporters of Gouseva.', 'fa-crown', 500);
 
@@ -660,7 +660,7 @@ INSERT INTO `user_badges` (`user_id`, `badge_id`) VALUES
 
 -- 18. Default Settings
 INSERT INTO `settings` (`setting_key`, `setting_value`, `setting_group`, `description`) VALUES
-('site_name', 'Kamadenu Goushala', 'general', 'Platform Name'),
+('site_name', 'Kamadenu Goushala Trust', 'general', 'Platform Name'),
 ('tagline_kn', 'ಗೋ ಮಾತಾ ಕಿ ಜೈ', 'general', 'Kannada Tagline'),
 ('contact_email', 'info@kamadenugoushala.org', 'contact', 'Public Contact Email'),
 ('contact_phone', '+91 98800 12345', 'contact', 'Public Contact Phone'),

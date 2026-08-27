@@ -39,7 +39,21 @@ $events = $pdo->query("SELECT * FROM events ORDER BY event_date DESC")->fetchAll
                         </td>
                         <td class="font-mono"><?php echo e($ev['event_date']); ?></td>
                         <td class="small"><?php echo e($ev['venue']); ?></td>
-                        <td><span class="badge <?php echo $ev['status'] === 'Upcoming' ? 'bg-warning text-dark' : 'bg-success'; ?>"><?php echo e($ev['status']); ?></span></td>
+                        <td>
+                            <?php
+                            $st = $ev['status'];
+                            $b_class = 'bg-warning text-dark';
+                            $b_icon = 'fa-clock';
+                            if ($st === 'Ongoing') {
+                                $b_class = 'bg-success text-white';
+                                $b_icon = 'fa-bolt';
+                            } elseif ($st === 'Completed') {
+                                $b_class = 'bg-secondary text-white';
+                                $b_icon = 'fa-check-circle';
+                            }
+                            ?>
+                            <span class="badge <?php echo $b_class; ?> font-ui px-2 py-1"><i class="fas <?php echo $b_icon; ?> me-1"></i> <?php echo e($st); ?></span>
+                        </td>
                         <td>
                             <a href="/Kamadenu/admin/event-edit.php?id=<?php echo $ev['id']; ?>" class="btn btn-sm btn-outline-warning font-ui fw-bold"><i class="fas fa-edit me-1"></i> Edit & Update Photo</a>
                             <button onclick="deleteAdminItem('events', <?php echo $ev['id']; ?>)" class="btn btn-sm btn-outline-danger font-ui fw-bold ms-1"><i class="fas fa-trash me-1"></i> Delete</button>

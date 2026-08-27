@@ -14,7 +14,7 @@ if (!empty($code)) {
 <section class="py-4 bg-dark text-white border-bottom border-warning">
     <div class="container">
         <h1 class="font-heading text-warning mb-1">Digital Certificate Verification</h1>
-        <p class="text-white-50 mb-0">Verify the authenticity of Kamadenu Goushala appreciation & adoption certificates.</p>
+        <p class="text-white-50 mb-0">Verify the authenticity of Kamadenu Goushala Trust appreciation & adoption certificates.</p>
     </div>
 </section>
 

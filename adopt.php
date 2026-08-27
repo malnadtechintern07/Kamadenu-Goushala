@@ -254,7 +254,7 @@ function handleAdoptSubmit(e) {
             if (customMsg && customMsg.trim() !== '') {
                 msg = customMsg.trim() + `\n\n*(Reference: ${data.data.payment_id})*`;
             } else {
-                msg = `Hare Krishna! I would like to adopt a cow at Kamadenu Goushala.\n\n`;
+                msg = `Hare Krishna! I would like to adopt a cow at Kamadenu Goushala Trust.\n\n`;
                 msg += `*Cow Details*:\n`;
                 msg += `- Cow: ${cowText.trim()}\n`;
                 msg += `- Monthly Cost: ₹${monthlyPrice.toLocaleString('en-IN')}\n`;

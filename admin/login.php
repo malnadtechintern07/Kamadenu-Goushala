@@ -10,7 +10,7 @@ if (is_admin_logged_in()) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Portal Login | Kamadenu Goushala</title>
+    <title>Admin Portal Login | Kamadenu Goushala Trust</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/Kamadenu/css/style.css">

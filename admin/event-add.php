@@ -47,7 +47,7 @@ $wa_numbers = $pdo->query("SELECT * FROM whatsapp_numbers ORDER BY id ASC")->fet
             </div>
             <div class="col-md-4">
                 <label class="form-label font-ui small fw-bold">Venue</label>
-                <input type="text" name="venue" class="form-control" value="Kamadenu Goushala Sanctuary, Bengaluru" required>
+                <input type="text" name="venue" class="form-control" value="Kamadenu Goushala Trust Sanctuary, Bengaluru" required>
             </div>
             <div class="col-md-4">
                 <label class="form-label font-ui small fw-bold">Status</label>

@@ -270,7 +270,7 @@ function submitDonationToWhatsApp(e) {
         waPhone = '+91 98800 12345';
     }
     
-    let msg = `Hare Krishna! I would like to make a Gouseva contribution to Kamadenu Goushala.\n\n`;
+    let msg = `Hare Krishna! I would like to make a Gouseva contribution to Kamadenu Goushala Trust.\n\n`;
     msg += `*Contribution Details*:\n`;
     msg += `- Purpose: ${purpose}\n`;
     msg += `- Amount: ₹${parseFloat(amount).toLocaleString('en-IN')}\n`;

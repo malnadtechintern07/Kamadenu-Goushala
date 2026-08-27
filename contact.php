@@ -5,7 +5,7 @@ require_once __DIR__ . '/includes/header.php';
 <section class="py-4 bg-dark text-white border-bottom border-warning">
     <div class="container">
         <h1 class="font-heading text-warning mb-1"><?php echo __t('nav_contact'); ?></h1>
-        <p class="text-white-50 mb-0">Reach out to Kamadenu Goushala for visits, donations, cow adoption, or volunteering.</p>
+        <p class="text-white-50 mb-0">Reach out to Kamadenu Goushala Trust for visits, donations, cow adoption, or volunteering.</p>
     </div>
 </section>
 

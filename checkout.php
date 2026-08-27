@@ -590,9 +590,9 @@ function executePaymentVerification(payload, isWhatsApp) {
 
                 if (payload.entity_type === 'Order') {
                     if (window.isCartCurrent) localStorage.removeItem('kamadenu_cart');
-                    msg = `Hare Krishna! I would like to place an order at Kamadenu Goushala Store.\n\n*Order Reference*: ${refPaymentId}\n*Total Price*: ₹${parseFloat(payload.amount).toLocaleString('en-IN')}\n\n_Please verify & confirm my order._`;
+                    msg = `Hare Krishna! I would like to place an order at Kamadenu Goushala Trust Store.\n\n*Order Reference*: ${refPaymentId}\n*Total Price*: ₹${parseFloat(payload.amount).toLocaleString('en-IN')}\n\n_Please verify & confirm my order._`;
                 } else {
-                    msg = `Hare Krishna! I have submitted a ${payload.entity_type} contribution to Kamadenu Goushala.\n\n*Details*: ${payload.purpose}\n*Amount*: ₹${parseFloat(payload.amount).toLocaleString('en-IN')}\n\n_Reference ID: ${refPaymentId}_`;
+                    msg = `Hare Krishna! I have submitted a ${payload.entity_type} contribution to Kamadenu Goushala Trust.\n\n*Details*: ${payload.purpose}\n*Amount*: ₹${parseFloat(payload.amount).toLocaleString('en-IN')}\n\n_Reference ID: ${refPaymentId}_`;
                 }
 
                 const cleanPhone = targetWhatsAppNum.replace(/[^0-9]/g, '');

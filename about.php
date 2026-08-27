@@ -64,7 +64,7 @@ $heritage_img_url = img_url(empty($about_heritage_image) ? 'assets/images/gousha
             <!-- Heritage Photo with Glowing Cursor Hover Effect -->
             <div class="col-lg-6">
                 <div class="position-relative">
-                    <img src="<?php echo htmlspecialchars($heritage_img_url); ?>" alt="Kamadenu Goushala Heritage" class="img-fluid rounded-4 shadow-lg border border-warning hover-glow w-100" style="max-height: 440px; object-fit: cover;">
+                    <img src="<?php echo htmlspecialchars($heritage_img_url); ?>" alt="Kamadenu Goushala Trust Heritage" class="img-fluid rounded-4 shadow-lg border border-warning hover-glow w-100" style="max-height: 440px; object-fit: cover;">
                     <div class="position-absolute bottom-0 start-0 m-3 p-3 bg-dark text-white rounded-3 bg-opacity-75 backdrop-blur font-ui border border-warning">
                         <small class="text-warning font-mono d-block">ESTABLISHED 2012</small>
                         <strong class="font-heading">Kamadenu Heritage Sanctuary, Bengaluru</strong>
@@ -176,7 +176,7 @@ $heritage_img_url = img_url(empty($about_heritage_image) ? 'assets/images/gousha
             <div class="col-lg-6">
                 <h6 class="text-warning text-uppercase font-ui fw-bold"><i class="fas fa-seedling me-1"></i> Sustainable Bio-Farming</h6>
                 <h2 class="font-heading mb-3">Vedic Panchagavya & Organic Agriculture</h2>
-                <p class="text-secondary mb-3">At Kamadenu Goushala, we believe in complete ecological harmony. Every gram of dung and urine from our indigenous cows is converted into organic bio-fertilizers like <strong>Jeevamrutha</strong>, <strong>Ghanajeevamrutha</strong>, and <strong>Panchagavya</strong>.</p>
+                <p class="text-secondary mb-3">At Kamadenu Goushala Trust, we believe in complete ecological harmony. Every gram of dung and urine from our indigenous cows is converted into organic bio-fertilizers like <strong>Jeevamrutha</strong>, <strong>Ghanajeevamrutha</strong>, and <strong>Panchagavya</strong>.</p>
                 <p class="text-muted mb-4">We conduct free monthly workshops for local farmers, teaching them how to eliminate toxic chemical fertilizers, restore soil fertility, and achieve Zero-Budget Natural Farming using native cow outputs.</p>
 
                 <a href="/Kamadenu/events.php" class="btn btn-kamadenu-primary font-ui fw-bold px-4 py-2">Browse Bio-Farming Events &rarr;</a>

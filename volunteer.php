@@ -61,7 +61,7 @@ require_once __DIR__ . '/includes/header.php';
                                 <input type="text" name="skills" class="form-control" placeholder="e.g. Animal Care, IT, Photography, Agriculture">
                             </div>
                             <div class="col-12">
-                                <label class="form-label font-ui small fw-bold">Why do you wish to join Kamadenu Goushala?</label>
+                                <label class="form-label font-ui small fw-bold">Why do you wish to join Kamadenu Goushala Trust?</label>
                                 <textarea name="message" rows="4" class="form-control" placeholder="Share your motivation and past experience..."></textarea>
                             </div>
                         </div>

@@ -206,7 +206,7 @@ function onCowSelectChanged(cowId) {
     document.getElementById('cow-photo').src = cow.photo;
     document.getElementById('cow-name').textContent = cow.name;
     document.getElementById('cow-code-display').textContent = `Official Passport ID: ${cow.cow_code}`;
-    document.getElementById('cow-description').textContent = cow.description || "Rescued indigenous cow residing safely at Kamadenu Goushala Sanctuary.";
+    document.getElementById('cow-description').textContent = cow.description || "Rescued indigenous cow residing safely at Kamadenu Goushala Trust Sanctuary.";
     document.getElementById('cow-suggested-amount').textContent = `₹ ${cow.feed_amount.toLocaleString('en-IN', {minimumFractionDigits: 2})}`;
     
     document.getElementById('custom-amount-input').value = cow.feed_amount;
@@ -312,7 +312,7 @@ function submitFeedingWhatsApp() {
             if (cow.whatsapp_message && cow.whatsapp_message.trim() !== '') {
                 msg = cow.whatsapp_message.trim() + `\n\n*(Reference: ${data.data.payment_id})*`;
             } else {
-                msg = `Hare Krishna! I would like to feed a cow at Kamadenu Goushala.\n\n`;
+                msg = `Hare Krishna! I would like to feed a cow at Kamadenu Goushala Trust.\n\n`;
                 msg += `*Feeding Details*:\n`;
                 msg += `- Cow: ${cow.cow_code} - ${cow.name}\n`;
                 msg += `- Contribution Amount: ₹${amount.toLocaleString('en-IN')}\n\n`;

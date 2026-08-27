@@ -15,7 +15,7 @@ if (empty($gallery)) {
 <section class="py-4 bg-dark text-white border-bottom border-warning">
     <div class="container">
         <h1 class="font-heading text-warning mb-1"><?php echo __t('nav_gallery'); ?></h1>
-        <p class="text-white-50 mb-0">Visual glimpses of daily Gouseva, sacred ceremonies, and pristine pastures at Kamadenu Goushala.</p>
+        <p class="text-white-50 mb-0">Visual glimpses of daily Gouseva, sacred ceremonies, and pristine pastures at Kamadenu Goushala Trust.</p>
     </div>
 </section>
 

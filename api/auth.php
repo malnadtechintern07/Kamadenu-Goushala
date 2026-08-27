@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_id = $pdo->lastInsertId();
 
         // Award welcome points & badge
-        $pdo->prepare("INSERT INTO gouseva_points (user_id, activity_type, points, description) VALUES (?, 'Registration', 50, 'Welcome bonus for joining Kamadenu Goushala')")->execute([$user_id]);
+        $pdo->prepare("INSERT INTO gouseva_points (user_id, activity_type, points, description) VALUES (?, 'Registration', 50, 'Welcome bonus for joining Kamadenu Goushala Trust')")->execute([$user_id]);
         $pdo->prepare("INSERT INTO user_badges (user_id, badge_id) VALUES (?, 1)")->execute([$user_id]);
 
         $_SESSION['user_id'] = $user_id;

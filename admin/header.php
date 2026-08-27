@@ -14,7 +14,7 @@ function is_admin_active($page, $current) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | Kamadenu Goushala</title>
+    <title>Admin Dashboard | Kamadenu Goushala Trust</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,7 +41,7 @@ function is_admin_active($page, $current) {
             $logo_setting = get_setting($pdo, 'website_logo', '');
             $logo_url = img_url(empty($logo_setting) ? 'assets/images/logo.png' : $logo_setting);
             ?>
-            <img src="<?php echo htmlspecialchars($logo_url); ?>" alt="Kamadenu Goushala Logo" class="me-2.5" style="height: 48px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));">
+            <img src="<?php echo htmlspecialchars($logo_url); ?>" alt="Kamadenu Goushala Trust Logo" class="me-2.5" style="height: 48px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));">
 
             <div>
                 <strong class="font-heading fs-5 d-block lh-1 text-warning">Kamadenu</strong>
@@ -90,23 +90,20 @@ function is_admin_active($page, $current) {
         </div>
     </div>
 
-    <div class="flex-grow-1 p-4" style="min-width: 0;">
-        <header class="d-flex flex-wrap justify-content-between align-items-center mb-4 admin-header-nav">
-            <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-outline-warning d-lg-none" id="sidebar-toggle-btn" aria-label="Toggle Navigation">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <h4 class="font-heading mb-0 text-white"><i class="fas fa-shield-alt text-warning me-2 animate-pulse"></i> Management Console</h4>
-                <span class="badge badge-admin-live-time px-3 py-2 rounded-pill font-mono"><i class="fas fa-clock me-1 text-cyan animate-spin-slow"></i> <span id="admin-live-time">--:--:--</span></span>
+    <div class="flex-grow-1 p-4 admin-main-content" style="min-width: 0;">
+        <header class="d-flex align-items-center justify-content-between mb-4 admin-header-nav">
+            <div class="d-flex align-items-center gap-2 me-auto">
+                <h4 class="font-heading mb-0 text-white fs-5 fs-md-4"><i class="fas fa-shield-alt text-warning me-2 animate-pulse"></i> Management Console</h4>
+                <span class="badge badge-admin-live-time px-3 py-2 rounded-pill font-mono d-none d-sm-inline-block"><i class="fas fa-clock me-1 text-cyan animate-spin-slow"></i> <span id="admin-live-time">--:--:--</span></span>
             </div>
             
-            <div class="d-flex align-items-center gap-3 mt-3 mt-md-0">
-                <a href="/Kamadenu/admin/cows.php" class="btn btn-sm btn-admin-header-search rounded-pill font-ui fw-bold px-3"><i class="fas fa-search me-1"></i> Search Database</a>
+            <div class="d-flex align-items-center gap-2 gap-md-3 ms-auto">
+                <a href="/Kamadenu/admin/cows.php" class="btn btn-sm btn-admin-header-search rounded-pill font-ui fw-bold px-3 d-none d-md-inline-block"><i class="fas fa-search me-1"></i> Search Database</a>
                 <!-- Admin Dark Mode / Light Mode Switcher Toggle Button -->
                 <button id="adminThemeToggleBtn" type="button" onclick="toggleAdminTheme()" class="btn btn-sm btn-outline-warning rounded-circle d-flex align-items-center justify-content-center p-2 shadow-sm" style="width: 38px; height: 38px;" title="Toggle Dark / Light Theme">
                     <i id="adminThemeIcon" class="fas fa-moon"></i>
                 </button>
-                <span class="badge badge-admin-role-glow font-ui fw-bold px-3 py-2 rounded-pill"><i class="fas fa-user-shield me-1"></i> <?php echo e($admin['role_display']); ?></span>
+                <span class="badge badge-admin-role-glow font-ui fw-bold px-3 py-2 rounded-pill d-none d-md-inline-block"><i class="fas fa-user-shield me-1"></i> <?php echo e($admin['role_display']); ?></span>
                 <div class="dropdown">
                     <div class="d-flex align-items-center gap-2 admin-profile-toggle cursor-pointer" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
                         <div class="rounded-circle text-white font-heading fw-bold d-flex align-items-center justify-content-center shadow-sm admin-profile-avatar" style="width: 38px; height: 38px;">
@@ -124,6 +121,10 @@ function is_admin_active($page, $current) {
                         <li><a class="dropdown-item text-danger" href="/Kamadenu/admin/logout.php"><i class="fas fa-sign-out-alt me-2"></i> Logout Admin</a></li>
                     </ul>
                 </div>
+                <!-- Mobile Hamburger Sidebar Toggle Button (Top Right) -->
+                <button class="btn btn-outline-warning d-lg-none ms-1 px-3 py-2 rounded-3 shadow-sm" id="sidebar-toggle-btn" aria-label="Toggle Navigation" title="Toggle Navigation Menu">
+                    <i class="fas fa-bars fs-5"></i>
+                </button>
             </div>
         </header>
 
