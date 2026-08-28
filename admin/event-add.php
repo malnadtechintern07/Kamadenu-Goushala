@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$title, $title_kn, $slug, $description, $event_date, $venue, $photo_url, $status, $whatsapp_number_id, $contact_method, $whatsapp_message]);
 
     log_audit($pdo, 'Create Event', 'events', $pdo->lastInsertId());
-    header("Location: /Kamadenu/admin/events.php?saved=1");
+    header("Location: /Kamadhenu-goushala/admin/events.php?saved=1");
     exit;
 }
 
@@ -108,7 +108,7 @@ $wa_numbers = $pdo->query("SELECT * FROM whatsapp_numbers ORDER BY id ASC")->fet
         </div>
 
         <button type="submit" class="btn btn-kamadenu-primary font-ui fw-bold px-4 py-2">Create Event in MySQL</button>
-        <a href="/Kamadenu/admin/events.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
+        <a href="/Kamadhenu-goushala/admin/events.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
     </form>
 </div>
 

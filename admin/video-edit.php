@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$title, $description, $youtube_url, $id]);
 
     log_audit($pdo, 'Update Video', 'videos', $id);
-    header("Location: /Kamadenu/admin/videos.php?updated=1");
+    header("Location: /Kamadhenu-goushala/admin/videos.php?updated=1");
     exit;
 }
 ?>
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <button type="submit" class="btn btn-kamadenu-primary font-ui fw-bold px-4 py-2">Update Video</button>
-        <a href="/Kamadenu/admin/videos.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
+        <a href="/Kamadhenu-goushala/admin/videos.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
     </form>
 </div>
 

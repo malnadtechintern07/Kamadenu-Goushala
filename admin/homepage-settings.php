@@ -5,7 +5,7 @@ require_admin_login($pdo);
 // ─── Default Homepage Settings (Self-Healing Bootstrap) ─────────────────────
 $hp_defaults = [
     // Hero Slide 1
-    'hp_s1_bg'          => '/Kamadenu/assets/images/hero-bg.jpg',
+    'hp_s1_bg'          => '/Kamadhenu-goushala/assets/images/hero-bg.jpg',
     'hp_s1_overlay'     => 'rgba(20,10,5,0.82)',
     'hp_s1_badge'       => 'SACRED INDIGENOUS GOUSEVA SANCTUARY',
     'hp_s1_badge_color' => 'warning',
@@ -14,10 +14,10 @@ $hp_defaults = [
     'hp_s1_subtitle'    => 'A Vedic sanctuary dedicated to the care, rescue, and spiritual wellbeing of indigenous Indian cattle. Your Gouseva brings merit, peace, and blessings to your family.',
     'hp_s1_phrase'      => '"ಗೋ ಮಾತಾ ಕಿ ಜೈ"',
     'hp_s1_btn1_text'   => 'Donate Now',
-    'hp_s1_btn1_link'   => '/Kamadenu/donate.php',
+    'hp_s1_btn1_link'   => '/Kamadhenu-goushala/donate.php',
     'hp_s1_btn1_class'  => 'btn-kamadenu-primary',
     'hp_s1_btn2_text'   => 'Sponsor a Cow',
-    'hp_s1_btn2_link'   => '/Kamadenu/adopt.php',
+    'hp_s1_btn2_link'   => '/Kamadhenu-goushala/adopt.php',
     'hp_s1_btn2_class'  => 'btn-kamadenu-outline',
     'hp_s1_indicator'   => 'Sanctuary',
     // Hero Slide 2
@@ -30,10 +30,10 @@ $hp_defaults = [
     'hp_s2_subtitle'    => 'Experience the joy of cow adoption. Sponsor the monthly feeds and medical care costs for a resident cow and get regular updates from the sanctuary.',
     'hp_s2_phrase'      => '"ಲೋಕಾಃ ಸಮಸ್ತಾಃ ಸುಖಿನೋ ಭವಂತು"',
     'hp_s2_btn1_text'   => 'Sponsor a Cow',
-    'hp_s2_btn1_link'   => '/Kamadenu/adopt.php',
+    'hp_s2_btn1_link'   => '/Kamadhenu-goushala/adopt.php',
     'hp_s2_btn1_class'  => 'btn-kamadenu-primary',
     'hp_s2_btn2_text'   => 'View Cow Passports',
-    'hp_s2_btn2_link'   => '/Kamadenu/cows.php',
+    'hp_s2_btn2_link'   => '/Kamadhenu-goushala/cows.php',
     'hp_s2_btn2_class'  => 'btn-kamadenu-outline',
     'hp_s2_indicator'   => 'Adopt a Cow',
     // Hero Slide 3
@@ -46,7 +46,7 @@ $hp_defaults = [
     'hp_s3_subtitle'    => 'Support our active emergency rescue campaigns. Your contributions provide shelter, critical surgery, and daily medication for injured and abandoned cows.',
     'hp_s3_phrase'      => '"ದಯವೇ ಧರ್ಮದ ಮೂಲವಯ್ಯಾ"',
     'hp_s3_btn1_text'   => 'Support Rescue Campaign',
-    'hp_s3_btn1_link'   => '/Kamadenu/donate.php',
+    'hp_s3_btn1_link'   => '/Kamadhenu-goushala/donate.php',
     'hp_s3_btn1_class'  => 'btn btn-danger rounded-pill px-4 py-3 font-ui fw-bold shadow',
     'hp_s3_btn2_text'   => '',
     'hp_s3_btn2_link'   => '',
@@ -62,7 +62,7 @@ $hp_defaults = [
     'hp_s4_subtitle'    => 'Sponsor nutritional green feeds, morning prayers (Grasa Seva), and Vedic Gou Pooja rituals at the sanctuary. Bring blessings, peace, and spiritual prosperity to your home.',
     'hp_s4_phrase'      => '"ಗೌ ಪೂಜಾ ಮಹತ್ತ್ವಂ"',
     'hp_s4_btn1_text'   => 'Sponsor a Seva',
-    'hp_s4_btn1_link'   => '/Kamadenu/seva.php',
+    'hp_s4_btn1_link'   => '/Kamadhenu-goushala/seva.php',
     'hp_s4_btn1_class'  => 'btn btn-warning rounded-pill px-4 py-3 font-ui fw-bold text-dark shadow',
     'hp_s4_btn2_text'   => '',
     'hp_s4_btn2_link'   => '',
@@ -72,7 +72,7 @@ $hp_defaults = [
     'hp_cta_title'      => 'Join Our Sacred Gouseva Movement',
     'hp_cta_subtitle'   => 'Become a Gousevak — volunteer your time, skills, or resources to protect and nurture our indigenous cow heritage.',
     'hp_cta_btn_text'   => 'Apply as Volunteer',
-    'hp_cta_btn_link'   => '/Kamadenu/volunteer.php',
+    'hp_cta_btn_link'   => '/Kamadhenu-goushala/volunteer.php',
     // Stats Heading
     'hp_stats_title'    => 'Our Living Impact — Powered by Your Gouseva',
     'hp_stats_sub'      => 'REAL-TIME SANCTUARY METRICS',
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("UPDATE settings SET setting_value = '' WHERE setting_key = 'website_logo'");
         $stmt->execute();
         log_audit($pdo, 'Delete Custom Logo', 'settings');
-        header("Location: /Kamadenu/admin/homepage-settings.php?saved=1");
+        header("Location: /Kamadhenu-goushala/admin/homepage-settings.php?saved=1");
         exit;
     }
 
@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         log_audit($pdo, 'Update Homepage Settings', 'settings');
-        header("Location: /Kamadenu/admin/homepage-settings.php?saved=1");
+        header("Location: /Kamadhenu-goushala/admin/homepage-settings.php?saved=1");
         exit;
     }
 }
@@ -185,7 +185,7 @@ require_once __DIR__ . '/header.php';
         <h3 class="font-heading mb-1"><i class="fas fa-home text-warning me-2"></i> Homepage Content Manager</h3>
         <p class="text-muted small mb-0">Full control over every visible element on the public homepage — backgrounds, texts, buttons, overlays, and more.</p>
     </div>
-    <a href="/Kamadenu/index.php" target="_blank" class="btn btn-outline-info rounded-pill font-ui fw-bold px-4">
+    <a href="/Kamadhenu-goushala/index.php" target="_blank" class="btn btn-outline-info rounded-pill font-ui fw-bold px-4">
         <i class="fas fa-external-link-alt me-1"></i> Preview Site
     </a>
 </div>
@@ -210,7 +210,7 @@ require_once __DIR__ . '/header.php';
     <i class="fab fa-youtube fs-1 text-danger"></i>
     <div>
         <strong class="d-block text-dark fs-6">Homepage Video Gallery Link Template</strong>
-        <span class="small text-muted">The YouTube videos shown in the "Sacred Video Gallery" section of the homepage are managed in a dedicated control panel. You can add new videos, delete old ones, or edit titles and links anytime. <a href="/Kamadenu/admin/videos.php" class="fw-bold text-info text-decoration-none">Manage Homepage Videos &amp; Links &rarr;</a></span>
+        <span class="small text-muted">The YouTube videos shown in the "Sacred Video Gallery" section of the homepage are managed in a dedicated control panel. You can add new videos, delete old ones, or edit titles and links anytime. <a href="/Kamadhenu-goushala/admin/videos.php" class="fw-bold text-info text-decoration-none">Manage Homepage Videos &amp; Links &rarr;</a></span>
     </div>
 </div>
 
@@ -330,7 +330,7 @@ function slide_section($num, $hp) {
                             <?php hp_field('Button 1 Text', "hp_{$s}_btn1_text", $hp, 'e.g. Donate Now'); ?>
                         </div>
                         <div class="col-md-4">
-                            <?php hp_field('Button 1 Link', "hp_{$s}_btn1_link", $hp, '/Kamadenu/donate.php'); ?>
+                            <?php hp_field('Button 1 Link', "hp_{$s}_btn1_link", $hp, '/Kamadhenu-goushala/donate.php'); ?>
                         </div>
                         <div class="col-md-4">
                             <?php hp_field('Button 1 CSS Classes', "hp_{$s}_btn1_class", $hp, 'btn-kamadenu-primary'); ?>
@@ -340,7 +340,7 @@ function slide_section($num, $hp) {
                             <?php hp_field('Button 2 Text', "hp_{$s}_btn2_text", $hp, 'e.g. View Cows'); ?>
                         </div>
                         <div class="col-md-4">
-                            <?php hp_field('Button 2 Link', "hp_{$s}_btn2_link", $hp, '/Kamadenu/cows.php'); ?>
+                            <?php hp_field('Button 2 Link', "hp_{$s}_btn2_link", $hp, '/Kamadhenu-goushala/cows.php'); ?>
                         </div>
                         <div class="col-md-4">
                             <?php hp_field('Button 2 CSS Classes', "hp_{$s}_btn2_class", $hp, 'btn-kamadenu-outline'); ?>
@@ -374,7 +374,7 @@ for ($i = 1; $i <= 4; $i++) slide_section($i, $hp);
                 <?php hp_field('CTA Title', 'hp_cta_title', $hp, 'Join Our Sacred Gouseva Movement'); ?>
                 <?php hp_textarea('CTA Subtitle / Description', 'hp_cta_subtitle', $hp, 3); ?>
                 <?php hp_field('CTA Button Text', 'hp_cta_btn_text', $hp, 'Apply as Volunteer'); ?>
-                <?php hp_field('CTA Button Link', 'hp_cta_btn_link', $hp, '/Kamadenu/volunteer.php'); ?>
+                <?php hp_field('CTA Button Link', 'hp_cta_btn_link', $hp, '/Kamadhenu-goushala/volunteer.php'); ?>
             </div>
         </div>
         <div class="col-lg-6">
@@ -425,9 +425,9 @@ for ($i = 1; $i <= 4; $i++) slide_section($i, $hp);
                     <?php else: ?>
                         <div class="mb-3 text-muted small">Using Default Assets Logo:</div>
                         <div class="p-3 bg-white d-inline-block rounded shadow-sm mb-3">
-                            <img src="/Kamadenu/css/cowlogo.jpg" alt="Default Logo" style="max-height: 80px; width: auto; object-fit: contain;">
+                            <img src="/Kamadhenu-goushala/css/cowlogo.jpg" alt="Default Logo" style="max-height: 80px; width: auto; object-fit: contain;">
                         </div>
-                        <div class="text-muted small">/Kamadenu/css/cowlogo.jpg</div>
+                        <div class="text-muted small">/Kamadhenu-goushala/css/cowlogo.jpg</div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -440,7 +440,7 @@ for ($i = 1; $i <= 4; $i++) slide_section($i, $hp);
     <button type="submit" class="btn btn-kamadenu-primary font-ui fw-bold px-5 py-3 shadow fs-5">
         <i class="fas fa-save me-2"></i> Save All Homepage Settings
     </button>
-    <a href="/Kamadenu/index.php" target="_blank" class="btn btn-outline-info ms-2 px-4 py-3 font-ui fw-bold">
+    <a href="/Kamadhenu-goushala/index.php" target="_blank" class="btn btn-outline-info ms-2 px-4 py-3 font-ui fw-bold">
         <i class="fas fa-eye me-2"></i> Live Preview
     </a>
 </div>

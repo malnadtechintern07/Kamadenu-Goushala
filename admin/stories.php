@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$title, $slug, $summary, $content, $pub_date]);
 
     log_audit($pdo, 'Create Story', 'stories', $pdo->lastInsertId());
-    header("Location: /Kamadenu/admin/stories.php?saved=1");
+    header("Location: /Kamadhenu-goushala/admin/stories.php?saved=1");
     exit;
 }
 

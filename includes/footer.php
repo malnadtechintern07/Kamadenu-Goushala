@@ -6,7 +6,7 @@
         <div class="row g-4">
             <div class="col-lg-4 col-md-6">
                 <div class="d-flex align-items-center mb-3">
-                    <img src="/Kamadenu/assets/images/logo.png" alt="Kamadenu Goushala Trust Logo" class="me-3 rounded-3 shadow-sm" style="height: 64px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));">
+                    <img src="/Kamadhenu-goushala/assets/images/logo.png" alt="Kamadenu Goushala Trust Logo" class="me-3 rounded-3 shadow-sm" style="height: 64px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));">
 
                     <div>
                         <h4 class="font-heading text-warning mb-0"><?php echo __t('site_title'); ?></h4>
@@ -22,23 +22,23 @@
             <div class="col-lg-2 col-md-6">
                 <h5 class="font-ui text-white fw-bold mb-3">Quick Links</h5>
                 <ul class="list-unstyled small">
-                    <li class="mb-2"><a href="/Kamadenu/cows.php" class="text-light text-decoration-none"><i class="fas fa-chevron-right me-1 text-warning small"></i> Indigenous Cows</a></li>
-                    <li class="mb-2"><a href="/Kamadenu/adopt.php" class="text-light text-decoration-none"><i class="fas fa-chevron-right me-1 text-warning small"></i> Adopt a Cow</a></li>
-                    <li class="mb-2"><a href="/Kamadenu/seva.php" class="text-light text-decoration-none"><i class="fas fa-chevron-right me-1 text-warning small"></i> Daily Seva</a></li>
-                    <li class="mb-2"><a href="/Kamadenu/donate.php" class="text-light text-decoration-none"><i class="fas fa-chevron-right me-1 text-warning small"></i> Donate Now</a></li>
-                    <li class="mb-2"><a href="/Kamadenu/products.php" class="text-light text-decoration-none"><i class="fas fa-chevron-right me-1 text-warning small"></i> Goushala Store</a></li>
+                    <li class="mb-2"><a href="/Kamadhenu-goushala/cows.php" class="text-light text-decoration-none"><i class="fas fa-chevron-right me-1 text-warning small"></i> Indigenous Cows</a></li>
+                    <li class="mb-2"><a href="/Kamadhenu-goushala/adopt.php" class="text-light text-decoration-none"><i class="fas fa-chevron-right me-1 text-warning small"></i> Adopt a Cow</a></li>
+                    <li class="mb-2"><a href="/Kamadhenu-goushala/seva.php" class="text-light text-decoration-none"><i class="fas fa-chevron-right me-1 text-warning small"></i> Daily Seva</a></li>
+                    <li class="mb-2"><a href="/Kamadhenu-goushala/donate.php" class="text-light text-decoration-none"><i class="fas fa-chevron-right me-1 text-warning small"></i> Donate Now</a></li>
+                    <li class="mb-2"><a href="/Kamadhenu-goushala/products.php" class="text-light text-decoration-none"><i class="fas fa-chevron-right me-1 text-warning small"></i> Goushala Store</a></li>
                 </ul>
             </div>
 
             <div class="col-lg-3 col-md-6">
                 <h5 class="font-ui text-white fw-bold mb-3">Statutory & Policies</h5>
                 <ul class="list-unstyled small">
-                    <li class="mb-2"><a href="/Kamadenu/privacy.php" class="text-light text-decoration-none">Privacy Policy</a></li>
-                    <li class="mb-2"><a href="/Kamadenu/terms.php" class="text-light text-decoration-none">Terms of Service</a></li>
-                    <li class="mb-2"><a href="/Kamadenu/donation-policy.php" class="text-light text-decoration-none">Donation Policy</a></li>
-                    <li class="mb-2"><a href="/Kamadenu/refund-policy.php" class="text-light text-decoration-none">Refund & Cancellation</a></li>
-                    <li class="mb-2"><a href="/Kamadenu/shipping-policy.php" class="text-light text-decoration-none">Shipping & Delivery</a></li>
-                    <li class="mb-2"><a href="/Kamadenu/sponsorship-terms.php" class="text-light text-decoration-none">Sponsorship Terms</a></li>
+                    <li class="mb-2"><a href="/Kamadhenu-goushala/privacy.php" class="text-light text-decoration-none">Privacy Policy</a></li>
+                    <li class="mb-2"><a href="/Kamadhenu-goushala/terms.php" class="text-light text-decoration-none">Terms of Service</a></li>
+                    <li class="mb-2"><a href="/Kamadhenu-goushala/donation-policy.php" class="text-light text-decoration-none">Donation Policy</a></li>
+                    <li class="mb-2"><a href="/Kamadhenu-goushala/refund-policy.php" class="text-light text-decoration-none">Refund & Cancellation</a></li>
+                    <li class="mb-2"><a href="/Kamadhenu-goushala/shipping-policy.php" class="text-light text-decoration-none">Shipping & Delivery</a></li>
+                    <li class="mb-2"><a href="/Kamadhenu-goushala/sponsorship-terms.php" class="text-light text-decoration-none">Sponsorship Terms</a></li>
                 </ul>
             </div>
 
@@ -91,7 +91,7 @@
                 <strong id="drawer-cart-total" class="font-mono text-warning-dark">₹0.00</strong>
             </div>
             <div class="d-grid gap-2">
-                <a href="/Kamadenu/cart.php" class="btn btn-outline-dark font-ui fw-bold">
+                <a href="/Kamadhenu-goushala/cart.php" class="btn btn-outline-dark font-ui fw-bold">
                     <i class="fas fa-shopping-cart me-1"></i> <?php echo __t('btn_view_cart'); ?>
                 </a>
                 <button onclick="proceedCartCheckout()" id="drawer-checkout-btn" class="btn btn-warning font-ui fw-bold py-2 shadow text-dark fs-6" disabled>
@@ -118,11 +118,11 @@ $page_file = basename($_SERVER['SCRIPT_NAME']);
 <?php endif; ?>
 
 <!-- Application Scripts -->
-<script src="/Kamadenu/js/main.js"></script>
-<script src="/Kamadenu/js/language.js"></script>
-<script src="/Kamadenu/js/theme.js"></script>
-<script src="/Kamadenu/js/api.js"></script>
-<script src="/Kamadenu/js/realtime.js"></script>
+<script src="/Kamadhenu-goushala/js/main.js"></script>
+<script src="/Kamadhenu-goushala/js/language.js"></script>
+<script src="/Kamadhenu-goushala/js/theme.js"></script>
+<script src="/Kamadhenu-goushala/js/api.js"></script>
+<script src="/Kamadhenu-goushala/js/realtime.js"></script>
 
 </body>
 </html>

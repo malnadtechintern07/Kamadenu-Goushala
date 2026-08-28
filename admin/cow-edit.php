@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$name, $name_kn, $breed, $age_years, $weight_kg, $monthly_amount, $health_status, $adoption_status, $rescue_story, $photo_path, $whatsapp_number_id, $contact_method, $whatsapp_message, $id]);
 
     log_audit($pdo, 'Edit Cow', 'cows', $id);
-    header("Location: /Kamadenu/admin/cows.php?updated=1");
+    header("Location: /Kamadhenu-goushala/admin/cows.php?updated=1");
     exit;
 }
 
@@ -53,7 +53,7 @@ $wa_numbers = $pdo->query("SELECT * FROM whatsapp_numbers ORDER BY id ASC")->fet
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="font-heading mb-0"><i class="fas fa-edit text-warning me-2"></i> Edit Cattle Profile (<?php echo e($cow['cow_code']); ?>)</h3>
-    <a href="/Kamadenu/admin/cows.php" class="btn btn-outline-secondary font-ui">&larr; Back to Cows</a>
+    <a href="/Kamadhenu-goushala/admin/cows.php" class="btn btn-outline-secondary font-ui">&larr; Back to Cows</a>
 </div>
 
 <div class="kamadenu-card p-4">
@@ -161,7 +161,7 @@ $wa_numbers = $pdo->query("SELECT * FROM whatsapp_numbers ORDER BY id ASC")->fet
         <button type="submit" class="btn btn-kamadenu-primary font-ui fw-bold px-4 py-2 text-white">
             <i class="fas fa-save me-1"></i> Save Passport & Update Photo in MySQL
         </button>
-        <a href="/Kamadenu/admin/cows.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
+        <a href="/Kamadhenu-goushala/admin/cows.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
     </form>
 </div>
 

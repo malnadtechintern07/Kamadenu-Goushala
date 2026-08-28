@@ -8,7 +8,7 @@ $stmt->execute([$id]);
 $product = $stmt->fetch();
 
 if (!$product) {
-    echo '<section class="py-5 text-center"><div class="container py-5"><div class="alert alert-warning d-inline-block px-5 py-4"><h4 class="font-heading mb-2">Product Not Found</h4><p class="mb-3 text-muted font-ui">The selected product is unavailable or invalid.</p><a href="/Kamadenu/products.php" class="btn btn-warning font-ui fw-bold">Return to Product Store</a></div></div></section>';
+    echo '<section class="py-5 text-center"><div class="container py-5"><div class="alert alert-warning d-inline-block px-5 py-4"><h4 class="font-heading mb-2">Product Not Found</h4><p class="mb-3 text-muted font-ui">The selected product is unavailable or invalid.</p><a href="/Kamadhenu-goushala/products.php" class="btn btn-warning font-ui fw-bold">Return to Product Store</a></div></div></section>';
     require_once __DIR__ . '/includes/footer.php';
     exit;
 }
@@ -27,7 +27,7 @@ $whatsapp_url = "https://api.whatsapp.com/send?phone=" . preg_replace('/[^0-9]/'
                 <h2 class="font-heading text-warning mb-1"><i class="fas fa-shopping-bag text-warning me-2"></i> Product Checkout Options</h2>
                 <p class="text-white-50 small mb-0">Select your preferred checkout method to complete your purchase of A2 Goushala products.</p>
             </div>
-            <a href="/Kamadenu/products.php" class="btn btn-outline-warning btn-sm font-ui"><i class="fas fa-arrow-left me-1"></i> Back to Products</a>
+            <a href="/Kamadhenu-goushala/products.php" class="btn btn-outline-warning btn-sm font-ui"><i class="fas fa-arrow-left me-1"></i> Back to Products</a>
         </div>
     </div>
 </section>

@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $pdo->prepare("INSERT INTO whatsapp_numbers (label, phone_number) VALUES (?, ?)");
             $stmt->execute([$label, $phone]);
             log_audit($pdo, 'Add WhatsApp Number to Directory', 'whatsapp_numbers');
-            header("Location: /Kamadenu/admin/settings.php?saved=2");
+            header("Location: /Kamadhenu-goushala/admin/settings.php?saved=2");
             exit;
         }
     } elseif (isset($_POST['delete_wa_number'])) {
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("DELETE FROM whatsapp_numbers WHERE id = ?");
         $stmt->execute([$id]);
         log_audit($pdo, 'Delete WhatsApp Number from Directory', 'whatsapp_numbers', $id);
-        header("Location: /Kamadenu/admin/settings.php?saved=3");
+        header("Location: /Kamadhenu-goushala/admin/settings.php?saved=3");
         exit;
     } else {
         foreach ($_POST['settings'] as $key => $val) {
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
         log_audit($pdo, 'Update System Settings', 'settings');
-        header("Location: /Kamadenu/admin/settings.php?saved=1");
+        header("Location: /Kamadhenu-goushala/admin/settings.php?saved=1");
         exit;
     }
 }

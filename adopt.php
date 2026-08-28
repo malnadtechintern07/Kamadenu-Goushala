@@ -3,7 +3,7 @@ require_once __DIR__ . '/includes/header.php';
 
 if (!is_user_logged_in()) {
     $redirect_url = $_SERVER['REQUEST_URI'];
-    header("Location: /Kamadenu/login.php?redirect=" . urlencode($redirect_url) . "&msg=login_required");
+    header("Location: /Kamadhenu-goushala/login.php?redirect=" . urlencode($redirect_url) . "&msg=login_required");
     exit;
 }
 
@@ -197,7 +197,7 @@ function handleAdoptSubmit(e) {
     }
 
     if (action === 'website') {
-        form.action = '/Kamadenu/checkout.php';
+        form.action = '/Kamadhenu-goushala/checkout.php';
         form.method = 'GET';
         return; // Submit naturally
     }
@@ -241,7 +241,7 @@ function handleAdoptSubmit(e) {
         pan_number: pan
     };
 
-    fetch('/Kamadenu/api/payments.php', {
+    fetch('/Kamadhenu-goushala/api/payments.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

@@ -1,13 +1,13 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
-if (!is_user_logged_in()) { header("Location: /Kamadenu/login.php"); exit; }
+if (!is_user_logged_in()) { header("Location: /Kamadhenu-goushala/login.php"); exit; }
 $user = current_user($pdo);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_pass = $_POST['new_password'];
     $hashed = password_hash($new_pass, PASSWORD_BCRYPT);
     $pdo->prepare("UPDATE users SET password = ? WHERE id = ?")->execute([$hashed, $user['id']]);
-    header("Location: /Kamadenu/security.php?updated=1");
+    header("Location: /Kamadhenu-goushala/security.php?updated=1");
     exit;
 }
 ?>

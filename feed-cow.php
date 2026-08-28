@@ -3,7 +3,7 @@ require_once __DIR__ . '/includes/header.php';
 
 if (!is_user_logged_in()) {
     $redirect_url = $_SERVER['REQUEST_URI'];
-    header("Location: /Kamadenu/login.php?redirect=" . urlencode($redirect_url) . "&msg=login_required");
+    header("Location: /Kamadhenu-goushala/login.php?redirect=" . urlencode($redirect_url) . "&msg=login_required");
     exit;
 }
 
@@ -260,7 +260,7 @@ function handleFeedingSubmit(e) {
     const cow = cowsData[cowId];
     const cowName = cow ? cow.name : 'Sacred Cow';
 
-    window.location.href = `/Kamadenu/checkout.php?type=feed_cow&cow_id=${cowId}&amount=${amount}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&pan=${encodeURIComponent(pan)}&description=${encodeURIComponent('Feed Contribution for ' + cowName)}`;
+    window.location.href = `/Kamadhenu-goushala/checkout.php?type=feed_cow&cow_id=${cowId}&amount=${amount}&name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&phone=${encodeURIComponent(phone)}&pan=${encodeURIComponent(pan)}&description=${encodeURIComponent('Feed Contribution for ' + cowName)}`;
 }
 
 function submitFeedingWhatsApp() {
@@ -290,7 +290,7 @@ function submitFeedingWhatsApp() {
     btnWhatsApp.disabled = true;
     btnWhatsApp.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Connecting WhatsApp...';
 
-    fetch('/Kamadenu/api/payments.php?action=verify', {
+    fetch('/Kamadhenu-goushala/api/payments.php?action=verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

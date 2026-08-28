@@ -42,7 +42,7 @@ $recent_logs = $pdo->query("SELECT fl.*, fi.title as item_title FROM feed_logs f
                                 <div class="fs-3 fw-bold text-dark font-mono mb-3">₹<?php echo number_format($f['cost']); ?></div>
                                 <div class="d-flex flex-column gap-2 w-100">
                                     <?php if ($f['contact_method'] === 'both' || $f['contact_method'] === 'website' || empty($f['contact_method'])): ?>
-                                        <a href="/Kamadenu/checkout.php?type=feed&feed_id=<?php echo $f['id']; ?>&amount=<?php echo $f['cost']; ?>" class="btn btn-kamadenu-primary w-100 font-ui fw-bold d-flex align-items-center justify-content-center">
+                                        <a href="/Kamadhenu-goushala/checkout.php?type=feed&feed_id=<?php echo $f['id']; ?>&amount=<?php echo $f['cost']; ?>" class="btn btn-kamadenu-primary w-100 font-ui fw-bold d-flex align-items-center justify-content-center">
                                             <i class="fas fa-hand-holding-heart me-2"></i> Sponsor Feed
                                         </a>
                                     <?php endif; ?>

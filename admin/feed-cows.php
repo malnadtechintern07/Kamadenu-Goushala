@@ -6,7 +6,7 @@ $cows = $pdo->query("SELECT fc.*, wn.label as wa_label FROM feeding_cows fc LEFT
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="font-heading mb-0"><i class="fas fa-cookie-bite text-warning me-2"></i> Feeding Cows Directory</h3>
-    <a href="/Kamadenu/admin/feed-cow-add.php" class="btn btn-kamadenu-primary font-ui fw-bold"><i class="fas fa-plus me-1"></i> Add Cow for Feeding</a>
+    <a href="/Kamadhenu-goushala/admin/feed-cow-add.php" class="btn btn-kamadenu-primary font-ui fw-bold"><i class="fas fa-plus me-1"></i> Add Cow for Feeding</a>
 </div>
 
 <?php if (isset($_GET['saved'])): ?>
@@ -61,7 +61,7 @@ $cows = $pdo->query("SELECT fc.*, wn.label as wa_label FROM feeding_cows fc LEFT
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <a href="/Kamadenu/admin/feed-cow-edit.php?id=<?php echo $c['id']; ?>" class="btn btn-sm btn-outline-warning font-ui fw-bold"><i class="fas fa-edit me-1"></i> Edit &amp; Photo</a>
+                                <a href="/Kamadhenu-goushala/admin/feed-cow-edit.php?id=<?php echo $c['id']; ?>" class="btn btn-sm btn-outline-warning font-ui fw-bold"><i class="fas fa-edit me-1"></i> Edit &amp; Photo</a>
                                 <button onclick="deleteAdminItem('feeding_cows', <?php echo $c['id']; ?>)" class="btn btn-sm btn-outline-danger font-ui fw-bold ms-1"><i class="fas fa-trash me-1"></i> Delete</button>
                             </td>
                         </tr>

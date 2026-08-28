@@ -74,7 +74,7 @@ if (empty($db_videos)) {
 
 // ── Self-heal homepage DB settings with defaults ─────────────────────────────
 $hp_defaults_idx = [
-    'hp_s1_bg'         => '/Kamadenu/assets/images/hero-bg.jpg',
+    'hp_s1_bg'         => '/Kamadhenu-goushala/assets/images/hero-bg.jpg',
     'hp_s1_overlay'    => 'rgba(20,10,5,0.82)',
     'hp_s1_badge'      => 'SACRED INDIGENOUS GOUSEVA SANCTUARY',
     'hp_s1_badge_color'=> 'warning',
@@ -83,10 +83,10 @@ $hp_defaults_idx = [
     'hp_s1_subtitle'   => 'A Vedic sanctuary dedicated to the care, rescue, and spiritual wellbeing of indigenous Indian cattle. Your Gouseva brings merit, peace, and blessings to your family.',
     'hp_s1_phrase'     => '"ಗೋ ಮಾತಾ ಕಿ ಜೈ"',
     'hp_s1_btn1_text'  => 'Donate Now',
-    'hp_s1_btn1_link'  => '/Kamadenu/donate.php',
+    'hp_s1_btn1_link'  => '/Kamadhenu-goushala/donate.php',
     'hp_s1_btn1_class' => 'btn-kamadenu-primary',
     'hp_s1_btn2_text'  => 'Sponsor a Cow',
-    'hp_s1_btn2_link'  => '/Kamadenu/adopt.php',
+    'hp_s1_btn2_link'  => '/Kamadhenu-goushala/adopt.php',
     'hp_s1_btn2_class' => 'btn-kamadenu-outline',
     'hp_s1_indicator'  => 'Sanctuary',
     'hp_s2_bg'         => 'https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?auto=format&fit=crop&w=1600&q=80',
@@ -98,10 +98,10 @@ $hp_defaults_idx = [
     'hp_s2_subtitle'   => 'Experience the joy of cow adoption. Sponsor the monthly feeds and medical care costs for a resident cow and get regular updates from the sanctuary.',
     'hp_s2_phrase'     => '"ಲೋಕಾಃ ಸಮಸ್ತಾಃ ಸುಖಿನೋ ಭವಂತು"',
     'hp_s2_btn1_text'  => 'Sponsor a Cow',
-    'hp_s2_btn1_link'  => '/Kamadenu/adopt.php',
+    'hp_s2_btn1_link'  => '/Kamadhenu-goushala/adopt.php',
     'hp_s2_btn1_class' => 'btn-kamadenu-primary',
     'hp_s2_btn2_text'  => 'View Cow Passports',
-    'hp_s2_btn2_link'  => '/Kamadenu/cows.php',
+    'hp_s2_btn2_link'  => '/Kamadhenu-goushala/cows.php',
     'hp_s2_btn2_class' => 'btn-kamadenu-outline',
     'hp_s2_indicator'  => 'Adopt a Cow',
     'hp_s3_bg'         => 'https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=1600&q=80',
@@ -113,7 +113,7 @@ $hp_defaults_idx = [
     'hp_s3_subtitle'   => 'Support our active emergency rescue campaigns. Your contributions provide shelter, critical surgery, and daily medication for injured and abandoned cows.',
     'hp_s3_phrase'     => '"ದಯವೇ ಧರ್ಮದ ಮೂಲವಯ್ಯಾ"',
     'hp_s3_btn1_text'  => 'Support Rescue Campaign',
-    'hp_s3_btn1_link'  => '/Kamadenu/donate.php',
+    'hp_s3_btn1_link'  => '/Kamadhenu-goushala/donate.php',
     'hp_s3_btn1_class' => 'btn btn-danger rounded-pill px-4 py-3 font-ui fw-bold shadow',
     'hp_s3_btn2_text'  => '',
     'hp_s3_btn2_link'  => '',
@@ -128,7 +128,7 @@ $hp_defaults_idx = [
     'hp_s4_subtitle'   => 'Sponsor nutritional green feeds, morning prayers (Grasa Seva), and Vedic Gou Pooja rituals at the sanctuary. Bring blessings, peace, and spiritual prosperity to your home.',
     'hp_s4_phrase'     => '"ಗೌ ಪೂಜಾ ಮಹತ್ತ್ವಂ"',
     'hp_s4_btn1_text'  => 'Sponsor a Seva',
-    'hp_s4_btn1_link'  => '/Kamadenu/seva.php',
+    'hp_s4_btn1_link'  => '/Kamadhenu-goushala/seva.php',
     'hp_s4_btn1_class' => 'btn btn-warning rounded-pill px-4 py-3 font-ui fw-bold text-dark shadow',
     'hp_s4_btn2_text'  => '',
     'hp_s4_btn2_link'  => '',
@@ -137,7 +137,7 @@ $hp_defaults_idx = [
     'hp_cta_title'     => 'Join Our Sacred Gouseva Movement',
     'hp_cta_subtitle'  => 'Become a Gousevak — volunteer your time, skills, or resources to protect and nurture our indigenous cow heritage.',
     'hp_cta_btn_text'  => 'Apply as Volunteer',
-    'hp_cta_btn_link'  => '/Kamadenu/volunteer.php',
+    'hp_cta_btn_link'  => '/Kamadhenu-goushala/volunteer.php',
     'hp_stats_title'   => 'Our Living Impact — Powered by Your Gouseva',
     'hp_stats_sub'     => 'REAL-TIME SANCTUARY METRICS',
 ];
@@ -213,7 +213,7 @@ ensure_hp_settings($pdo, $hp_defaults_idx);
                     <div class="col-lg-5">
                         <div class="hero-cow-kamala-card text-dark position-relative shadow-lg">
                             <span class="position-absolute top-0 end-0 m-3 badge bg-danger font-ui px-3 py-2 shadow"><i class="fas fa-heart me-1"></i> <?php echo __t('sponsor_kamala'); ?></span>
-                            <img src="/Kamadenu/assets/images/cow-kamala.jpg" alt="Rescued Cow Kamala" class="hero-cow-kamala-img mb-3 shadow-sm">
+                            <img src="/Kamadhenu-goushala/assets/images/cow-kamala.jpg" alt="Rescued Cow Kamala" class="hero-cow-kamala-img mb-3 shadow-sm">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <h4 class="font-heading mb-0 text-dark">Rescued Cow "Kamala" <small class="text-warning font-ui">(KG-001)</small></h4>
                                 <span class="badge bg-warning-subtle text-dark border border-warning">Gir Breed</span>
@@ -221,7 +221,7 @@ ensure_hp_settings($pdo, $hp_defaults_idx);
                             <p class="small text-muted mb-3"><i class="fas fa-shield-alt text-success me-1"></i> <?php echo __t('kamala_desc'); ?></p>
                             <div class="d-flex justify-content-between align-items-center border-top pt-2">
                                 <span class="font-mono fw-bold text-dark fs-5">₹2,500 <small class="fs-6 text-muted font-ui">/ <?php echo __t('monthly_care'); ?></small></span>
-                                <a href="/Kamadenu/adopt.php?cow_id=1" class="btn btn-kamadenu-primary btn-sm px-4 font-ui fw-bold"><i class="fas fa-hand-holding-heart me-1"></i> <?php echo __t('sponsor_kamala'); ?></a>
+                                <a href="/Kamadhenu-goushala/adopt.php?cow_id=1" class="btn btn-kamadenu-primary btn-sm px-4 font-ui fw-bold"><i class="fas fa-hand-holding-heart me-1"></i> <?php echo __t('sponsor_kamala'); ?></a>
                             </div>
                         </div>
                     </div>
@@ -239,7 +239,7 @@ ensure_hp_settings($pdo, $hp_defaults_idx);
                                 <li class="mb-2"><i class="fas fa-coins text-success me-2"></i> <strong>Gouseva Loyalty Points Awarded</strong></li>
                                 <li class="mb-2"><i class="fas fa-pray text-success me-2"></i> <strong>Prayers Performed in Your Name</strong></li>
                             </ul>
-                            <a href="/Kamadenu/cows.php" class="btn btn-success w-100 py-2 font-ui fw-bold"><i class="fas fa-cow me-2"></i> Find Cow to Adopt</a>
+                            <a href="/Kamadhenu-goushala/cows.php" class="btn btn-success w-100 py-2 font-ui fw-bold"><i class="fas fa-cow me-2"></i> Find Cow to Adopt</a>
                         </div>
                     </div>
                     <?php elseif ($__sl === 3): ?>
@@ -256,7 +256,7 @@ ensure_hp_settings($pdo, $hp_defaults_idx);
                                 <div class="small"><div class="text-muted">Target Amount</div><strong class="font-mono">₹1,50,000</strong></div>
                                 <div class="small text-end"><div class="text-muted">Raised</div><strong class="font-mono text-success">₹1,12,500</strong></div>
                             </div>
-                            <a href="/Kamadenu/donate.php" class="btn btn-danger w-100 py-2 font-ui fw-bold"><i class="fas fa-heart me-2"></i> Donate to Relief</a>
+                            <a href="/Kamadhenu-goushala/donate.php" class="btn btn-danger w-100 py-2 font-ui fw-bold"><i class="fas fa-heart me-2"></i> Donate to Relief</a>
                         </div>
                     </div>
                     <?php elseif ($__sl === 4): ?>
@@ -269,7 +269,7 @@ ensure_hp_settings($pdo, $hp_defaults_idx);
                                 <div class="small"><div class="text-muted">Suggested Contribution</div><strong class="font-mono text-dark fs-5">₹1,500</strong></div>
                                 <div class="small text-end text-warning"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                             </div>
-                            <a href="/Kamadenu/seva-detail.php?id=2" class="btn btn-warning w-100 py-2 font-ui fw-bold text-dark"><i class="fas fa-pray me-2"></i> Book Seva Offering</a>
+                            <a href="/Kamadhenu-goushala/seva-detail.php?id=2" class="btn btn-warning w-100 py-2 font-ui fw-bold text-dark"><i class="fas fa-pray me-2"></i> Book Seva Offering</a>
                         </div>
                     </div>
                     <?php endif; ?>
@@ -500,7 +500,7 @@ ensure_hp_settings($pdo, $hp_defaults_idx);
                 <h6 class="text-warning text-uppercase font-ui fw-bold tracking-wider mb-1"><i class="fas fa-shield-alt me-1"></i> <?php echo __t('home_cows_subtitle'); ?></h6>
                 <h2 class="font-heading mb-0"><?php echo __t('home_cows_title'); ?></h2>
             </div>
-            <a href="/Kamadenu/cows.php" class="btn btn-outline-warning rounded-pill px-4 font-ui fw-semibold mt-3 mt-md-0"><?php echo __t('browse_cows_btn'); ?> <i class="fas fa-arrow-right ms-2"></i></a>
+            <a href="/Kamadhenu-goushala/cows.php" class="btn btn-outline-warning rounded-pill px-4 font-ui fw-semibold mt-3 mt-md-0"><?php echo __t('browse_cows_btn'); ?> <i class="fas fa-arrow-right ms-2"></i></a>
         </div>
 
         <div class="row g-4">
@@ -512,7 +512,7 @@ ensure_hp_settings($pdo, $hp_defaults_idx);
                 <div class="col-md-4">
                     <div class="kamadenu-card h-100">
                         <div class="position-relative overflow-hidden">
-                            <img src="/Kamadenu/<?php echo e($cow['photo']); ?>" alt="<?php echo e($cname); ?>" class="cow-card-img" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=600&q=80'">
+                            <img src="/Kamadhenu-goushala/<?php echo e($cow['photo']); ?>" alt="<?php echo e($cname); ?>" class="cow-card-img" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=600&q=80'">
                             <span class="position-absolute top-0 end-0 m-3 badge-cow-code"><?php echo e($cow['cow_code']); ?></span>
                             <span class="position-absolute top-0 start-0 m-3 badge <?php echo $cow['adoption_status'] === 'Sponsored' ? 'bg-secondary' : 'bg-success'; ?> px-3 py-2 font-ui">
                                 <?php echo $cow['adoption_status'] === 'Sponsored' ? __t('status_sponsored') : __t('status_available'); ?>
@@ -537,7 +537,7 @@ ensure_hp_settings($pdo, $hp_defaults_idx);
                                     <small class="text-muted d-block font-ui"><?php echo __t('cow_monthly_cost'); ?></small>
                                     <span class="fs-5 fw-bold text-dark font-mono">₹<?php echo number_format($cow['monthly_sponsorship_amount']); ?></span>
                                 </div>
-                                <a href="/Kamadenu/cow-detail.php?id=<?php echo $cow['id']; ?>" class="btn btn-kamadenu-primary btn-sm px-3 font-ui fw-bold"><?php echo __t('cow_btn_view'); ?></a>
+                                <a href="/Kamadhenu-goushala/cow-detail.php?id=<?php echo $cow['id']; ?>" class="btn btn-kamadenu-primary btn-sm px-3 font-ui fw-bold"><?php echo __t('cow_btn_view'); ?></a>
                             </div>
                         </div>
                     </div>
@@ -568,10 +568,10 @@ ensure_hp_settings($pdo, $hp_defaults_idx);
                     </div>
                 </div>
 
-                <a href="/Kamadenu/donate.php?campaign=<?php echo $emergency['id']; ?>" class="btn btn-danger btn-lg rounded-pill font-ui fw-bold px-4 shadow"><i class="fas fa-hand-holding-heart me-2"></i> <?php echo __t('emergency_donate_now'); ?></a>
+                <a href="/Kamadhenu-goushala/donate.php?campaign=<?php echo $emergency['id']; ?>" class="btn btn-danger btn-lg rounded-pill font-ui fw-bold px-4 shadow"><i class="fas fa-hand-holding-heart me-2"></i> <?php echo __t('emergency_donate_now'); ?></a>
             </div>
             <div class="col-lg-5 text-center">
-                <img src="/Kamadenu/<?php echo e($emergency['photo']); ?>" alt="Emergency Rescue" class="img-fluid rounded-4 shadow-lg border border-warning w-100" style="max-height: 340px; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?auto=format&fit=crop&w=600&q=80'">
+                <img src="/Kamadhenu-goushala/<?php echo e($emergency['photo']); ?>" alt="Emergency Rescue" class="img-fluid rounded-4 shadow-lg border border-warning w-100" style="max-height: 340px; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?auto=format&fit=crop&w=600&q=80'">
             </div>
         </div>
     </div>
@@ -605,7 +605,7 @@ ensure_hp_settings($pdo, $hp_defaults_idx);
 
                         <div>
                             <div class="fs-4 fw-bold text-dark font-mono mb-3">₹<?php echo number_format($s['suggested_amount']); ?></div>
-                            <a href="/Kamadenu/seva-detail.php?id=<?php echo $s['id']; ?>" class="btn btn-outline-warning rounded-pill btn-sm w-100 font-ui fw-semibold"><?php echo __t('seva_sponsor_btn'); ?></a>
+                            <a href="/Kamadhenu-goushala/seva-detail.php?id=<?php echo $s['id']; ?>" class="btn btn-outline-warning rounded-pill btn-sm w-100 font-ui fw-semibold"><?php echo __t('seva_sponsor_btn'); ?></a>
                         </div>
                     </div>
                 </div>
@@ -622,7 +622,7 @@ ensure_hp_settings($pdo, $hp_defaults_idx);
                 <h6 class="text-warning text-uppercase font-ui fw-bold"><i class="fas fa-store me-1"></i> <?php echo __t('nav_products'); ?></h6>
                 <h2 class="font-heading mb-0"><?php echo __t('products_title'); ?></h2>
             </div>
-            <a href="/Kamadenu/products.php" class="btn btn-outline-warning rounded-pill font-ui fw-semibold mt-2 mt-md-0"><?php echo __t('explore_store'); ?> <i class="fas fa-store ms-1"></i></a>
+            <a href="/Kamadhenu-goushala/products.php" class="btn btn-outline-warning rounded-pill font-ui fw-semibold mt-2 mt-md-0"><?php echo __t('explore_store'); ?> <i class="fas fa-store ms-1"></i></a>
         </div>
 
         <div class="row g-4">
@@ -633,7 +633,7 @@ ensure_hp_settings($pdo, $hp_defaults_idx);
                 ?>
                 <div class="col-md-4">
                     <div class="kamadenu-card h-100">
-                        <img src="/Kamadenu/<?php echo e($p['image']); ?>" class="cow-card-img" onerror="this.src='https://images.unsplash.com/photo-1589927986089-35812388d1f4?auto=format&fit=crop&w=600&q=80'" alt="<?php echo e($fpname); ?>">
+                        <img src="/Kamadhenu-goushala/<?php echo e($p['image']); ?>" class="cow-card-img" onerror="this.src='https://images.unsplash.com/photo-1589927986089-35812388d1f4?auto=format&fit=crop&w=600&q=80'" alt="<?php echo e($fpname); ?>">
                         <div class="card-body p-4 d-flex flex-column justify-content-between">
                             <div>
                                 <span class="badge bg-warning-subtle text-dark border border-warning mb-2"><?php echo e($p['category_name']); ?></span>
@@ -794,7 +794,7 @@ ensure_hp_settings($pdo, $hp_defaults_idx);
         <div class="kamadenu-card p-5 text-center bg-gradient-hero text-white border-warning">
             <h2 class="font-heading text-warning mb-2"><?php echo htmlspecialchars(get_hp($pdo, 'hp_cta_title', __t('volunteer_cta_title'))); ?></h2>
             <p class="lead text-white-50 mb-4 max-w-600 mx-auto"><?php echo htmlspecialchars(get_hp($pdo, 'hp_cta_subtitle', __t('volunteer_cta_desc'))); ?></p>
-            <a href="<?php echo htmlspecialchars(get_hp($pdo, 'hp_cta_btn_link', '/Kamadenu/volunteer.php')); ?>" class="btn btn-kamadenu-primary btn-lg font-ui fw-bold px-5 shadow">
+            <a href="<?php echo htmlspecialchars(get_hp($pdo, 'hp_cta_btn_link', '/Kamadhenu-goushala/volunteer.php')); ?>" class="btn btn-kamadenu-primary btn-lg font-ui fw-bold px-5 shadow">
                 <i class="fas fa-hand-holding-heart me-2"></i>
                 <?php echo htmlspecialchars(get_hp($pdo, 'hp_cta_btn_text', __t('apply_volunteer_btn'))); ?>
             </a>

@@ -7,7 +7,7 @@ if (isset($_POST['update_status_id'])) {
     $new_status = $_POST['new_status'];
     $pdo->prepare("UPDATE orders SET order_status = ? WHERE id = ?")->execute([$new_status, $order_id]);
     log_audit($pdo, 'Update Order Status', 'orders', $order_id);
-    header("Location: /Kamadenu/admin/orders.php");
+    header("Location: /Kamadhenu-goushala/admin/orders.php");
     exit;
 }
 
@@ -53,7 +53,7 @@ if (isset($_POST['approve_order_payment_id'])) {
             log_audit($pdo, 'Approve Order Payment', 'orders', $order_id);
             $pdo->commit();
             
-            header("Location: /Kamadenu/admin/orders.php");
+            header("Location: /Kamadhenu-goushala/admin/orders.php");
             exit;
         } catch (Exception $e) {
             $pdo->rollBack();

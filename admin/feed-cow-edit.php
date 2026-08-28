@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$name, $description, $photo_path, $feed_amount, $is_available, $payment_method, $whatsapp_number_id, $whatsapp_message, $id]);
 
     log_audit($pdo, 'Edit Feeding Cow', 'feeding_cows', $id);
-    header("Location: /Kamadenu/admin/feed-cows.php?updated=1");
+    header("Location: /Kamadhenu-goushala/admin/feed-cows.php?updated=1");
     exit;
 }
 
@@ -48,7 +48,7 @@ $wa_numbers = $pdo->query("SELECT * FROM whatsapp_numbers ORDER BY id ASC")->fet
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="font-heading mb-0"><i class="fas fa-edit text-warning me-2"></i> Edit Feeding Cow (<?php echo e($cow['cow_code']); ?>)</h3>
-    <a href="/Kamadenu/admin/feed-cows.php" class="btn btn-outline-secondary font-ui">&larr; Back to List</a>
+    <a href="/Kamadhenu-goushala/admin/feed-cows.php" class="btn btn-outline-secondary font-ui">&larr; Back to List</a>
 </div>
 
 <div class="kamadenu-card p-4">
@@ -138,7 +138,7 @@ $wa_numbers = $pdo->query("SELECT * FROM whatsapp_numbers ORDER BY id ASC")->fet
         <button type="submit" class="btn btn-kamadenu-primary font-ui fw-bold px-4 py-2 text-white">
             <i class="fas fa-save me-1"></i> Save Changes
         </button>
-        <a href="/Kamadenu/admin/feed-cows.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
+        <a href="/Kamadhenu-goushala/admin/feed-cows.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
     </form>
 </div>
 

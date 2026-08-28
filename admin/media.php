@@ -17,7 +17,7 @@ $media = $pdo->query("SELECT * FROM media ORDER BY id DESC")->fetchAll();
             <?php foreach ($media as $m): ?>
                 <div class="col-md-3">
                     <div class="border rounded p-2 text-center">
-                        <img src="/Kamadenu/<?php echo e($m['file_path']); ?>" class="img-fluid rounded mb-2" style="height: 120px; object-fit: cover;">
+                        <img src="/Kamadhenu-goushala/<?php echo e($m['file_path']); ?>" class="img-fluid rounded mb-2" style="height: 120px; object-fit: cover;">
                         <small class="d-block font-mono text-truncate"><?php echo e($m['filename']); ?></small>
                     </div>
                 </div>

@@ -8,7 +8,7 @@ $stmt->execute([$id]);
 $seva = $stmt->fetch();
 
 if (!$seva) {
-    header("Location: /Kamadenu/admin/seva.php");
+    header("Location: /Kamadhenu-goushala/admin/seva.php");
     exit;
 }
 
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$title, $title_kn, $description, $category, $amount, $icon, $is_active, $whatsapp_number_id, $contact_method, $whatsapp_message, $id]);
 
     log_audit($pdo, 'Edit Seva Item', 'seva', $id);
-    header("Location: /Kamadenu/admin/seva.php?updated=1");
+    header("Location: /Kamadhenu-goushala/admin/seva.php?updated=1");
     exit;
 }
 
@@ -111,7 +111,7 @@ $wa_numbers = $pdo->query("SELECT * FROM whatsapp_numbers ORDER BY id ASC")->fet
         </div>
 
         <button type="submit" class="btn btn-kamadenu-primary font-ui fw-bold px-4 py-2">Update Seva Activity in MySQL</button>
-        <a href="/Kamadenu/admin/seva.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
+        <a href="/Kamadhenu-goushala/admin/seva.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
     </form>
 </div>
 

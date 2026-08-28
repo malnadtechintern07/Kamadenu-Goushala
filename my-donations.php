@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
-if (!is_user_logged_in()) { header("Location: /Kamadenu/login.php?redirect=" . urlencode('/Kamadenu/my-donations.php') . "&msg=login_required"); exit; }
+if (!is_user_logged_in()) { header("Location: /Kamadhenu-goushala/login.php?redirect=" . urlencode('/Kamadhenu-goushala/my-donations.php') . "&msg=login_required"); exit; }
 $user = current_user($pdo);
 
 $stmt = $pdo->prepare("SELECT * FROM donations WHERE user_id = ? ORDER BY id DESC");

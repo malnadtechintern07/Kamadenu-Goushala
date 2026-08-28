@@ -6,7 +6,7 @@ if (isset($_POST['vol_id']) && isset($_POST['action'])) {
     $new_status = $_POST['action'] === 'approve' ? 'Approved' : 'Rejected';
     $pdo->prepare("UPDATE volunteers SET status = ? WHERE id = ?")->execute([$new_status, $vol_id]);
     log_audit($pdo, "Volunteer Application {$new_status}", 'volunteers', $vol_id);
-    header("Location: /Kamadenu/admin/volunteers.php");
+    header("Location: /Kamadhenu-goushala/admin/volunteers.php");
     exit;
 }
 

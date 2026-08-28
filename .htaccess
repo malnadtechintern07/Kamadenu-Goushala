@@ -1,0 +1,21 @@
+# ==========================================================================
+# KAMADENU GOUSHALA - APACHE & INFINITYFREE CONFIGURATION (.htaccess)
+# ==========================================================================
+
+DirectoryIndex index.php index.html
+
+AddDefaultCharset UTF-8
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Prevent 404s for extensionless URLs (e.g. /about -> /about.php)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteRule ^(.*)$ $1.php [L,QSA]
+</IfModule>
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>

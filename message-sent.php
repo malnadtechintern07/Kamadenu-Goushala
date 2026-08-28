@@ -11,7 +11,7 @@ require_once __DIR__ . '/includes/header.php';
                     <div class="devotional-phrase fs-3 text-warning mb-2">ಗೋ ಮಾತಾ ಕಿ ಜೈ</div>
                     <h3 class="font-heading mb-3">Your Message Has Been Sent!</h3>
                     <p class="text-muted mb-4">Thank you for reaching out to Kamadenu Goushala Trust. Our team will review your inquiry and get back to you shortly.</p>
-                    <a href="/Kamadenu/index.php" class="btn btn-kamadenu-primary font-ui fw-bold px-4 py-2">Return to Home</a>
+                    <a href="/Kamadhenu-goushala/index.php" class="btn btn-kamadenu-primary font-ui fw-bold px-4 py-2">Return to Home</a>
                 </div>
             </div>
         </div>

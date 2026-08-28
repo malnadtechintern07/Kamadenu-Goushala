@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$cow_code, $name, $name_kn, $name_hi, $breed, $age_years, $gender, $weight_kg, $monthly_amount, $rescue_date, $rescue_story, $health_status, $whatsapp_number_id, $contact_method, $whatsapp_message]);
 
     log_audit($pdo, 'Add Cow', 'cows', $pdo->lastInsertId());
-    header("Location: /Kamadenu/admin/cows.php");
+    header("Location: /Kamadhenu-goushala/admin/cows.php");
     exit;
 }
 
@@ -134,7 +134,7 @@ $wa_numbers = $pdo->query("SELECT * FROM whatsapp_numbers ORDER BY id ASC")->fet
         </div>
 
         <button type="submit" class="btn btn-kamadenu-primary font-ui fw-bold px-4 py-2">Save Cattle to MySQL</button>
-        <a href="/Kamadenu/admin/cows.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
+        <a href="/Kamadhenu-goushala/admin/cows.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
     </form>
 </div>
 

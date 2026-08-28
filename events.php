@@ -53,7 +53,7 @@ function render_event_card_item($ev) {
             </div>
 
             <div class="p-4 pt-0 border-top mt-3">
-                <a href="/Kamadenu/event-detail.php?id=<?php echo $ev['id']; ?>" class="btn <?php echo $status === 'Completed' ? 'btn-outline-secondary' : 'btn-kamadenu-primary'; ?> w-100 font-ui fw-bold py-2 mt-3">
+                <a href="/Kamadhenu-goushala/event-detail.php?id=<?php echo $ev['id']; ?>" class="btn <?php echo $status === 'Completed' ? 'btn-outline-secondary' : 'btn-kamadenu-primary'; ?> w-100 font-ui fw-bold py-2 mt-3">
                     <?php echo $btn_text; ?>
                 </a>
             </div>

@@ -11,7 +11,7 @@ if (isset($_POST['product_id']) && isset($_POST['add_quantity'])) {
     $pdo->prepare("INSERT INTO inventory_transactions (product_id, transaction_type, quantity, notes) VALUES (?, 'purchase', ?, 'Stock Replenishment')")->execute([$prod_id, $add_qty]);
 
     log_audit($pdo, 'Replenish Inventory', 'inventory', $prod_id);
-    header("Location: /Kamadenu/admin/inventory.php?updated=1");
+    header("Location: /Kamadhenu-goushala/admin/inventory.php?updated=1");
     exit;
 }
 

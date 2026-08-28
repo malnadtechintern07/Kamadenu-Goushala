@@ -42,7 +42,7 @@ $campaigns = $pdo->query("SELECT ec.*, wn.phone_number as wa_phone_dir FROM emer
 
                         <div class="d-flex flex-column gap-2 mt-4">
                             <?php if ($c['contact_method'] === 'both' || $c['contact_method'] === 'website' || empty($c['contact_method'])): ?>
-                                <a href="/Kamadenu/donate.php?campaign=<?php echo $c['id']; ?>" class="btn btn-danger w-100 py-3 font-ui fw-bold shadow"><i class="fas fa-hand-holding-heart me-2"></i> <?php echo __t('emergency_donate_now'); ?></a>
+                                <a href="/Kamadhenu-goushala/donate.php?campaign=<?php echo $c['id']; ?>" class="btn btn-danger w-100 py-3 font-ui fw-bold shadow"><i class="fas fa-hand-holding-heart me-2"></i> <?php echo __t('emergency_donate_now'); ?></a>
                             <?php endif; ?>
                             <?php if ($c['contact_method'] === 'whatsapp' || $c['contact_method'] === 'both'): ?>
                                 <?php 

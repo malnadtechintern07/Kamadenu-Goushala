@@ -8,7 +8,7 @@ $stmt->execute([$id]);
 $product = $stmt->fetch();
 
 if (!$product) {
-    header("Location: /Kamadenu/admin/products.php");
+    header("Location: /Kamadhenu-goushala/admin/products.php");
     exit;
 }
 
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pdo->prepare("UPDATE inventory SET current_stock = ? WHERE product_id = ?")->execute([$stock, $id]);
 
     log_audit($pdo, 'Edit Product', 'products', $id);
-    header("Location: /Kamadenu/admin/products.php?updated=1");
+    header("Location: /Kamadhenu-goushala/admin/products.php?updated=1");
     exit;
 }
 
@@ -55,7 +55,7 @@ $categories = $pdo->query("SELECT * FROM product_categories ORDER BY id ASC")->f
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="font-heading mb-0"><i class="fas fa-edit text-warning me-2"></i> Edit Product & Update Photo</h3>
-    <a href="/Kamadenu/admin/products.php" class="btn btn-outline-secondary font-ui">&larr; Back to Products</a>
+    <a href="/Kamadhenu-goushala/admin/products.php" class="btn btn-outline-secondary font-ui">&larr; Back to Products</a>
 </div>
 
 <div class="kamadenu-card p-4">
@@ -104,7 +104,7 @@ $categories = $pdo->query("SELECT * FROM product_categories ORDER BY id ASC")->f
                                 <option value="whatsapp" <?php echo $product['contact_method'] === 'whatsapp' ? 'selected' : ''; ?>>WhatsApp Contact (Direct Message)</option>
                                 <option value="both" <?php echo $product['contact_method'] === 'both' ? 'selected' : ''; ?>>Both (Show Website & WhatsApp Options to User)</option>
                             </select>
-                            <small class="text-muted"><i class="fas fa-info-circle text-warning"></i> <strong>Note:</strong> This local setting is overridden by the global <strong>Product Checkout Method</strong> option in <a href="/Kamadenu/admin/settings.php" class="text-warning">System Configuration</a>.</small>
+                            <small class="text-muted"><i class="fas fa-info-circle text-warning"></i> <strong>Note:</strong> This local setting is overridden by the global <strong>Product Checkout Method</strong> option in <a href="/Kamadhenu-goushala/admin/settings.php" class="text-warning">System Configuration</a>.</small>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label font-ui small fw-bold">WhatsApp Contact Phone (Optional)</label>
@@ -162,7 +162,7 @@ $categories = $pdo->query("SELECT * FROM product_categories ORDER BY id ASC")->f
         <button type="submit" class="btn btn-kamadenu-primary font-ui fw-bold px-4 py-2 text-white">
             <i class="fas fa-save me-1"></i> Update Product & Image in MySQL
         </button>
-        <a href="/Kamadenu/admin/products.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
+        <a href="/Kamadhenu-goushala/admin/products.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
     </form>
 </div>
 

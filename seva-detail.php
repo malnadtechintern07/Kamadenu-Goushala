@@ -7,7 +7,7 @@ $stmt->execute([$id]);
 $seva = $stmt->fetch();
 
 if (!$seva) {
-    header("Location: /Kamadenu/seva.php");
+    header("Location: /Kamadhenu-goushala/seva.php");
     exit;
 }
 ?>
@@ -36,7 +36,7 @@ if (!$seva) {
 
                     <div class="d-flex flex-column gap-3 w-100">
                         <?php if ($seva['contact_method'] === 'both' || $seva['contact_method'] === 'website' || empty($seva['contact_method'])): ?>
-                            <a href="/Kamadenu/checkout.php?type=seva&seva_id=<?php echo $seva['id']; ?>&amount=<?php echo $seva['suggested_amount']; ?>" class="btn btn-kamadenu-primary btn-lg w-100 py-3 font-ui fw-bold shadow text-center">
+                            <a href="/Kamadhenu-goushala/checkout.php?type=seva&seva_id=<?php echo $seva['id']; ?>&amount=<?php echo $seva['suggested_amount']; ?>" class="btn btn-kamadenu-primary btn-lg w-100 py-3 font-ui fw-bold shadow text-center">
                                 <i class="fas fa-hand-holding-heart me-2"></i> Sponsor This Seva Now
                             </a>
                         <?php endif; ?>

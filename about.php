@@ -124,7 +124,7 @@ $heritage_img_url = img_url(empty($about_heritage_image) ? 'assets/images/gousha
                 <div class="kamadenu-card p-4 h-100 bg-gradient-hero text-white hover-glow border-warning d-flex flex-column justify-content-center text-center">
                     <div class="devotional-phrase fs-2 mb-2">ಗೋ ಮಾತಾ ಕಿ ಜೈ</div>
                     <h4 class="font-heading text-warning mb-3">Join Our Sacred Mission</h4>
-                    <a href="/Kamadenu/adopt.php" class="btn btn-warning rounded-pill font-ui fw-bold px-4 py-2"><?php echo __t('hero_btn_adopt'); ?> &rarr;</a>
+                    <a href="/Kamadhenu-goushala/adopt.php" class="btn btn-warning rounded-pill font-ui fw-bold px-4 py-2"><?php echo __t('hero_btn_adopt'); ?> &rarr;</a>
                 </div>
             </div>
         </div>
@@ -179,7 +179,7 @@ $heritage_img_url = img_url(empty($about_heritage_image) ? 'assets/images/gousha
                 <p class="text-secondary mb-3">At Kamadenu Goushala Trust, we believe in complete ecological harmony. Every gram of dung and urine from our indigenous cows is converted into organic bio-fertilizers like <strong>Jeevamrutha</strong>, <strong>Ghanajeevamrutha</strong>, and <strong>Panchagavya</strong>.</p>
                 <p class="text-muted mb-4">We conduct free monthly workshops for local farmers, teaching them how to eliminate toxic chemical fertilizers, restore soil fertility, and achieve Zero-Budget Natural Farming using native cow outputs.</p>
 
-                <a href="/Kamadenu/events.php" class="btn btn-kamadenu-primary font-ui fw-bold px-4 py-2">Browse Bio-Farming Events &rarr;</a>
+                <a href="/Kamadhenu-goushala/events.php" class="btn btn-kamadenu-primary font-ui fw-bold px-4 py-2">Browse Bio-Farming Events &rarr;</a>
             </div>
         </div>
     </div>
@@ -196,8 +196,8 @@ $heritage_img_url = img_url(empty($about_heritage_image) ? 'assets/images/gousha
         <p class="text-white-50 font-ui mb-4">Rigveda & Vedic Scriptures</p>
         
         <div class="d-flex flex-wrap justify-content-center gap-3">
-            <a href="/Kamadenu/donate.php" class="btn btn-kamadenu-primary btn-lg font-ui fw-bold px-4 py-3"><i class="fas fa-heart me-2"></i> Make a Tax-Exempt Donation</a>
-            <a href="/Kamadenu/adopt.php" class="btn btn-warning rounded-pill btn-lg font-ui fw-bold px-4 py-3 text-dark shadow"><i class="fas fa-cow me-2"></i> Adopt an Indigenous Cow</a>
+            <a href="/Kamadhenu-goushala/donate.php" class="btn btn-kamadenu-primary btn-lg font-ui fw-bold px-4 py-3"><i class="fas fa-heart me-2"></i> Make a Tax-Exempt Donation</a>
+            <a href="/Kamadhenu-goushala/adopt.php" class="btn btn-warning rounded-pill btn-lg font-ui fw-bold px-4 py-3 text-dark shadow"><i class="fas fa-cow me-2"></i> Adopt an Indigenous Cow</a>
         </div>
     </div>
 </section>

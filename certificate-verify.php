@@ -24,7 +24,7 @@ if (!empty($code)) {
             <div class="col-lg-6">
                 <div class="kamadenu-card p-4 p-md-5 text-center mb-4">
                     <h3 class="font-heading mb-3">Enter Certificate Code</h3>
-                    <form method="GET" action="/Kamadenu/certificate-verify.php" class="d-flex gap-2 mb-4">
+                    <form method="GET" action="/Kamadhenu-goushala/certificate-verify.php" class="d-flex gap-2 mb-4">
                         <input type="text" name="code" class="form-control form-control-lg font-mono text-center" placeholder="e.g. KGC-2026-9812" value="<?php echo e($code); ?>" required>
                         <button type="submit" class="btn btn-kamadenu-primary font-ui fw-bold px-4">Verify</button>
                     </form>

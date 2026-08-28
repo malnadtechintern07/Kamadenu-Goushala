@@ -15,13 +15,13 @@ if (!$cow) {
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="font-heading mb-0"><i class="fas fa-cow text-warning me-2"></i> Cattle Profile (<?php echo e($cow['cow_code']); ?>)</h3>
-    <a href="/Kamadenu/admin/cows.php" class="btn btn-outline-secondary font-ui">&larr; Back to List</a>
+    <a href="/Kamadhenu-goushala/admin/cows.php" class="btn btn-outline-secondary font-ui">&larr; Back to List</a>
 </div>
 
 <div class="row g-4">
     <div class="col-md-4">
         <div class="kamadenu-card p-4 text-center">
-            <img src="/Kamadenu/<?php echo e($cow['photo']); ?>" width="100%" height="220" class="rounded object-fit-cover mb-3" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=400&q=80'">
+            <img src="/Kamadhenu-goushala/<?php echo e($cow['photo']); ?>" width="100%" height="220" class="rounded object-fit-cover mb-3" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=400&q=80'">
             <h4 class="font-heading mb-1"><?php echo e($cow['name']); ?></h4>
             <span class="badge-cow-code mb-2"><?php echo e($cow['cow_code']); ?></span>
             <div class="badge bg-warning-subtle text-dark border border-warning d-block my-2"><?php echo e($cow['breed']); ?> Breed</div>

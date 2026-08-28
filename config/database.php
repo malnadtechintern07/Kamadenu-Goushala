@@ -67,6 +67,42 @@ function handle_file_upload($file_key, $fallback_url = '') {
 }
 
 /**
+ * Auto-detect project base URL path dynamically
+ * Works on root domain (e.g. kamadhenu-goushala.free.nf), subdirectories (e.g. localhost/Kamadhenu-goushala), and custom domains.
+ */
+function get_base_url() {
+    static $base_url = null;
+    if ($base_url !== null) {
+        return $base_url;
+    }
+
+    $script_name = isset($_SERVER['SCRIPT_NAME']) ? str_replace('\\', '/', $_SERVER['SCRIPT_NAME']) : '';
+    $dir = str_replace('\\', '/', dirname($script_name));
+    
+    // Strip trailing /admin or /api if request is inside a subfolder
+    $dir = preg_replace('#/(admin|api)$#i', '', $dir);
+    
+    if ($dir === '/' || $dir === '\\' || $dir === '.') {
+        $base_url = '';
+    } else {
+        $base_url = rtrim($dir, '/');
+    }
+    
+    return $base_url;
+}
+
+function url($path = '') {
+    $path = ltrim((string)$path, '/');
+    if (strpos($path, 'Kamadhenu-goushala/') === 0) {
+        $path = substr($path, 19);
+    } elseif (strpos($path, 'Kamadenu/') === 0) {
+        $path = substr($path, 9);
+    }
+    $base = get_base_url();
+    return ($base !== '' ? $base : '') . '/' . $path;
+}
+
+/**
  * Universal Image URL Formatter
  */
 function img_url($path) {
@@ -77,10 +113,13 @@ function img_url($path) {
         return $path;
     }
     $path = ltrim($path, '/');
-    if (strpos($path, 'Kamadenu/') === 0) {
+    if (strpos($path, 'Kamadhenu-goushala/') === 0) {
+        $path = substr($path, 19);
+    } elseif (strpos($path, 'Kamadenu/') === 0) {
         $path = substr($path, 9);
     }
-    return '/Kamadenu/' . $path;
+    $base = get_base_url();
+    return ($base !== '' ? $base : '') . '/' . $path;
 }
 
 /**
@@ -219,15 +258,15 @@ function current_admin($pdo) {
 
 function require_admin_login($pdo) {
     if (!is_admin_logged_in()) {
-        header("Location: /Kamadenu/admin/login.php");
+        header("Location: /Kamadhenu-goushala/admin/login.php");
         exit;
     }
 }
 
 function require_user_login() {
     if (!is_user_logged_in()) {
-        $target = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/Kamadenu/products.php';
-        header("Location: /Kamadenu/login.php?redirect=" . urlencode($target) . "&msg=login_required");
+        $target = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/Kamadhenu-goushala/products.php';
+        header("Location: /Kamadhenu-goushala/login.php?redirect=" . urlencode($target) . "&msg=login_required");
         exit;
     }
 }

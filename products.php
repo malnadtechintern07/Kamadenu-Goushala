@@ -46,7 +46,7 @@ $product_checkout_method = get_setting($pdo, 'product_checkout_method', 'both');
     <div class="container">
         <!-- Category Filter & Search Bar -->
         <div class="kamadenu-card p-4 mb-4">
-            <form method="GET" action="/Kamadenu/products.php" class="row g-3 align-items-center">
+            <form method="GET" action="/Kamadhenu-goushala/products.php" class="row g-3 align-items-center">
                 <div class="col-md-6">
                     <input type="text" name="search" class="form-control" placeholder="<?php echo __t('search_product_placeholder'); ?>" value="<?php echo e($search); ?>">
                 </div>
@@ -87,7 +87,7 @@ $product_checkout_method = get_setting($pdo, 'product_checkout_method', 'both');
                                         <span class="fs-4 fw-bold text-dark font-mono">₹<?php echo number_format($p['price']); ?></span>
                                         <small class="text-muted d-block font-ui"><?php echo __t('product_stock'); ?>: <?php echo $p['stock_quantity']; ?> <?php echo e($p['unit']); ?></small>
                                     </div>
-                                    <a href="/Kamadenu/product-detail.php?id=<?php echo $p['id']; ?>" class="btn btn-sm btn-cow-details"><i class="fas fa-info-circle me-1"></i> Details</a>
+                                    <a href="/Kamadhenu-goushala/product-detail.php?id=<?php echo $p['id']; ?>" class="btn btn-sm btn-cow-details"><i class="fas fa-info-circle me-1"></i> Details</a>
                                 </div>
 
                                 <div class="d-flex flex-column gap-2 w-100">

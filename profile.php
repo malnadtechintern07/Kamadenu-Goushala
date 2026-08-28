@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
-if (!is_user_logged_in()) { header("Location: /Kamadenu/login.php"); exit; }
+if (!is_user_logged_in()) { header("Location: /Kamadhenu-goushala/login.php"); exit; }
 $user = current_user($pdo);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $pdo->prepare("UPDATE users SET name = ?, phone = ?, address = ? WHERE id = ?");
     $stmt->execute([$name, $phone, $address, $user['id']]);
     $_SESSION['user_name'] = $name;
-    header("Location: /Kamadenu/profile.php?saved=1");
+    header("Location: /Kamadhenu-goushala/profile.php?saved=1");
     exit;
 }
 ?>

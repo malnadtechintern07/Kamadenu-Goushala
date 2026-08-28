@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$title, $category, $image, $caption]);
 
     log_audit($pdo, 'Add Gallery Image', 'gallery', $pdo->lastInsertId());
-    header("Location: /Kamadenu/admin/gallery.php?saved=1");
+    header("Location: /Kamadhenu-goushala/admin/gallery.php?saved=1");
     exit;
 }
 

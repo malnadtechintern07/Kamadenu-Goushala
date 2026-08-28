@@ -7,7 +7,7 @@ $stmt->execute([$id]);
 $campaign = $stmt->fetch();
 
 if (!$campaign) {
-    header("Location: /Kamadenu/emergency.php");
+    header("Location: /Kamadhenu-goushala/emergency.php");
     exit;
 }
 ?>
@@ -43,7 +43,7 @@ if (!$campaign) {
 
                     <div class="d-flex flex-column gap-3 w-100">
                         <?php if ($campaign['contact_method'] === 'both' || $campaign['contact_method'] === 'website' || empty($campaign['contact_method'])): ?>
-                            <a href="/Kamadenu/donate.php?campaign=<?php echo $campaign['id']; ?>" class="btn btn-danger btn-lg w-100 py-3 font-ui fw-bold shadow text-center">
+                            <a href="/Kamadhenu-goushala/donate.php?campaign=<?php echo $campaign['id']; ?>" class="btn btn-danger btn-lg w-100 py-3 font-ui fw-bold shadow text-center">
                                 <i class="fas fa-hand-holding-heart me-2"></i> Donate to this Rescue Relief
                             </a>
                         <?php endif; ?>

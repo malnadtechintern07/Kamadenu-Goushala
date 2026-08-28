@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
-if (!is_user_logged_in()) { header("Location: /Kamadenu/login.php?redirect=" . urlencode('/Kamadenu/my-certificates.php') . "&msg=login_required"); exit; }
+if (!is_user_logged_in()) { header("Location: /Kamadhenu-goushala/login.php?redirect=" . urlencode('/Kamadhenu-goushala/my-certificates.php') . "&msg=login_required"); exit; }
 $user = current_user($pdo);
 
 $stmt = $pdo->prepare("SELECT * FROM certificates WHERE user_id = ? ORDER BY id DESC");
@@ -23,7 +23,7 @@ $certificates = $stmt->fetchAll();
                     <i class="fas fa-certificate fs-1 text-muted mb-3 d-block"></i>
                     <h4>No certificates earned yet.</h4>
                     <p class="text-muted">Certificates are automatically generated when you sponsor cows or make contributions.</p>
-                    <a href="/Kamadenu/donate.php" class="btn btn-warning font-ui fw-bold px-4 py-2 mt-2">Make Contribution</a>
+                    <a href="/Kamadhenu-goushala/donate.php" class="btn btn-warning font-ui fw-bold px-4 py-2 mt-2">Make Contribution</a>
                 </div>
             <?php else: ?>
                 <?php foreach ($certificates as $cert): ?>
@@ -34,7 +34,7 @@ $certificates = $stmt->fetchAll();
                             <p class="text-muted small mb-2">Awarded to <strong><?php echo e($cert['recipient_name']); ?></strong></p>
                             <span class="badge bg-dark font-mono mb-3"><?php echo e($cert['cert_code']); ?> &bull; Issued <?php echo date('M Y', strtotime($cert['issue_date'])); ?></span>
                             <div class="d-flex justify-content-center gap-2 mt-2">
-                                <a href="/Kamadenu/certificate-verify.php?code=<?php echo e($cert['cert_code']); ?>" target="_blank" class="btn btn-sm btn-outline-warning font-ui fw-bold"><i class="fas fa-qrcode me-1"></i> Verify Authenticity</a>
+                                <a href="/Kamadhenu-goushala/certificate-verify.php?code=<?php echo e($cert['cert_code']); ?>" target="_blank" class="btn btn-sm btn-outline-warning font-ui fw-bold"><i class="fas fa-qrcode me-1"></i> Verify Authenticity</a>
                             </div>
                         </div>
                     </div>

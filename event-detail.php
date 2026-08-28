@@ -7,7 +7,7 @@ $stmt->execute([$id, $id]);
 $ev = $stmt->fetch();
 
 if (!$ev) {
-    header("Location: /Kamadenu/events.php");
+    header("Location: /Kamadhenu-goushala/events.php");
     exit;
 }
 ?>
@@ -60,7 +60,7 @@ if (!$ev) {
                             </div>
                         <?php else: ?>
                             <?php if ($ev['contact_method'] === 'both' || $ev['contact_method'] === 'website' || empty($ev['contact_method'])): ?>
-                                <a href="/Kamadenu/contact.php?event=<?php echo urlencode($ev['title']); ?>" class="btn btn-kamadenu-primary btn-lg w-100 py-3 font-ui fw-bold shadow text-center">
+                                <a href="/Kamadhenu-goushala/contact.php?event=<?php echo urlencode($ev['title']); ?>" class="btn btn-kamadenu-primary btn-lg w-100 py-3 font-ui fw-bold shadow text-center">
                                     <i class="fas fa-hand-holding-heart me-2"></i> Register / Participate in Event
                                 </a>
                             <?php endif; ?>

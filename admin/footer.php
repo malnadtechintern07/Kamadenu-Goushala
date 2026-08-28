@@ -3,14 +3,14 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="/Kamadenu/js/main.js"></script>
+<script src="/Kamadhenu-goushala/js/main.js"></script>
 <script>
 function deleteAdminItem(tableName, itemId, reloadOrRedirectUrl = '') {
     if (!confirm('Are you sure you want to delete this item? This action is irreversible.')) {
         return;
     }
     
-    fetch('/Kamadenu/api/delete.php', {
+    fetch('/Kamadhenu-goushala/api/delete.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ table: tableName, id: itemId })

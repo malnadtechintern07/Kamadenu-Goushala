@@ -8,7 +8,7 @@ $product = $stmt->fetch();
 $product_checkout_method = get_setting($pdo, 'product_checkout_method', 'both');
 
 if (!$product) {
-    header("Location: /Kamadenu/products.php");
+    header("Location: /Kamadhenu-goushala/products.php");
     exit;
 }
 ?>

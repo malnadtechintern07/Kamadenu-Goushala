@@ -92,7 +92,7 @@ document.getElementById('volunteer-form').addEventListener('submit', function(e)
         message: this.message.value
     };
 
-    fetch('/Kamadenu/api/volunteers.php', {
+    fetch('/Kamadhenu-goushala/api/volunteers.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)

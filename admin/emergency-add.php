@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$title, $story, $target_amount, $urgency_level, $start_date, $whatsapp_number_id, $contact_method, $whatsapp_message]);
 
     log_audit($pdo, 'Create Emergency Campaign', 'emergency_campaigns', $pdo->lastInsertId());
-    header("Location: /Kamadenu/admin/emergency.php");
+    header("Location: /Kamadhenu-goushala/admin/emergency.php");
     exit;
 }
 
@@ -87,7 +87,7 @@ $wa_numbers = $pdo->query("SELECT * FROM whatsapp_numbers ORDER BY id ASC")->fet
         </div>
 
         <button type="submit" class="btn btn-danger font-ui fw-bold px-4 py-2">Publish Emergency Campaign</button>
-        <a href="/Kamadenu/admin/emergency.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
+        <a href="/Kamadhenu-goushala/admin/emergency.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
     </form>
 </div>
 

@@ -35,7 +35,7 @@ $seva_logs = $pdo->query("SELECT sl.*, s.title as seva_title, c.name as cow_name
                         <td class="font-mono fw-bold">₹<?php echo number_format($si['suggested_amount']); ?></td>
                         <td><span class="badge <?php echo $si['is_active'] ? 'bg-success' : 'bg-secondary'; ?>"><?php echo $si['is_active'] ? 'Active' : 'Inactive'; ?></span></td>
                         <td>
-                            <a href="/Kamadenu/admin/seva-edit.php?id=<?php echo $si['id']; ?>" class="btn btn-sm btn-outline-warning font-ui fw-bold"><i class="fas fa-edit me-1"></i> Edit Seva</a>
+                            <a href="/Kamadhenu-goushala/admin/seva-edit.php?id=<?php echo $si['id']; ?>" class="btn btn-sm btn-outline-warning font-ui fw-bold"><i class="fas fa-edit me-1"></i> Edit Seva</a>
                             <button onclick="deleteAdminItem('seva', <?php echo $si['id']; ?>)" class="btn btn-sm btn-outline-danger font-ui fw-bold ms-1"><i class="fas fa-trash me-1"></i> Delete</button>
                         </td>
                     </tr>

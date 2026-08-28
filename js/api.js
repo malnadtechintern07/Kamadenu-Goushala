@@ -4,14 +4,14 @@
 
 const API = {
     async get(endpoint, params = {}) {
-        const url = new URL(`/Kamadenu/api/${endpoint}.php`, window.location.origin);
+        const url = new URL(`/Kamadhenu-goushala/api/${endpoint}.php`, window.location.origin);
         Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
         const res = await fetch(url);
         return res.json();
     },
 
     async post(endpoint, data = {}) {
-        const res = await fetch(`/Kamadenu/api/${endpoint}.php`, {
+        const res = await fetch(`/Kamadhenu-goushala/api/${endpoint}.php`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

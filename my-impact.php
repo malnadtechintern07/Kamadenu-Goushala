@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
-if (!is_user_logged_in()) { header("Location: /Kamadenu/login.php"); exit; }
+if (!is_user_logged_in()) { header("Location: /Kamadhenu-goushala/login.php"); exit; }
 $user = current_user($pdo);
 ?>
 

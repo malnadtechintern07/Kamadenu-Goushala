@@ -2,7 +2,7 @@
 require_once __DIR__ . '/includes/header.php';
 
 if (!is_user_logged_in()) {
-    header("Location: /Kamadenu/login.php?redirect=" . urlencode('/Kamadenu/cart.php') . "&msg=login_required");
+    header("Location: /Kamadhenu-goushala/login.php?redirect=" . urlencode('/Kamadhenu-goushala/cart.php') . "&msg=login_required");
     exit;
 }
 ?>
@@ -64,7 +64,7 @@ function renderCartPage() {
             <div class="text-center py-5">
                 <i class="fas fa-shopping-cart fs-1 text-muted mb-3 d-block"></i>
                 <h5>Your cart is empty.</h5>
-                <a href="/Kamadenu/products.php" class="btn btn-warning rounded-pill mt-2 font-ui fw-bold">Browse Store</a>
+                <a href="/Kamadhenu-goushala/products.php" class="btn btn-warning rounded-pill mt-2 font-ui fw-bold">Browse Store</a>
             </div>
         `;
         document.getElementById('cart-subtotal').textContent = '₹0.00';
@@ -134,7 +134,7 @@ function removeItem(id) {
 function proceedCartCheckout() {
     const cart = getCart();
     const total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
-    window.location.href = `/Kamadenu/checkout.php?type=cart&amount=${total}`;
+    window.location.href = `/Kamadhenu-goushala/checkout.php?type=cart&amount=${total}`;
 }
 </script>
 

@@ -23,13 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt = $pdo->prepare("UPDATE whatsapp_numbers SET label = ?, phone_number = ? WHERE id = ?");
                 $stmt->execute([$label, $phone_number, $id]);
                 log_audit($pdo, 'Update WhatsApp', 'whatsapp_numbers', $id);
-                header("Location: /Kamadenu/admin/whatsapp-numbers.php?updated=1");
+                header("Location: /Kamadhenu-goushala/admin/whatsapp-numbers.php?updated=1");
             } else {
                 // Insert
                 $stmt = $pdo->prepare("INSERT INTO whatsapp_numbers (label, phone_number) VALUES (?, ?)");
                 $stmt->execute([$label, $phone_number]);
                 log_audit($pdo, 'Create WhatsApp', 'whatsapp_numbers', $pdo->lastInsertId());
-                header("Location: /Kamadenu/admin/whatsapp-numbers.php?saved=1");
+                header("Location: /Kamadhenu-goushala/admin/whatsapp-numbers.php?saved=1");
             }
             exit;
         }
@@ -43,7 +43,7 @@ if (isset($_GET['delete'])) {
         $stmt = $pdo->prepare("DELETE FROM whatsapp_numbers WHERE id = ?");
         $stmt->execute([$delete_id]);
         log_audit($pdo, 'Delete WhatsApp', 'whatsapp_numbers', $delete_id);
-        header("Location: /Kamadenu/admin/whatsapp-numbers.php?deleted=1");
+        header("Location: /Kamadhenu-goushala/admin/whatsapp-numbers.php?deleted=1");
         exit;
     }
 }
@@ -98,8 +98,8 @@ $wa_numbers = $pdo->query("SELECT * FROM whatsapp_numbers ORDER BY id ASC")->fet
                                     <td><span class="font-mono badge bg-secondary text-white fs-6 px-3 py-1.5 rounded-pill"><i class="fab fa-whatsapp me-1 text-success"></i> <?php echo e($wn['phone_number']); ?></span></td>
                                     <td class="small text-muted font-mono"><?php echo date('M d, Y', strtotime($wn['created_at'])); ?></td>
                                     <td class="text-end">
-                                        <a href="/Kamadenu/admin/whatsapp-numbers.php?edit=<?php echo $wn['id']; ?>" class="btn btn-sm btn-outline-warning font-ui fw-bold me-1"><i class="fas fa-edit"></i> Edit</a>
-                                        <a href="/Kamadenu/admin/whatsapp-numbers.php?delete=<?php echo $wn['id']; ?>" onclick="return confirm('Are you sure you want to delete this contact? Please make sure no cattle or product uses it.')" class="btn btn-sm btn-outline-danger font-ui fw-bold"><i class="fas fa-trash"></i> Delete</a>
+                                        <a href="/Kamadhenu-goushala/admin/whatsapp-numbers.php?edit=<?php echo $wn['id']; ?>" class="btn btn-sm btn-outline-warning font-ui fw-bold me-1"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="/Kamadhenu-goushala/admin/whatsapp-numbers.php?delete=<?php echo $wn['id']; ?>" onclick="return confirm('Are you sure you want to delete this contact? Please make sure no cattle or product uses it.')" class="btn btn-sm btn-outline-danger font-ui fw-bold"><i class="fas fa-trash"></i> Delete</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -139,7 +139,7 @@ $wa_numbers = $pdo->query("SELECT * FROM whatsapp_numbers ORDER BY id ASC")->fet
                     <i class="fas fa-save me-1"></i> <?php echo $edit_wn ? 'Update Settings' : 'Add Contact'; ?>
                 </button>
                 <?php if ($edit_wn): ?>
-                    <a href="/Kamadenu/admin/whatsapp-numbers.php" class="btn btn-outline-secondary w-100 mt-2 font-ui">Cancel Edit</a>
+                    <a href="/Kamadhenu-goushala/admin/whatsapp-numbers.php" class="btn btn-outline-secondary w-100 mt-2 font-ui">Cancel Edit</a>
                 <?php endif; ?>
             </form>
         </div>

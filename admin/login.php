@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../config/database.php';
 
 if (is_admin_logged_in()) {
-    header("Location: /Kamadenu/admin/dashboard.php");
+    header("Location: /Kamadhenu-goushala/admin/dashboard.php");
     exit;
 }
 ?>
@@ -13,10 +13,10 @@ if (is_admin_logged_in()) {
     <title>Admin Portal Login | Kamadenu Goushala Trust</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/Kamadenu/css/style.css">
+    <link rel="stylesheet" href="/Kamadhenu-goushala/css/style.css">
     
     <!-- Favicon Icon -->
-    <link rel="icon" type="image/svg+xml" href="/Kamadenu/assets/images/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/Kamadhenu-goushala/assets/images/favicon.svg">
 </head>
 <body class="bg-dark d-flex align-items-center justify-content-center min-vh-100 py-5">
 
@@ -44,21 +44,21 @@ if (is_admin_logged_in()) {
                 </form>
 
                 <div class="text-center mt-4">
-                    <a href="/Kamadenu/index.php" class="text-muted small text-decoration-none">&larr; Return to Public Website</a>
+                    <a href="/Kamadhenu-goushala/index.php" class="text-muted small text-decoration-none">&larr; Return to Public Website</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script src="/Kamadenu/js/main.js"></script>
+<script src="/Kamadhenu-goushala/js/main.js"></script>
 <script>
 document.getElementById('admin-login-form').addEventListener('submit', function(e) {
     e.preventDefault();
     const btn = this.querySelector('button[type="submit"]');
     btn.disabled = true;
 
-    fetch('/Kamadenu/api/auth.php?action=admin_login', {
+    fetch('/Kamadhenu-goushala/api/auth.php?action=admin_login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

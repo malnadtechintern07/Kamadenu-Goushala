@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$q_en, $q_kn, $q_hi, $source, date('Y-m-d')]);
 
     log_audit($pdo, 'Add Devotional Quote', 'quotes', $pdo->lastInsertId());
-    header("Location: /Kamadenu/admin/quotes.php?saved=1");
+    header("Location: /Kamadhenu-goushala/admin/quotes.php?saved=1");
     exit;
 }
 

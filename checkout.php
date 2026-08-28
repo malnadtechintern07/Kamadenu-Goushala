@@ -3,7 +3,7 @@ require_once __DIR__ . '/includes/header.php';
 
 if (!is_user_logged_in()) {
     $redirect_url = $_SERVER['REQUEST_URI'];
-    header("Location: /Kamadenu/login.php?redirect=" . urlencode($redirect_url) . "&msg=login_required");
+    header("Location: /Kamadhenu-goushala/login.php?redirect=" . urlencode($redirect_url) . "&msg=login_required");
     exit;
 }
 
@@ -575,7 +575,7 @@ function cancelPaymentVerification() {
 function executePaymentVerification(payload, isWhatsApp) {
     showToast('Verifying payment status...', 'info');
 
-    fetch('/Kamadenu/api/payments.php', {
+    fetch('/Kamadhenu-goushala/api/payments.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -606,7 +606,7 @@ function executePaymentVerification(payload, isWhatsApp) {
                 const rcpt = (data.data && data.data.receipt_number) ? data.data.receipt_number : (data.receipt_number || '');
                 const finalStatus = (payload.status === 'failed') ? 'failed' : 'completed';
                 
-                window.location.href = '/Kamadenu/thank-you.php?payment_id=' + pId + '&receipt=' + rcpt + '&amount=' + payload.amount + '&status=' + finalStatus;
+                window.location.href = '/Kamadhenu-goushala/thank-you.php?payment_id=' + pId + '&receipt=' + rcpt + '&amount=' + payload.amount + '&status=' + finalStatus;
             }
         } else {
             showToast('Payment processing alert: ' + data.message, 'danger');

@@ -37,7 +37,7 @@ if ($export === 'csv_cows') {
         <div class="kamadenu-card p-4">
             <h4 class="font-heading mb-2"><i class="fas fa-file-csv text-success me-2"></i> Donations Report</h4>
             <p class="text-muted small">Export verified donation transactions, receipts, and donor contact details to CSV format.</p>
-            <a href="/Kamadenu/admin/reports.php?export=csv_donations" class="btn btn-success font-ui fw-bold"><i class="fas fa-download me-1"></i> Export Donations CSV</a>
+            <a href="/Kamadhenu-goushala/admin/reports.php?export=csv_donations" class="btn btn-success font-ui fw-bold"><i class="fas fa-download me-1"></i> Export Donations CSV</a>
         </div>
     </div>
 
@@ -45,7 +45,7 @@ if ($export === 'csv_cows') {
         <div class="kamadenu-card p-4">
             <h4 class="font-heading mb-2"><i class="fas fa-file-csv text-primary me-2"></i> Cattles &amp; Herd Health Report</h4>
             <p class="text-muted small">Export resident cattles profiles, health status, breed distributions, and monthly sponsorship costs.</p>
-            <a href="/Kamadenu/admin/reports.php?export=csv_cows" class="btn btn-primary font-ui fw-bold"><i class="fas fa-download me-1"></i> Export Cattles CSV</a>
+            <a href="/Kamadhenu-goushala/admin/reports.php?export=csv_cows" class="btn btn-primary font-ui fw-bold"><i class="fas fa-download me-1"></i> Export Cattles CSV</a>
         </div>
     </div>
 </div>

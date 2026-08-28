@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->prepare("UPDATE settings SET setting_value = '' WHERE setting_key = 'about_heritage_image'");
         $stmt->execute();
         log_audit($pdo, 'Delete Custom About Heritage Image', 'settings');
-        header("Location: /Kamadenu/admin/about-settings.php?saved=1");
+        header("Location: /Kamadhenu-goushala/admin/about-settings.php?saved=1");
         exit;
     }
 
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         log_audit($pdo, 'Update About Page Settings', 'settings');
-        header("Location: /Kamadenu/admin/about-settings.php?saved=1");
+        header("Location: /Kamadhenu-goushala/admin/about-settings.php?saved=1");
         exit;
     }
 }
@@ -124,7 +124,7 @@ require_once __DIR__ . '/header.php';
         <h3 class="font-heading mb-1"><i class="fas fa-info-circle text-warning me-2"></i> About Us Page Editor</h3>
         <p class="text-muted small mb-0">Manage the history, heritage details, mission vows, and illustrations of the trust's About Us section.</p>
     </div>
-    <a href="/Kamadenu/about.php" target="_blank" class="btn btn-outline-info rounded-pill font-ui fw-bold px-4">
+    <a href="/Kamadhenu-goushala/about.php" target="_blank" class="btn btn-outline-info rounded-pill font-ui fw-bold px-4">
         <i class="fas fa-external-link-alt me-1"></i> Preview About Page
     </a>
 </div>
@@ -268,8 +268,8 @@ function about_textarea($label, $key, $settings, $rows = 3, $placeholder = '') {
                         </button>
                     <?php else: ?>
                         <div class="mb-3 text-muted small">Using Default Heritage Photo:</div>
-                        <img src="/Kamadenu/assets/images/goushala-heritage.jpg" alt="Default Heritage Preview" class="img-fluid rounded border p-1 bg-white mb-3" style="max-height: 200px; object-fit: cover;">
-                        <div class="text-muted small">/Kamadenu/assets/images/goushala-heritage.jpg</div>
+                        <img src="/Kamadhenu-goushala/assets/images/goushala-heritage.jpg" alt="Default Heritage Preview" class="img-fluid rounded border p-1 bg-white mb-3" style="max-height: 200px; object-fit: cover;">
+                        <div class="text-muted small">/Kamadhenu-goushala/assets/images/goushala-heritage.jpg</div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -282,7 +282,7 @@ function about_textarea($label, $key, $settings, $rows = 3, $placeholder = '') {
     <button type="submit" class="btn btn-kamadenu-primary font-ui fw-bold px-5 py-3 shadow fs-5">
         <i class="fas fa-save me-2"></i> Save All About Page Settings
     </button>
-    <a href="/Kamadenu/about.php" target="_blank" class="btn btn-outline-info ms-2 px-4 py-3 font-ui fw-bold">
+    <a href="/Kamadhenu-goushala/about.php" target="_blank" class="btn btn-outline-info ms-2 px-4 py-3 font-ui fw-bold">
         <i class="fas fa-eye me-2"></i> Preview About Page
     </a>
 </div>

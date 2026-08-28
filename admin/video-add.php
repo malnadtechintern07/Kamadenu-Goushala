@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$title, $description, $youtube_url]);
 
     log_audit($pdo, 'Create Video', 'videos', $pdo->lastInsertId());
-    header("Location: /Kamadenu/admin/videos.php?saved=1");
+    header("Location: /Kamadhenu-goushala/admin/videos.php?saved=1");
     exit;
 }
 ?>
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <button type="submit" class="btn btn-kamadenu-primary font-ui fw-bold px-4 py-2">Save Video</button>
-        <a href="/Kamadenu/admin/videos.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
+        <a href="/Kamadhenu-goushala/admin/videos.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
     </form>
 </div>
 

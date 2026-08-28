@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
-if (!is_user_logged_in()) { header("Location: /Kamadenu/login.php?redirect=" . urlencode('/Kamadenu/my-orders.php') . "&msg=login_required"); exit; }
+if (!is_user_logged_in()) { header("Location: /Kamadhenu-goushala/login.php?redirect=" . urlencode('/Kamadhenu-goushala/my-orders.php') . "&msg=login_required"); exit; }
 $user = current_user($pdo);
 
 $stmt = $pdo->prepare("SELECT * FROM orders WHERE user_id = ? ORDER BY id DESC");
@@ -21,7 +21,7 @@ $orders = $stmt->fetchAll();
             <?php if (empty($orders)): ?>
                 <div class="text-center py-4">
                     <p class="text-muted mb-3">You have not placed any store orders yet.</p>
-                    <a href="/Kamadenu/products.php" class="btn btn-warning font-ui fw-bold px-4">Browse Store</a>
+                    <a href="/Kamadhenu-goushala/products.php" class="btn btn-warning font-ui fw-bold px-4">Browse Store</a>
                 </div>
             <?php else: ?>
                 <div class="table-responsive">

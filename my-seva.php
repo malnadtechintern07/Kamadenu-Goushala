@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
-if (!is_user_logged_in()) { header("Location: /Kamadenu/login.php"); exit; }
+if (!is_user_logged_in()) { header("Location: /Kamadhenu-goushala/login.php"); exit; }
 $user = current_user($pdo);
 
 $stmt = $pdo->prepare("SELECT sl.*, s.title as seva_title FROM seva_logs sl JOIN seva s ON sl.seva_id = s.id WHERE sl.user_id = ? ORDER BY sl.id DESC");
@@ -21,7 +21,7 @@ $sevas = $stmt->fetchAll();
             <?php if (empty($sevas)): ?>
                 <div class="text-center py-4">
                     <p class="text-muted mb-3">No Seva sponsorships recorded.</p>
-                    <a href="/Kamadenu/seva.php" class="btn btn-warning font-ui fw-bold px-4">Sponsor Seva</a>
+                    <a href="/Kamadhenu-goushala/seva.php" class="btn btn-warning font-ui fw-bold px-4">Sponsor Seva</a>
                 </div>
             <?php else: ?>
                 <div class="table-responsive">

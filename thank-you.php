@@ -87,8 +87,8 @@ $is_pending = !$is_completed && !$is_failed;
                     </div>
 
                     <div class="d-grid gap-2">
-                        <a href="/Kamadenu/dashboard.php" class="btn btn-kamadenu-primary font-ui fw-bold py-3"><i class="fas fa-tachometer-alt me-2"></i> Go to My Dashboard</a>
-                        <a href="/Kamadenu/cows.php" class="btn btn-outline-warning font-ui fw-semibold py-2">Explore Resident Cows</a>
+                        <a href="/Kamadhenu-goushala/dashboard.php" class="btn btn-kamadenu-primary font-ui fw-bold py-3"><i class="fas fa-tachometer-alt me-2"></i> Go to My Dashboard</a>
+                        <a href="/Kamadhenu-goushala/cows.php" class="btn btn-outline-warning font-ui fw-semibold py-2">Explore Resident Cows</a>
                     </div>
                 </div>
             </div>

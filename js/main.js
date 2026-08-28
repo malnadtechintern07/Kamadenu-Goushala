@@ -59,7 +59,7 @@ function requireUserAuth(actionDesc = 'perform this action', redirectTarget = nu
     const target = redirectTarget || (window.location.pathname + window.location.search);
     showToast(`Please login first to ${actionDesc}.`, 'warning');
     setTimeout(() => {
-        window.location.href = `/Kamadenu/login.php?redirect=${encodeURIComponent(target)}&msg=login_required`;
+        window.location.href = `/Kamadhenu-goushala/login.php?redirect=${encodeURIComponent(target)}&msg=login_required`;
     }, 800);
     return false;
 }
@@ -76,7 +76,7 @@ function saveCart(cart) {
 }
 
 function addToCart(productId, name, price, image) {
-    if (!requireUserAuth('add items to your cart', '/Kamadenu/products.php')) {
+    if (!requireUserAuth('add items to your cart', '/Kamadhenu-goushala/products.php')) {
         return;
     }
     let cart = getCart();
@@ -88,13 +88,13 @@ function addToCart(productId, name, price, image) {
     }
     saveCart(cart);
     showToast(`Added ${name} to your cart!`, 'success');
-    window.location.href = '/Kamadenu/cart.php';
+    window.location.href = '/Kamadhenu-goushala/cart.php';
 }
 
 let currentBuyNowProduct = null;
 
 function buyNow(productId, name, price, image, checkoutMethod, whatsappUrl) {
-    if (!requireUserAuth('buy products and checkout', '/Kamadenu/buy-product.php?id=' + productId)) {
+    if (!requireUserAuth('buy products and checkout', '/Kamadhenu-goushala/buy-product.php?id=' + productId)) {
         return;
     }
 
@@ -106,10 +106,10 @@ function buyNow(productId, name, price, image, checkoutMethod, whatsappUrl) {
         if (whatsappUrl) {
             window.location.href = whatsappUrl;
         } else {
-            window.location.href = '/Kamadenu/buy-product.php?id=' + productId;
+            window.location.href = '/Kamadhenu-goushala/buy-product.php?id=' + productId;
         }
     } else {
-        window.location.href = '/Kamadenu/buy-product.php?id=' + productId;
+        window.location.href = '/Kamadhenu-goushala/buy-product.php?id=' + productId;
     }
 }
 
@@ -137,7 +137,7 @@ function proceedWebsiteCheckout(productId, name, price, image) {
         if (bsModal) bsModal.hide();
     }
 
-    window.location.href = '/Kamadenu/checkout.php?type=cart';
+    window.location.href = '/Kamadhenu-goushala/checkout.php?type=cart';
 }
 
 function updateCartBadge() {
@@ -252,7 +252,7 @@ function proceedCartCheckout() {
         return;
     }
     const total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
-    window.location.href = `/Kamadenu/checkout.php?type=cart&amount=${total}`;
+    window.location.href = `/Kamadhenu-goushala/checkout.php?type=cart&amount=${total}`;
 }
 
 // Scroll-Triggered Glow Up Observer for Photo Divs & Cards (Ultra Smooth)

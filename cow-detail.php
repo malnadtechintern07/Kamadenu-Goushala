@@ -8,7 +8,7 @@ $stmt->execute([$id, $id]);
 $cow = $stmt->fetch();
 
 if (!$cow) {
-    echo "<div class='container py-5 text-center'><h3>Cow record not found</h3><a href='/Kamadenu/cows.php' class='btn btn-warning mt-3'>Back to Cows</a></div>";
+    echo "<div class='container py-5 text-center'><h3>Cow record not found</h3><a href='/Kamadhenu-goushala/cows.php' class='btn btn-warning mt-3'>Back to Cows</a></div>";
     require_once __DIR__ . '/includes/footer.php';
     exit;
 }
@@ -42,10 +42,10 @@ $updates = $stmt->fetchAll();
                 <h1 class="font-heading text-warning mt-2 mb-0"><?php echo e($cow_name); ?> Passport</h1>
             </div>
             <div class="mt-3 mt-md-0 d-flex gap-2.5 flex-wrap">
-                <a href="/Kamadenu/adopt.php?cow_id=<?php echo $cow['id']; ?>" class="btn btn-kamadenu-primary btn-lg shadow d-flex align-items-center">
+                <a href="/Kamadhenu-goushala/adopt.php?cow_id=<?php echo $cow['id']; ?>" class="btn btn-kamadenu-primary btn-lg shadow d-flex align-items-center">
                     <i class="fas fa-heart me-2"></i> Sponsor <?php echo e($cow_name); ?> (₹<?php echo number_format($cow['monthly_sponsorship_amount']); ?>/mo)
                 </a>
-                <a href="/Kamadenu/feed-cow.php?cow_id=<?php echo $cow['id']; ?>" class="btn btn-feed-cow btn-lg shadow d-flex align-items-center fw-bold">
+                <a href="/Kamadhenu-goushala/feed-cow.php?cow_id=<?php echo $cow['id']; ?>" class="btn btn-feed-cow btn-lg shadow d-flex align-items-center fw-bold">
                     <i class="fas fa-cookie-bite me-2"></i> Feed <?php echo e($cow_name); ?>
                 </a>
             </div>
@@ -93,10 +93,10 @@ $updates = $stmt->fetchAll();
                     </div>
 
                     <div class="d-flex gap-2 mt-4">
-                        <a href="/Kamadenu/adopt.php?cow_id=<?php echo $cow['id']; ?>" class="btn btn-kamadenu-primary flex-fill py-3 font-ui fw-bold fs-6">
+                        <a href="/Kamadhenu-goushala/adopt.php?cow_id=<?php echo $cow['id']; ?>" class="btn btn-kamadenu-primary flex-fill py-3 font-ui fw-bold fs-6">
                             <i class="fas fa-hand-holding-heart me-1.5"></i> Sponsor
                         </a>
-                        <a href="/Kamadenu/feed-cow.php?cow_id=<?php echo $cow['id']; ?>" class="btn btn-feed-cow flex-fill py-3 font-ui fw-bold fs-6">
+                        <a href="/Kamadhenu-goushala/feed-cow.php?cow_id=<?php echo $cow['id']; ?>" class="btn btn-feed-cow flex-fill py-3 font-ui fw-bold fs-6">
                             <i class="fas fa-cookie-bite me-1.5"></i> Feed
                         </a>
                     </div>

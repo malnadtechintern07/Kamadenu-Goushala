@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pdo->prepare("INSERT INTO inventory (product_id, current_stock, min_threshold, max_capacity) VALUES (?, ?, 10, 500)")->execute([$product_id, $stock]);
 
     log_audit($pdo, 'Add Product', 'products', $product_id);
-    header("Location: /Kamadenu/admin/products.php");
+    header("Location: /Kamadhenu-goushala/admin/products.php");
     exit;
 }
 
@@ -99,7 +99,7 @@ $wa_numbers = $pdo->query("SELECT * FROM whatsapp_numbers ORDER BY id ASC")->fet
                                 <option value="whatsapp">WhatsApp Contact (Direct Message)</option>
                                 <option value="both">Both (Show Website & WhatsApp Options to User)</option>
                             </select>
-                            <small class="text-muted"><i class="fas fa-info-circle text-warning"></i> <strong>Note:</strong> This local setting is overridden by the global <strong>Product Checkout Method</strong> option in <a href="/Kamadenu/admin/settings.php" class="text-warning">System Configuration</a>.</small>
+                            <small class="text-muted"><i class="fas fa-info-circle text-warning"></i> <strong>Note:</strong> This local setting is overridden by the global <strong>Product Checkout Method</strong> option in <a href="/Kamadhenu-goushala/admin/settings.php" class="text-warning">System Configuration</a>.</small>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label font-ui small fw-bold">WhatsApp Contact Phone (Optional)</label>
@@ -139,7 +139,7 @@ $wa_numbers = $pdo->query("SELECT * FROM whatsapp_numbers ORDER BY id ASC")->fet
         </div>
 
         <button type="submit" class="btn btn-kamadenu-primary font-ui fw-bold px-4 py-2">Add Product to Store Catalog</button>
-        <a href="/Kamadenu/admin/products.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
+        <a href="/Kamadhenu-goushala/admin/products.php" class="btn btn-outline-secondary font-ui ms-2">Cancel</a>
     </form>
 </div>
 

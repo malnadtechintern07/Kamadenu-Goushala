@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_button_settings'
         save_button_setting($pdo, $key, $val, 'buttons', ucwords(str_replace('_', ' ', $key)));
     }
     log_audit($pdo, 'Update Button Customizer Settings', 'settings');
-    header("Location: /Kamadenu/admin/button-settings.php?saved=1");
+    header("Location: /Kamadhenu-goushala/admin/button-settings.php?saved=1");
     exit;
 }
 

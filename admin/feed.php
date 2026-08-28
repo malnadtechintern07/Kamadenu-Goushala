@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && (isset($_POST['add_feed_cow']) || i
     $stmt->execute([$cow_code, $name, $description, $photo_path, $feed_amount, $is_available, $payment_method, $wa_id, $wa_msg]);
 
     log_audit($pdo, 'Add Feeding Cow', 'feeding_cows', $pdo->lastInsertId());
-    header("Location: /Kamadenu/admin/feed.php?saved=1");
+    header("Location: /Kamadhenu-goushala/admin/feed.php?saved=1");
     exit;
 }
 
@@ -211,7 +211,7 @@ foreach ($sanctuary_cows as $sc) {
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <a href="/Kamadenu/admin/feed-edit.php?id=<?php echo $c['id']; ?>" class="btn btn-sm btn-outline-success font-ui fw-bold"><i class="fas fa-edit"></i> Edit</a>
+                                        <a href="/Kamadhenu-goushala/admin/feed-edit.php?id=<?php echo $c['id']; ?>" class="btn btn-sm btn-outline-success font-ui fw-bold"><i class="fas fa-edit"></i> Edit</a>
                                         <button onclick="deleteAdminItem('feeding_cows', <?php echo $c['id']; ?>)" class="btn btn-sm btn-outline-danger font-ui fw-bold ms-1"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>

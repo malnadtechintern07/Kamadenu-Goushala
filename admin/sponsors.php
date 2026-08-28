@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_sponsorship_i
             log_audit($pdo, 'Approve Sponsorship', 'sponsorships', $sponsorship_id);
             $pdo->commit();
             
-            header("Location: /Kamadenu/admin/sponsors.php");
+            header("Location: /Kamadhenu-goushala/admin/sponsors.php");
             exit;
         } catch (Exception $e) {
             $pdo->rollBack();

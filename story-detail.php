@@ -7,7 +7,7 @@ $stmt->execute([$id, $id]);
 $story = $stmt->fetch();
 
 if (!$story) {
-    header("Location: /Kamadenu/stories.php");
+    header("Location: /Kamadhenu-goushala/stories.php");
     exit;
 }
 ?>

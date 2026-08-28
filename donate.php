@@ -38,7 +38,7 @@ if ($campaign_id > 0) {
                 <div class="kamadenu-card p-4 p-md-5">
                     <h3 class="font-heading mb-4 text-center">Make a Devotional Contribution</h3>
 
-                    <form action="/Kamadenu/checkout.php" method="GET">
+                    <form action="/Kamadhenu-goushala/checkout.php" method="GET">
                         <input type="hidden" name="type" value="donation">
                         <?php if ($campaign): ?>
                             <input type="hidden" name="campaign_id" value="<?php echo $campaign['id']; ?>">
@@ -335,7 +335,7 @@ function submitDonationToQRCode(e) {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Submitting payment info...';
     
-    fetch('/Kamadenu/api/payments.php', {
+    fetch('/Kamadhenu-goushala/api/payments.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -345,7 +345,7 @@ function submitDonationToQRCode(e) {
         if (data.success || data.status === 'success') {
             const pId = data.payment_id || ('UTR-' + utr);
             const rcpt = data.receipt_number || '';
-            window.location.href = '/Kamadenu/thank-you.php?payment_id=' + encodeURIComponent(pId) + '&receipt=' + encodeURIComponent(rcpt) + '&amount=' + encodeURIComponent(amount);
+            window.location.href = '/Kamadhenu-goushala/thank-you.php?payment_id=' + encodeURIComponent(pId) + '&receipt=' + encodeURIComponent(rcpt) + '&amount=' + encodeURIComponent(amount);
         } else {
             alert('Error submitting payment details: ' + data.message);
             submitBtn.disabled = false;

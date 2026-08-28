@@ -51,7 +51,7 @@ $donations = $pdo->query("SELECT * FROM donations WHERE status = 'Completed' ORD
                     <?php foreach ($sponsorships as $sp): ?>
                         <div class="col-md-6">
                             <div class="kamadenu-card p-4 d-flex align-items-center gap-3 border-start border-warning border-4">
-                                <img src="/Kamadenu/<?php echo e($sp['photo']); ?>" width="75" height="75" class="rounded-circle object-fit-cover shadow" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=100&q=80'">
+                                <img src="/Kamadhenu-goushala/<?php echo e($sp['photo']); ?>" width="75" height="75" class="rounded-circle object-fit-cover shadow" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=100&q=80'">
                                 <div>
                                     <span class="badge bg-warning text-dark font-ui fw-bold mb-1"><i class="fas fa-cow me-1"></i> Cow Adoption</span>
                                     <h5 class="font-heading mb-1">
@@ -116,7 +116,7 @@ $donations = $pdo->query("SELECT * FROM donations WHERE status = 'Completed' ORD
                     <?php foreach ($sponsorships as $sp): ?>
                         <div class="col-md-6">
                             <div class="kamadenu-card p-4 d-flex align-items-center gap-3 border-start border-warning border-4">
-                                <img src="/Kamadenu/<?php echo e($sp['photo']); ?>" width="75" height="75" class="rounded-circle object-fit-cover shadow" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=100&q=80'">
+                                <img src="/Kamadhenu-goushala/<?php echo e($sp['photo']); ?>" width="75" height="75" class="rounded-circle object-fit-cover shadow" onerror="this.src='https://images.unsplash.com/photo-1546445317-29f4545f9d52?auto=format&fit=crop&w=100&q=80'">
                                 <div>
                                     <span class="badge bg-warning text-dark font-ui fw-bold mb-1">Cow Adoption</span>
                                     <h5 class="font-heading mb-1"><strong><?php echo e($sp['sponsor_name']); ?></strong> adopted <strong><?php echo e($sp['cow_name']); ?></strong></h5>

@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pdo->prepare("UPDATE cows SET health_status = ?, weight_kg = ? WHERE id = ?")->execute([$health_status, $weight, $cow_id]);
 
     log_audit($pdo, 'Record Cow Health Checkup', 'cow_health', $cow_id);
-    header("Location: /Kamadenu/admin/cow-health.php?saved=1");
+    header("Location: /Kamadhenu-goushala/admin/cow-health.php?saved=1");
     exit;
 }
 

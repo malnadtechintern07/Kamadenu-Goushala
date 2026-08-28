@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['approve_donation_id']
             log_audit($pdo, 'Approve Donation', 'donations', $donation_id);
             $pdo->commit();
             
-            header("Location: /Kamadenu/admin/donations.php");
+            header("Location: /Kamadhenu-goushala/admin/donations.php");
             exit;
         } catch (Exception $e) {
             $pdo->rollBack();

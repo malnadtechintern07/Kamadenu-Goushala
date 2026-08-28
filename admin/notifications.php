@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     log_audit($pdo, 'Broadcast Notification', 'notifications');
-    header("Location: /Kamadenu/admin/notifications.php?sent=1");
+    header("Location: /Kamadhenu-goushala/admin/notifications.php?sent=1");
     exit;
 }
 

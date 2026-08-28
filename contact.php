@@ -15,7 +15,7 @@ require_once __DIR__ . '/includes/header.php';
             <div class="col-lg-6">
                 <div class="kamadenu-card p-4 p-md-5">
                     <h3 class="font-heading mb-4">Send Us a Message</h3>
-                    <form action="/Kamadenu/message-sent.php" method="POST">
+                    <form action="/Kamadhenu-goushala/message-sent.php" method="POST">
                         <div class="mb-3">
                             <label class="form-label font-ui small fw-bold">Full Name</label>
                             <input type="text" name="name" class="form-control" placeholder="Your Name" required>

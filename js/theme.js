@@ -5,13 +5,13 @@
 function setTheme(theme) {
     const themeLink = document.getElementById('theme-stylesheet');
     if (themeLink) {
-        themeLink.href = `/Kamadenu/css/${theme}.css`;
+        themeLink.href = `/Kamadhenu-goushala/css/${theme}.css`;
     }
     
     document.documentElement.setAttribute('data-theme', theme);
     document.body.setAttribute('data-theme', theme);
 
-    fetch('/Kamadenu/api/theme.php', {
+    fetch('/Kamadhenu-goushala/api/theme.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ theme: theme })

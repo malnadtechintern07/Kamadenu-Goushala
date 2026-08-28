@@ -2,7 +2,7 @@
 require_once __DIR__ . '/includes/header.php';
 
 if (!is_user_logged_in()) {
-    header("Location: /Kamadenu/login.php?redirect=" . urlencode('/Kamadenu/dashboard.php') . "&msg=login_required");
+    header("Location: /Kamadhenu-goushala/login.php?redirect=" . urlencode('/Kamadhenu-goushala/dashboard.php') . "&msg=login_required");
     exit;
 }
 
@@ -37,8 +37,8 @@ $badges = $stmt->fetchAll();
                 <h1 class="font-heading text-warning mb-0">Welcome, <?php echo e($user['name']); ?>!</h1>
             </div>
             <div class="mt-3 mt-md-0">
-                <a href="/Kamadenu/donate.php" class="btn btn-kamadenu-primary font-ui fw-bold"><i class="fas fa-heart me-1"></i> Make Donation</a>
-                <a href="/Kamadenu/adopt.php" class="btn btn-outline-warning font-ui ms-2"><i class="fas fa-cow me-1"></i> Sponsor Cow</a>
+                <a href="/Kamadhenu-goushala/donate.php" class="btn btn-kamadenu-primary font-ui fw-bold"><i class="fas fa-heart me-1"></i> Make Donation</a>
+                <a href="/Kamadhenu-goushala/adopt.php" class="btn btn-outline-warning font-ui ms-2"><i class="fas fa-cow me-1"></i> Sponsor Cow</a>
             </div>
         </div>
     </div>
@@ -86,7 +86,7 @@ $badges = $stmt->fetchAll();
                     <?php if (empty($sponsored_cows)): ?>
                         <div class="text-center py-4 text-muted">
                             <p>You have not sponsored any cows yet.</p>
-                            <a href="/Kamadenu/adopt.php" class="btn btn-outline-warning rounded-pill btn-sm">Sponsor a Cow Now</a>
+                            <a href="/Kamadhenu-goushala/adopt.php" class="btn btn-outline-warning rounded-pill btn-sm">Sponsor a Cow Now</a>
                         </div>
                     <?php else: ?>
                         <div class="row g-3">
@@ -97,7 +97,7 @@ $badges = $stmt->fetchAll();
                                         <div>
                                             <strong class="font-heading d-block"><?php echo e($sc['cow_name']); ?> (<?php echo e($sc['cow_code']); ?>)</strong>
                                             <small class="text-muted d-block"><?php echo e($sc['breed']); ?> Breed</small>
-                                            <a href="/Kamadenu/cow-detail.php?id=<?php echo $sc['cow_id']; ?>" class="small text-warning font-ui fw-bold">View Details &amp; Updates &rarr;</a>
+                                            <a href="/Kamadhenu-goushala/cow-detail.php?id=<?php echo $sc['cow_id']; ?>" class="small text-warning font-ui fw-bold">View Details &amp; Updates &rarr;</a>
                                         </div>
                                     </div>
                                 </div>
@@ -153,7 +153,7 @@ $badges = $stmt->fetchAll();
                                         <strong class="font-heading d-block text-dark"><?php echo e($cert['title']); ?></strong>
                                         <small class="text-muted font-mono"><?php echo e($cert['cert_code']); ?> &bull; Issued <?php echo date('M Y', strtotime($cert['issue_date'])); ?></small>
                                     </div>
-                                    <a href="/Kamadenu/certificate-verify.php?code=<?php echo e($cert['cert_code']); ?>" target="_blank" class="btn btn-sm btn-outline-warning font-ui"><i class="fas fa-qrcode"></i> Verify</a>
+                                    <a href="/Kamadhenu-goushala/certificate-verify.php?code=<?php echo e($cert['cert_code']); ?>" target="_blank" class="btn btn-sm btn-outline-warning font-ui"><i class="fas fa-qrcode"></i> Verify</a>
                                 </div>
                             <?php endforeach; ?>
                         </div>

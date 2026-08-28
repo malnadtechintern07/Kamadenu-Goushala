@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function pollLiveUpdates() {
-    fetch('/Kamadenu/api/realtime.php')
+    fetch('/Kamadhenu-goushala/api/realtime.php')
         .then(res => res.json())
         .then(res => {
             if (res.success && res.data) {

@@ -2,7 +2,7 @@
 require_once __DIR__ . '/config/database.php';
 
 // If user is already logged in, send them to dashboard or their intended target URL
-$redirect_target = isset($_GET['redirect']) ? $_GET['redirect'] : '/Kamadenu/dashboard.php';
+$redirect_target = isset($_GET['redirect']) ? $_GET['redirect'] : '/Kamadhenu-goushala/dashboard.php';
 
 if (is_user_logged_in()) {
     header("Location: " . $redirect_target);
@@ -38,7 +38,7 @@ $show_login_msg = isset($_GET['msg']) && $_GET['msg'] === 'login_required';
                     <!-- Devotional Header -->
                     <div class="text-center mb-4">
                         <div class="mb-3">
-                            <img src="/Kamadenu/assets/images/logo.png" alt="Kamadenu Goushala Trust Logo" class="rounded-circle shadow-sm" style="height: 72px; width: 72px; object-fit: contain; background: #FFF8EA; padding: 6px; border: 2px solid var(--brand-gold);">
+                            <img src="/Kamadhenu-goushala/assets/images/logo.png" alt="Kamadenu Goushala Trust Logo" class="rounded-circle shadow-sm" style="height: 72px; width: 72px; object-fit: contain; background: #FFF8EA; padding: 6px; border: 2px solid var(--brand-gold);">
                         </div>
                         <div class="devotional-phrase text-warning fs-5 fw-bold mb-1">ಗೋ ಮಾತಾ ಕಿ ಜೈ</div>
                         <h2 class="font-heading mb-1 text-dark">Welcome to Gouseva</h2>
@@ -77,7 +77,7 @@ $show_login_msg = isset($_GET['msg']) && $_GET['msg'] === 'login_required';
                     <!-- Footer Link -->
                     <div class="text-center mt-4 border-top pt-3 font-ui small">
                         <span class="text-muted">Don't have an account yet?</span>
-                        <a href="/Kamadenu/register.php?redirect=<?php echo urlencode($redirect_target); ?>" class="text-warning-dark fw-bold ms-1 text-decoration-none">Register Now &rarr;</a>
+                        <a href="/Kamadhenu-goushala/register.php?redirect=<?php echo urlencode($redirect_target); ?>" class="text-warning-dark fw-bold ms-1 text-decoration-none">Register Now &rarr;</a>
                     </div>
                 </div>
 
@@ -108,7 +108,7 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Logging in...';
 
-    fetch('/Kamadenu/api/auth.php?action=login', {
+    fetch('/Kamadhenu-goushala/api/auth.php?action=login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -121,7 +121,7 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
     .then(res => {
         if (res.success) {
             showToast(res.message, 'success');
-            setTimeout(() => window.location.href = res.data.redirect || '/Kamadenu/dashboard.php', 800);
+            setTimeout(() => window.location.href = res.data.redirect || '/Kamadhenu-goushala/dashboard.php', 800);
         } else {
             showToast(res.message, 'danger');
             btn.disabled = false;

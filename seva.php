@@ -39,7 +39,7 @@ $recent_logs = $pdo->query("SELECT sl.*, s.title as seva_title, c.name as cow_na
                             <div class="fs-3 fw-bold text-dark font-mono mb-3">₹<?php echo number_format($s['suggested_amount']); ?></div>
                             <div class="d-flex flex-column gap-2 w-100">
                                 <?php if ($s['contact_method'] === 'both' || $s['contact_method'] === 'website' || empty($s['contact_method'])): ?>
-                                    <a href="/Kamadenu/checkout.php?type=seva&seva_id=<?php echo $s['id']; ?>&amount=<?php echo $s['suggested_amount']; ?>" class="btn btn-kamadenu-primary w-100 font-ui fw-bold">
+                                    <a href="/Kamadhenu-goushala/checkout.php?type=seva&seva_id=<?php echo $s['id']; ?>&amount=<?php echo $s['suggested_amount']; ?>" class="btn btn-kamadenu-primary w-100 font-ui fw-bold">
                                         <i class="fas fa-hand-holding-heart me-1"></i> Sponsor Seva
                                     </a>
                                 <?php endif; ?>

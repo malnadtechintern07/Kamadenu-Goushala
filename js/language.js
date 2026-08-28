@@ -3,7 +3,7 @@
  */
 
 function setLanguage(lang) {
-    fetch('/Kamadenu/api/language.php', {
+    fetch('/Kamadhenu-goushala/api/language.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ lang: lang })

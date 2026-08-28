@@ -8,7 +8,7 @@ $stmt->execute([$id]);
 $cow = $stmt->fetch();
 
 if (!$cow) {
-    header("Location: /Kamadenu/admin/feed.php");
+    header("Location: /Kamadhenu-goushala/admin/feed.php");
     exit;
 }
 
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$name, $description, $photo_path, $feed_amount, $is_available, $payment_method, $wa_id, $wa_msg, $id]);
 
     log_audit($pdo, 'Edit Feeding Cow', 'feeding_cows', $id);
-    header("Location: /Kamadenu/admin/feed.php?updated=1");
+    header("Location: /Kamadhenu-goushala/admin/feed.php?updated=1");
     exit;
 }
 
@@ -60,7 +60,7 @@ require_once __DIR__ . '/header.php';
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="font-heading mb-0 text-success" style="color: #10b981;"><i class="fas fa-edit text-success me-2"></i> Edit Feeding Cow (<?php echo e($cow['cow_code']); ?>)</h3>
-    <a href="/Kamadenu/admin/feed.php" class="btn btn-outline-success font-ui fw-bold">&larr; Back to Manager</a>
+    <a href="/Kamadhenu-goushala/admin/feed.php" class="btn btn-outline-success font-ui fw-bold">&larr; Back to Manager</a>
 </div>
 
 <div class="row justify-content-center">

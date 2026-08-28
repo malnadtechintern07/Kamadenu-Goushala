@@ -83,11 +83,11 @@ $recent_updates = $pdo->query("SELECT u.*, c.name as cow_name FROM cow_updates u
             <h2 class="font-heading text-white display-6 mb-2">Welcome Back, <?php echo e($admin['name']); ?>!</h2>
             <p class="text-white-50 font-ui mb-3">Here is the real-time operational overview for Kamadenu Sacred Goushala Trust. Manage cattle details, track financial donations, and process customer store orders seamlessly.</p>
             <div class="d-flex flex-wrap gap-2 align-items-center pt-1">
-                <a href="/Kamadenu/admin/cow-add.php" class="btn btn-warning rounded-pill font-ui fw-bold px-3.5 py-2 shadow-sm"><i class="fas fa-plus me-1.5"></i> Add Cattles</a>
-                <a href="/Kamadenu/admin/product-add.php" class="btn btn-outline-light rounded-pill font-ui fw-bold px-3.5 py-2"><i class="fas fa-store me-1.5"></i> Add Store Product</a>
-                <a href="/Kamadenu/admin/emergency-add.php" class="btn btn-outline-danger rounded-pill font-ui fw-bold px-3.5 py-2"><i class="fas fa-ambulance me-1.5"></i> Rescue Campaign</a>
-                <a href="/Kamadenu/admin/video-add.php" class="btn btn-outline-info rounded-pill font-ui fw-bold px-3.5 py-2"><i class="fab fa-youtube me-1.5 text-danger"></i> Add Video Link</a>
-                <a href="/Kamadenu/admin/reports.php" class="btn btn-dark border-secondary rounded-pill font-ui fw-bold px-3.5 py-2 ms-auto"><i class="fas fa-file-download me-1.5 text-warning"></i> Financial Reports</a>
+                <a href="/Kamadhenu-goushala/admin/cow-add.php" class="btn btn-warning rounded-pill font-ui fw-bold px-3.5 py-2 shadow-sm"><i class="fas fa-plus me-1.5"></i> Add Cattles</a>
+                <a href="/Kamadhenu-goushala/admin/product-add.php" class="btn btn-outline-light rounded-pill font-ui fw-bold px-3.5 py-2"><i class="fas fa-store me-1.5"></i> Add Store Product</a>
+                <a href="/Kamadhenu-goushala/admin/emergency-add.php" class="btn btn-outline-danger rounded-pill font-ui fw-bold px-3.5 py-2"><i class="fas fa-ambulance me-1.5"></i> Rescue Campaign</a>
+                <a href="/Kamadhenu-goushala/admin/video-add.php" class="btn btn-outline-info rounded-pill font-ui fw-bold px-3.5 py-2"><i class="fab fa-youtube me-1.5 text-danger"></i> Add Video Link</a>
+                <a href="/Kamadhenu-goushala/admin/reports.php" class="btn btn-dark border-secondary rounded-pill font-ui fw-bold px-3.5 py-2 ms-auto"><i class="fas fa-file-download me-1.5 text-warning"></i> Financial Reports</a>
             </div>
         </div>
         <div class="col-lg-4 text-center text-lg-end mt-4 mt-lg-0 d-none d-lg-block">
@@ -104,7 +104,7 @@ $recent_updates = $pdo->query("SELECT u.*, c.name as cow_name FROM cow_updates u
 <!-- 4 Master KPI Stat Cards -->
 <div class="row g-4 mb-4">
     <div class="col-xl-3 col-md-6">
-        <a href="/Kamadenu/admin/cows.php" class="text-decoration-none">
+        <a href="/Kamadhenu-goushala/admin/cows.php" class="text-decoration-none">
             <div class="admin-stat-box d-flex align-items-center justify-content-between">
                 <div>
                     <span class="text-muted small font-ui fw-bold text-uppercase d-block mb-1 tracking-wider">Protected Cattle</span>
@@ -119,7 +119,7 @@ $recent_updates = $pdo->query("SELECT u.*, c.name as cow_name FROM cow_updates u
     </div>
 
     <div class="col-xl-3 col-md-6">
-        <a href="/Kamadenu/admin/sponsors.php" class="text-decoration-none">
+        <a href="/Kamadhenu-goushala/admin/sponsors.php" class="text-decoration-none">
             <div class="admin-stat-box d-flex align-items-center justify-content-between">
                 <div>
                     <span class="text-muted small font-ui fw-bold text-uppercase d-block mb-1 tracking-wider">Active Adoptions</span>
@@ -134,7 +134,7 @@ $recent_updates = $pdo->query("SELECT u.*, c.name as cow_name FROM cow_updates u
     </div>
 
     <div class="col-xl-3 col-md-6">
-        <a href="/Kamadenu/admin/donations.php" class="text-decoration-none">
+        <a href="/Kamadhenu-goushala/admin/donations.php" class="text-decoration-none">
             <div class="admin-stat-box d-flex align-items-center justify-content-between">
                 <div>
                     <span class="text-muted small font-ui fw-bold text-uppercase d-block mb-1 tracking-wider">Verified Revenue</span>
@@ -149,7 +149,7 @@ $recent_updates = $pdo->query("SELECT u.*, c.name as cow_name FROM cow_updates u
     </div>
 
     <div class="col-xl-3 col-md-6">
-        <a href="/Kamadenu/admin/inventory.php" class="text-decoration-none">
+        <a href="/Kamadhenu-goushala/admin/inventory.php" class="text-decoration-none">
             <div class="admin-stat-box d-flex align-items-center justify-content-between">
                 <div>
                     <span class="text-muted small font-ui fw-bold text-uppercase d-block mb-1 tracking-wider">Low Stock Alerts</span>
@@ -173,16 +173,16 @@ $recent_updates = $pdo->query("SELECT u.*, c.name as cow_name FROM cow_updates u
     </div>
     <ul class="mb-0 small text-white-50 font-ui ps-3">
         <?php if ($count_volunteers > 0): ?>
-            <li class="mb-1"><strong><?php echo $count_volunteers; ?></strong> pending volunteer application(s) awaiting review. <a href="/Kamadenu/admin/volunteers.php" class="fw-bold text-warning ms-1">Review Applications &rarr;</a></li>
+            <li class="mb-1"><strong><?php echo $count_volunteers; ?></strong> pending volunteer application(s) awaiting review. <a href="/Kamadhenu-goushala/admin/volunteers.php" class="fw-bold text-warning ms-1">Review Applications &rarr;</a></li>
         <?php endif; ?>
         <?php if ($count_orders > 0): ?>
-            <li class="mb-1"><strong><?php echo $count_orders; ?></strong> store order(s) currently processing. <a href="/Kamadenu/admin/orders.php" class="fw-bold text-info ms-1">Process Orders &rarr;</a></li>
+            <li class="mb-1"><strong><?php echo $count_orders; ?></strong> store order(s) currently processing. <a href="/Kamadhenu-goushala/admin/orders.php" class="fw-bold text-info ms-1">Process Orders &rarr;</a></li>
         <?php endif; ?>
         <?php if ($count_pending_seva > 0): ?>
-            <li class="mb-1"><strong><?php echo $count_pending_seva; ?></strong> Seva offering(s) scheduled. <a href="/Kamadenu/admin/seva.php" class="fw-bold text-success ms-1">View Seva Offerings &rarr;</a></li>
+            <li class="mb-1"><strong><?php echo $count_pending_seva; ?></strong> Seva offering(s) scheduled. <a href="/Kamadhenu-goushala/admin/seva.php" class="fw-bold text-success ms-1">View Seva Offerings &rarr;</a></li>
         <?php endif; ?>
         <?php foreach ($low_stock_items as $lsi): ?>
-            <li>Low Stock Warning: <strong><?php echo e($lsi['name']); ?></strong> (Current Stock: <?php echo $lsi['stock_quantity']; ?>). <a href="/Kamadenu/admin/inventory.php" class="fw-bold text-danger ms-1">Replenish Inventory &rarr;</a></li>
+            <li>Low Stock Warning: <strong><?php echo e($lsi['name']); ?></strong> (Current Stock: <?php echo $lsi['stock_quantity']; ?>). <a href="/Kamadhenu-goushala/admin/inventory.php" class="fw-bold text-danger ms-1">Replenish Inventory &rarr;</a></li>
         <?php endforeach; ?>
     </ul>
 </div>
@@ -223,7 +223,7 @@ $recent_updates = $pdo->query("SELECT u.*, c.name as cow_name FROM cow_updates u
                 <div class="admin-dashboard-card">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="font-heading mb-0 text-white"><i class="fas fa-heart text-danger me-2"></i> Recent Verified Donations</h5>
-                        <a href="/Kamadenu/admin/donations.php" class="small text-warning font-ui fw-bold text-decoration-none">View All &rarr;</a>
+                        <a href="/Kamadhenu-goushala/admin/donations.php" class="small text-warning font-ui fw-bold text-decoration-none">View All &rarr;</a>
                     </div>
                     <div class="table-responsive">
                         <table class="table admin-custom-table align-middle small">
@@ -255,7 +255,7 @@ $recent_updates = $pdo->query("SELECT u.*, c.name as cow_name FROM cow_updates u
                 <div class="admin-dashboard-card">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="font-heading mb-0 text-white"><i class="fas fa-shopping-bag text-info me-2"></i> Recent Customer Store Orders</h5>
-                        <a href="/Kamadenu/admin/orders.php" class="small text-warning font-ui fw-bold text-decoration-none">View All &rarr;</a>
+                        <a href="/Kamadhenu-goushala/admin/orders.php" class="small text-warning font-ui fw-bold text-decoration-none">View All &rarr;</a>
                     </div>
                     <div class="table-responsive">
                         <table class="table admin-custom-table align-middle small">
@@ -294,7 +294,7 @@ $recent_updates = $pdo->query("SELECT u.*, c.name as cow_name FROM cow_updates u
             <div>
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="font-heading mb-0 text-white"><i class="fas fa-history text-warning me-2"></i> Sanctuary Live Logs</h5>
-                    <a href="/Kamadenu/admin/cows.php" class="small text-warning font-ui fw-bold text-decoration-none">Cattles &rarr;</a>
+                    <a href="/Kamadhenu-goushala/admin/cows.php" class="small text-warning font-ui fw-bold text-decoration-none">Cattles &rarr;</a>
                 </div>
                 <div class="timeline-wrapper mt-3">
                     <?php if (empty($recent_updates)): ?>
@@ -325,7 +325,7 @@ $recent_updates = $pdo->query("SELECT u.*, c.name as cow_name FROM cow_updates u
                 </div>
             </div>
             <div class="border-top border-secondary border-opacity-25 pt-3 mt-3">
-                <a href="/Kamadenu/admin/cows.php" class="btn btn-outline-warning btn-sm w-100 rounded-pill font-ui fw-bold">Manage Cattle Profiles</a>
+                <a href="/Kamadhenu-goushala/admin/cows.php" class="btn btn-outline-warning btn-sm w-100 rounded-pill font-ui fw-bold">Manage Cattle Profiles</a>
             </div>
         </div>
     </div>

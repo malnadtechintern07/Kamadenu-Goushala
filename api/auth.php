@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = $input['password'];
         $phone = trim($input['phone']);
         $address = isset($input['address']) ? trim($input['address']) : '';
-        $redirect = !empty($input['redirect']) ? trim($input['redirect']) : '/Kamadenu/dashboard.php';
+        $redirect = !empty($input['redirect']) ? trim($input['redirect']) : '/Kamadhenu-goushala/dashboard.php';
 
         if (empty($name) || empty($email) || empty($password)) {
             json_response(false, 'Please fill all required fields.');
@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'login') {
         $email = trim($input['email']);
         $password = $input['password'];
-        $redirect = !empty($input['redirect']) ? trim($input['redirect']) : '/Kamadenu/dashboard.php';
+        $redirect = !empty($input['redirect']) ? trim($input['redirect']) : '/Kamadhenu-goushala/dashboard.php';
 
         $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? AND status = 'active'");
         $stmt->execute([$email]);
@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             log_audit($pdo, 'Admin Login', 'admins', $admin['id']);
 
-            json_response(true, 'Admin authentication verified.', ['redirect' => '/Kamadenu/admin/dashboard.php']);
+            json_response(true, 'Admin authentication verified.', ['redirect' => '/Kamadhenu-goushala/admin/dashboard.php']);
         } else {
             json_response(false, 'Invalid admin credentials.');
         }
@@ -110,11 +110,11 @@ if ($action === 'logout') {
         unset($_SESSION['admin_id']);
         unset($_SESSION['admin_name']);
         unset($_SESSION['admin_role']);
-        header("Location: /Kamadenu/admin/login.php");
+        header("Location: /Kamadhenu-goushala/admin/login.php");
     } else {
         unset($_SESSION['user_id']);
         unset($_SESSION['user_name']);
-        header("Location: /Kamadenu/index.php");
+        header("Location: /Kamadhenu-goushala/index.php");
     }
     exit;
 }

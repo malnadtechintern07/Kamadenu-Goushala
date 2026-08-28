@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/config/database.php';
 
-$redirect_target = isset($_GET['redirect']) ? $_GET['redirect'] : '/Kamadenu/dashboard.php';
+$redirect_target = isset($_GET['redirect']) ? $_GET['redirect'] : '/Kamadhenu-goushala/dashboard.php';
 
 if (is_user_logged_in()) {
     header("Location: " . $redirect_target);
@@ -59,7 +59,7 @@ $show_login_msg = isset($_GET['msg']) && $_GET['msg'] === 'login_required';
                     </form>
 
                     <div class="text-center mt-4 border-top pt-3 small">
-                        Already registered? <a href="/Kamadenu/login.php?redirect=<?php echo urlencode($redirect_target); ?>" class="text-warning fw-bold">Login Here</a>
+                        Already registered? <a href="/Kamadhenu-goushala/login.php?redirect=<?php echo urlencode($redirect_target); ?>" class="text-warning fw-bold">Login Here</a>
                     </div>
                 </div>
             </div>
@@ -73,7 +73,7 @@ document.getElementById('register-form').addEventListener('submit', function(e) 
     const btn = this.querySelector('button[type="submit"]');
     btn.disabled = true;
 
-    fetch('/Kamadenu/api/auth.php?action=register', {
+    fetch('/Kamadhenu-goushala/api/auth.php?action=register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -88,7 +88,7 @@ document.getElementById('register-form').addEventListener('submit', function(e) 
     .then(res => {
         if (res.success) {
             showToast(res.message, 'success');
-            setTimeout(() => window.location.href = res.data.redirect || '/Kamadenu/dashboard.php', 800);
+            setTimeout(() => window.location.href = res.data.redirect || '/Kamadhenu-goushala/dashboard.php', 800);
         } else {
             showToast(res.message, 'danger');
             btn.disabled = false;
